@@ -1,8 +1,8 @@
 ---
-name: Flowave Working Group Meeting
-about: Agenda and Minutes for Flowave Working Group
-title: 'Flowave Working Group Meeting - dd/mm/yyyy'
-labels: Flowave WG Meeting
+name: Flowave General Meeting
+about: Agenda and Minutes for Flowave General Meeting
+title: 'Flowave General Meeting - dd/mm/yyyy'
+labels: Flowave General Meeting
 type: Meeting
 
 ---
