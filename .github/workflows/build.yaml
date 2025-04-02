@@ -1,10 +1,9 @@
 name: "Build CI"
 
-# TODO: Uncomment while pushing the code to FINOS
-#env:
-#  CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
-#  CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
-#  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+env:
+  CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
+  CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 on:
   push:
@@ -60,11 +59,10 @@ jobs:
       - name: Download deps and plugins
         run: mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies
 
-      # TODO: IT DOESN'T WORK INTERNALLY - THIS IS USEFUL TO TRACK BUILD RESOURCE CONSUMPTION
-      #      - name: Collect Workflow Telemetry
-      #        uses: runforesight/workflow-telemetry-action@v1
-      #        with:
-      #          theme: dark
+      - name: Collect Workflow Telemetry
+        uses: runforesight/workflow-telemetry-action@v1
+        with:
+          theme: dark
 
       - name: Build + Sonar
         if: github.ref != 'refs/heads/main'
