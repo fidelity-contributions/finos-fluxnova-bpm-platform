@@ -23,27 +23,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: 'temurin'
-          cache: 'maven'
-          server-id: ossrh
-          server-username: CI_DEPLOY_USERNAME
-          server-password: CI_DEPLOY_PASSWORD
-
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-mvn-deps
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+      - name: Maven setup
+        uses: ./.github/actions/maven-setup
 
       - name: Check Java version
         run: java -version
@@ -63,12 +44,12 @@ jobs:
         with:
           theme: dark
 
-      - name: Build + Sonar
-        if: github.ref == 'refs/heads/feature/*'
+      - name: Build
+        if: startsWith(github.ref, 'refs/heads/feature/')
         env:
           MAVEN_OPTS: "-Xmx8g"
         run: |
-          mvn -B -e package -Psonar -DskipTests=true
+          mvn -B -e -U install -DskipTests=true -DskipITs=true -pl '!distro/run/qa/integration-tests, !distro/run/qa, !distro/run/qa/runtime'
 
       # TODO: WE ARE NOT DOING DEPLOYMENT AND DOCKER YET
       - name: Build (with Maven Deploy + Docker Snapshot + Sonar)
@@ -80,7 +61,7 @@ jobs:
 #          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           MAVEN_OPTS: "-Xmx8g"
         run: |
-          mvn -B -e package -Psonar -DskipTests=true
+          mvn -B -e -U install -DskipTests=true -DskipITs=true -pl '!distro/run/qa/integration-tests, !distro/run/qa, !distro/run/qa/runtime'
   #          -P docker-snapshot -> TODO: profile docker-snapshot doesn't exist for flowave
 
   unit-test:
@@ -91,33 +72,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: 'temurin'
-          cache: 'maven'
-          server-id: ossrh
-          server-username: CI_DEPLOY_USERNAME
-          server-password: CI_DEPLOY_PASSWORD
+      - name: Maven setup
+        uses: ./.github/actions/maven-setup
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-mvn-deps
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: Unit Tests
         env:
           MAVEN_OPTS: "-Xmx8g"
           MAVEN_CONFIG: ~/.m2/repository
         run: |
-          mvn -B -e verify -DskipITs=true
+          mvn -B -e verify -DskipITs=true -pl '!distro/run/qa/integration-tests, !distro/run/qa, !distro/run/qa/runtime'
 
   integration-test:
     name: Integration tests
@@ -127,27 +90,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: 21
-          distribution: 'temurin'
-          cache: 'maven'
-          server-id: ossrh
-          server-username: CI_DEPLOY_USERNAME
-          server-password: CI_DEPLOY_PASSWORD
+      - name: Maven setup
+        uses: ./.github/actions/maven-setup
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-mvn-deps
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: Integration Tests
         env:
           MAVEN_OPTS: "-Xmx8g"
