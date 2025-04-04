@@ -416,11 +416,11 @@
   <distributionManagement>
     <repository>
       <id>ossrh</id>
-      <url>https://gitlab.example.com/api/v4/projects/68204012/packages/maven</url>
+      <url>https://gitlab.com/api/v4/projects/68204012/packages/maven</url>
     </repository>
     <snapshotRepository>
       <id>ossrh</id>
-      <url>https://gitlab.example.com/api/v4/projects/68204012/packages/maven</url>
+      <url>https://gitlab.com/api/v4/projects/68204012/packages/maven</url>
     </snapshotRepository>
   </distributionManagement>
 
