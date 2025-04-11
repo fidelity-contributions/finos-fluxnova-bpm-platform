@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: Suggest a new feature for the product
+name: New Story
+about: Create a independent body of work 
 title: ''
-labels: type:feature
+labels: type:story
 assignees: ''
 
 ---
@@ -22,10 +22,7 @@ assignees: ''
 
 ### Breakdown
 
-<!--
-- [ ] #123
-- [ ] Step X
--->
+
 
 ```[tasklist]
 ### Pull Requests
