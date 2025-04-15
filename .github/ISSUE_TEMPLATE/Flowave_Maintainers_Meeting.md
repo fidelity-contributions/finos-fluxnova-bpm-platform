@@ -32,7 +32,13 @@ Thursday DD MMM yyyy - 9am (US eastern timezone EDT/EST) / 2pm (London, GMT/BST)
 ## Agenda
 - [ ] Convene & roll call, review meeting notices (5mins)
 - [ ] Review action items from previous meeting (5mins)
-- [ ] Agenda item 1
+- [ ] Check review status of open PRs on each repo
+  - [flowave-bpm-platform/pulls](https://github.com/finos/flowave-bpm-platform/pulls)
+  - [flowave-feel-scala/pulls](https://github.com/finos/flowave-feel-scala/pulls)
+  - [flowave-modeler/pulls](https://github.com/finos/flowave-modeler/pulls)
+  - [flowave-docs-manual/pulls](https://github.com/finos/flowave-docs-manual/pulls)
+  - [flowave-release-parent/pulls](https://github.com/finos/flowave-release-parent/pulls)
+  - [flowave-bpm-release-parent/pulls](https://github.com/finos/flowave-bpm-release-parent/pulls)
 - [ ] Agenda item 2
 - [ ] ...
 - [ ] AOB & Adjourn (5mins)
