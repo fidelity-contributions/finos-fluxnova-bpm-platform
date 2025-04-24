@@ -44,7 +44,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Maven setup
+      - name: Java setup
         uses: ./.github/actions/java-setup
 
       - name: Unit Tests
@@ -58,7 +58,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Maven setup
+      - name: Java setup
         uses: ./.github/actions/java-setup
 
       - name: Integration Tests
