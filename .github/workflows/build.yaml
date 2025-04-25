@@ -15,6 +15,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -35,6 +38,8 @@ jobs:
 
       - name: Build
         uses: ./.github/actions/build-deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   unit-test:
     name: Unit Tests
@@ -49,6 +54,8 @@ jobs:
 
       - name: Unit Tests
         uses: ./.github/actions/unit-test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   integration-test:
     name: Integration tests
@@ -63,3 +70,5 @@ jobs:
 
       - name: Integration Tests
         uses: ./.github/actions/integration-test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
