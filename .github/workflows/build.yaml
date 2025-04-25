@@ -30,6 +30,8 @@ jobs:
 
       - name: Download deps and plugins
         run: mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Collect Workflow Telemetry
         uses: runforesight/workflow-telemetry-action@v1
