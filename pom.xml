@@ -42,6 +42,13 @@
           <excludedScopes>test</excludedScopes>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -318,6 +325,13 @@
 
   <repositories>
     <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/finos/flowave-bpm-platform</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
       <id>maven-central</id>
       <name>Maven Central</name>
       <url>https://repo1.maven.org/maven2</url>
@@ -371,7 +385,20 @@
 
   <issueManagement>
     <system>Jira</system>
-    <url>https://app.camunda.com/jira/browse/CAM/</url>
+    <url>https://github.com/orgs/finos/projects/116</url>
   </issueManagement>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Flowave Maven Packages</name>
+      <url>https://maven.pkg.github.com/finos/flowave-bpm-platform</url>
+    </repository>
+    <snapshotRepository>
+      <id>github</id>
+      <name>GitHub Flowave Maven Packages</name>
+      <url>https://maven.pkg.github.com/finos/flowave-bpm-platform</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
