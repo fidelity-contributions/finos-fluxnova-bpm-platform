@@ -1,7 +1,7 @@
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: camundaToFlowave
-displayName: Helping mirgartion from camunda to flowave
+displayName: Helping migration from Camunda to Flowave
 recipeList:
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.bpm.assert

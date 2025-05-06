@@ -12,7 +12,7 @@
 The Flowave-migrator is a tool designed to automate the migration from Camunda to Flowave.
 
 ### What is Flowave Migration?
-Flowave Migration is the process of converting a Camunda-based workflow application to use the Flowave framework. This migration includes:
+Flowave Migration is the process of converting a Camunda-based workflow application to use the Flowave framework.
 
 **What the migration DOES include:**
 
