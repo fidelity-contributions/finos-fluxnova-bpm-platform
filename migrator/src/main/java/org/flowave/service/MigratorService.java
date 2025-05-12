@@ -110,6 +110,10 @@ public class MigratorService {
      */
     private void addPlugin(Model model) {
         Build build = model.getBuild();
+        if (build == null) {
+            build = new Build();
+            model.setBuild(build);
+        }
         Plugin plugin = new Plugin();
         plugin.setGroupId("org.openrewrite.maven");
         plugin.setArtifactId("rewrite-maven-plugin");
