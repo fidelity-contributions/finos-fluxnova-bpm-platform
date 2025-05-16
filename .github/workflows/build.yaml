@@ -1,5 +1,8 @@
 name: "Build CI"
 
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
 on:
   push:
     branches:
@@ -30,13 +33,9 @@ jobs:
         uses: ./.github/actions/configure-git
 
       - name: Set version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -DgenerateBackupPoms=false -s ./settings.xml
 
       - name: Download deps and plugins
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies -s ./settings.xml
 
       - name: Collect Workflow Telemetry
@@ -45,8 +44,6 @@ jobs:
           theme: dark
 
       - name: Build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: ./.github/actions/build-deploy
 
   unit-test:
@@ -61,8 +58,6 @@ jobs:
         uses: ./.github/actions/java-setup
 
       - name: Unit Tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: ./.github/actions/unit-test
 
   integration-test:
@@ -77,6 +72,4 @@ jobs:
         uses: ./.github/actions/java-setup
 
       - name: Integration Tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: ./.github/actions/integration-test
