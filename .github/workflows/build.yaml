@@ -18,6 +18,8 @@ concurrency:
 permissions:
   contents: read
   packages: write
+  actions: read
+  pull-requests: write
   attestations: write
   id-token: write
 
@@ -42,7 +44,7 @@ jobs:
         run: mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies -s ./settings.xml
 
       - name: Collect Workflow Telemetry
-        uses: runforesight/workflow-telemetry-action@v1
+        uses: catchpoint/workflow-telemetry-action@v2
         with:
           theme: dark
 
