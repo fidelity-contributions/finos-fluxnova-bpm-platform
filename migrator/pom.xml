@@ -15,8 +15,8 @@
     <name>Flowave Platform - Migrator</name>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+<!--        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>-->
         <!-- Maven Dependencies -->
         <maven-model.version>3.9.9</maven-model.version>
         <maven-invoker.version>3.3.0</maven-invoker.version>
@@ -78,7 +78,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${plugin.version.compiler}</version>
                 <configuration>
                     <source>21</source>
                     <target>21</target>

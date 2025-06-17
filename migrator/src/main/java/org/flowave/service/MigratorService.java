@@ -265,13 +265,25 @@ public class MigratorService {
      * @param pomFile The path to the project's pom.xml file
      * @throws MavenInvocationException If there is an error invoking Maven
      */
-    void invokeRewriteRunGoal(String pomFile) throws MavenInvocationException {
+    void invokeRewriteRunGoal(String pomFile) throws MavenInvocationException, IOException {
         String mavenHome = System.getenv("M2_HOME");
         if (mavenHome == null || mavenHome.isEmpty()) {
             System.out.println("M2_HOME not set");
+            String os = System.getProperty("os.name").toLowerCase();
+            String command = os.contains("win") ? "where" : "which";
+            ProcessBuilder pb = new ProcessBuilder(command, "mvn");
+            Process process = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            String mvnPath = reader.readLine();
+            if (mvnPath != null) {
+                mavenHome = mvnPath.replace("\\bin\\mvn.cmd", "").replace("/bin/mvn", "");
+                System.out.println("Maven Home inferred: " + mavenHome);
+            } else {
+                System.out.println("Maven not found in PATH.");
+            }
         } else {
             System.out.println("Maven home: " + mavenHome);
-
         }
 
         InvocationRequest request = new DefaultInvocationRequest();

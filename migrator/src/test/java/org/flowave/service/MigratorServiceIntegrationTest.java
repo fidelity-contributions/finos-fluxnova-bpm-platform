@@ -77,11 +77,11 @@ class MigratorServiceIntegrationTest {
             
             public class CamundaService {
                 private final ProcessEngine processEngine;
-                
+            
                 public CamundaService(ProcessEngine processEngine) {
                     this.processEngine = processEngine;
                 }
-                
+            
                 public void startProcess(String processKey) {
                     RuntimeService runtimeService = processEngine.getRuntimeService();
                     runtimeService.startProcessInstanceByKey(processKey);
