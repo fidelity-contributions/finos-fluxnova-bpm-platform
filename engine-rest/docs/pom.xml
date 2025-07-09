@@ -2,7 +2,7 @@
 
   <parent>
     <artifactId>flowave-engine-rest-root</artifactId>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -17,7 +17,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-openapi</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -38,7 +38,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.flowave.bpm</groupId>
+                  <groupId>org.finos.flowave.bpm</groupId>
                   <artifactId>flowave-engine-rest-openapi</artifactId>
                   <version>${project.version}</version>
                   <type>jar</type>

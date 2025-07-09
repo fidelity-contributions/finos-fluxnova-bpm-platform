@@ -1,11 +1,11 @@
 # commons-ui-auth
 
-Authentication module for camunda webapps.
+Authentication module for flowave webapps.
 
 
 ## Implementation
 
-The authentication tools are relying on the camunda-commons-ui utilities, here's an example of how to load the modules with [requirejs](http://requirejs.org).
+The authentication tools are relying on the flowave-commons-ui utilities, here's an example of how to load the modules with [requirejs](http://requirejs.org).
 
 ```js
 require.config({
@@ -202,14 +202,14 @@ Use the directives `cam-if-logged-in` and `cam-if-logged-out` to conditionally s
 
 ### Interception of 401 (unauthorized)
 
-The camunda-commons-ui module adds interception of 401 responses (unauthorized) to ensure that a server side session timeout is correctly handled.
+The flowave-commons-ui module adds interception of 401 responses (unauthorized) to ensure that a server side session timeout is correctly handled.
 
 The behavior is defined in `lib/pages/index`. It defaults to emitting a `authentication.login.required` event and resetting the client side authentication.
 
 
 ### Redirect after login
 
-The camunda-commons-ui/auth module adds automatic redirect after login functionality.
+The flowave-commons-ui/auth module adds automatic redirect after login functionality.
 
 The behavior is defined in `lib/auth/index`. It defaults to capturing the current request url on `authentication.login.required` and redirecting to that url on `authentication.login.success`. The behavior may be disabled by silencing the respective events.
 

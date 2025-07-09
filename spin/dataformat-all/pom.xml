@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.spin</groupId>
+    <groupId>org.finos.flowave.spin</groupId>
     <artifactId>flowave-spin-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -21,12 +21,12 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-xml-dom</artifactId>
     </dependency>
 
@@ -60,8 +60,8 @@
               <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
               <artifactSet>
                 <excludes>
-                  <exclude>org.flowave.commons:*</exclude>
-                  <exclude>org.flowave.spin:flowave-spin-core</exclude>
+                  <exclude>org.finos.flowave.commons:*</exclude>
+                  <exclude>org.finos.flowave.spin:flowave-spin-core</exclude>
                   <exclude>org.slf4j:*</exclude>
                 </excludes>
               </artifactSet>
@@ -136,7 +136,7 @@
         <configuration>
           <includeDependencySources>true</includeDependencySources>
           <includeTransitiveDependencySources>true</includeTransitiveDependencySources>
-          <dependencySourceIncludes><include>org.flowave.spin:*</include></dependencySourceIncludes>
+          <dependencySourceIncludes><include>org.finos.flowave.spin:*</include></dependencySourceIncludes>
           <additionalDependencies>
            <additionalDependency>
              <groupId>junit</groupId>
@@ -164,8 +164,8 @@
               !net.minidev.json*,
               !org.codehaus.jackson*,
               org.slf4j,
-              org.camunda.commons.utils,
-              org.camunda.commons.logging,
+              org.finos.flowave.commons.utils,
+              org.finos.flowave.commons.logging,
               *
             </Import-Package>
             <Bundle-ClassPath>.</Bundle-ClassPath>

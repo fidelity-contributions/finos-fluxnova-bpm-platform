@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.webapp</groupId>
+    <groupId>org.finos.flowave.bpm.webapp</groupId>
     <artifactId>flowave-webapp-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
@@ -28,12 +28,12 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-engine-rest-core</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-engine-rest</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -69,7 +69,7 @@
 
     <!-- rest api -->
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-core</artifactId>
     </dependency>
 
@@ -88,7 +88,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-core</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -222,27 +222,27 @@
           <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-plugin-spin</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.spin</groupId>
+          <groupId>org.finos.flowave.spin</groupId>
           <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.spin</groupId>
+          <groupId>org.finos.flowave.spin</groupId>
           <artifactId>flowave-spin-dataformat-xml-dom</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-plugin-connect</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm.identity</groupId>
+          <groupId>org.finos.flowave.bpm.identity</groupId>
           <artifactId>flowave-identity-ldap</artifactId>
         </dependency>
         <dependency>
@@ -412,12 +412,12 @@
             </configuration>
             <dependencies>
               <dependency>
-                <groupId>org.flowave.bpm</groupId>
+                <groupId>org.finos.flowave.bpm</groupId>
                 <artifactId>flowave-engine</artifactId>
                 <version>${project.version}</version>
               </dependency>
               <dependency>
-                <groupId>org.flowave.bpm.identity</groupId>
+                <groupId>org.finos.flowave.bpm.identity</groupId>
                 <artifactId>flowave-identity-ldap</artifactId>
                 <version>${project.version}</version>
               </dependency>
@@ -482,7 +482,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm</groupId>
+                      <groupId>org.finos.flowave.bpm</groupId>
                       <artifactId>flowave-engine-rest</artifactId>
                       <version>${project.version}</version>
                       <type>war</type>
@@ -528,7 +528,7 @@
               </execution>
             </executions>
             <configuration>
-              <mainClass>org.camunda.bpm.engine.impl.db.DbSchemaDrop</mainClass>
+              <mainClass>org.finos.flowave.bpm.engine.impl.db.DbSchemaDrop</mainClass>
               <classpathScope>test</classpathScope>
             </configuration>
           </plugin>
@@ -542,7 +542,7 @@
       <!-- imports the DbSchemaPrefixTestHelper class -->
       <dependencies>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine</artifactId>
           <version>${project.version}</version>
           <scope>test</scope>

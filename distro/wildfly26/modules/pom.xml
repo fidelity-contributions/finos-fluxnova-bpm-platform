@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.wildfly</groupId>
+    <groupId>org.finos.flowave.bpm.wildfly</groupId>
     <artifactId>flowave-wildfly26</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -23,7 +23,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm.wildfly</groupId>
+      <groupId>org.finos.flowave.bpm.wildfly</groupId>
       <artifactId>flowave-wildfly26-subsystem</artifactId>
       <version>${project.version}</version>
       <exclusions>
@@ -43,37 +43,37 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.identity</groupId>
+      <groupId>org.finos.flowave.bpm.identity</groupId>
       <artifactId>flowave-identity-ldap</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-plugin-spin</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-xml-dom</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-plugin-connect</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-http-client</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-soap-http-client</artifactId>
     </dependency>
 
@@ -123,7 +123,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.template-engines</groupId>
+      <groupId>org.finos.flowave.template-engines</groupId>
       <artifactId>flowave-template-engines-freemarker</artifactId>
     </dependency>
 
@@ -159,7 +159,7 @@
                   <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
                 </copy>
 
-                <delete dir="target/modules/org/flowave/bpm" />
+                <delete dir="target/modules/org/finos/flowave/bpm" />
 
                 <!-- copy all files again, but this only matches fox files and this treatment makes is maven 2/3 compatible => timestamped snapshot -->
                 <copy todir="target/modules" flatten="false">
@@ -167,85 +167,85 @@
                   <mapper>
                     <chainedmapper>
                       <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                      <regexpmapper from="^(org.flowave.bpm.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                      <regexpmapper from="^(org.finos.flowave.bpm.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
                     </chainedmapper>
                   </mapper>
                 </copy>
 
-                <delete dir="target/modules/org/flowave/bpm/wildfly" />
+                <delete dir="target/modules/org/finos/flowave/bpm/wildfly" />
                 <copy todir="target/modules" flatten="false">
                   <fileset refid="maven.project.dependencies" />
                   <mapper>
                     <chainedmapper>
                       <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                      <regexpmapper from="^(org.flowave.bpm.wildfly.*)/((flowave-wildfly26-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                      <regexpmapper from="^(org.finos.flowave.bpm.wildfly.*)/((flowave-wildfly26-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
                     </chainedmapper>
                   </mapper>
                 </copy>
 
-                <copy todir="target/modules/org/flowave/bpm/wildfly/flowave-wildfly-subsystem" flatten="false">
-                  <fileset dir="target/modules/org/flowave/bpm/wildfly/flowave-wildfly26-subsystem" includes="**/*.jar" />
+                <copy todir="target/modules/org/finos/flowave/bpm/wildfly/flowave-wildfly-subsystem" flatten="false">
+                  <fileset dir="target/modules/org/finos/flowave/bpm/wildfly/flowave-wildfly26-subsystem" includes="**/*.jar" />
                 </copy>
-                <delete dir="target/modules/org/flowave/bpm/wildfly/flowave-wildfly26-subsystem" />
+                <delete dir="target/modules/org/finos/flowave/bpm/wildfly/flowave-wildfly26-subsystem" />
 
-                <delete dir="target/modules/org/flowave/spin" />
+                <delete dir="target/modules/org/finos/flowave/spin" />
                 <copy todir="target/modules" flatten="false">
                   <fileset refid="maven.project.dependencies" />
                   <mapper>
                     <chainedmapper>
                       <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                      <regexpmapper from="^(org.flowave.spin.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                      <regexpmapper from="^(org.finos.flowave.spin.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
                     </chainedmapper>
                   </mapper>
                 </copy>
 
-                <delete dir="target/modules/org/flowave/connect" />
+                <delete dir="target/modules/org/finos/flowave/connect" />
                 <copy todir="target/modules" flatten="false">
                   <fileset refid="maven.project.dependencies" />
                   <mapper>
                     <chainedmapper>
                       <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                      <regexpmapper from="^(org.flowave.connect.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                      <regexpmapper from="^(org.finos.flowave.connect.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
                     </chainedmapper>
                   </mapper>
                 </copy>
 
                 <!-- do not include connectors-all dependency, because
                   we are using the individual connect modules on Wildfly -->
-                <delete dir="target/modules/org/flowave/connect/flowave-connect-connectors-all" />
+                <delete dir="target/modules/org/finos/flowave/connect/flowave-connect-connectors-all" />
 
-                <delete dir="target/modules/org/flowave/commons" />
+                <delete dir="target/modules/org/finos/flowave/commons" />
                 <copy todir="target/modules" flatten="false">
                   <fileset refid="maven.project.dependencies" />
                   <mapper>
                     <chainedmapper>
                       <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
                       <mapper>
-                        <regexpmapper from="^(org.flowave.commons.*)\/((flowave-commons-(utils|logging)-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
-                        <regexpmapper from="^(org.flowave.commons.*)\/((flowave-commons-typed-values-)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                        <regexpmapper from="^(org.finos.flowave.commons.*)\/((flowave-commons-(utils|logging)-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                        <regexpmapper from="^(org.finos.flowave.commons.*)\/((flowave-commons-typed-values-)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
                       </mapper>
                     </chainedmapper>
                   </mapper>
                 </copy>
 
-                <delete dir="target/modules/org/flowave/template-engines" />
+                <delete dir="target/modules/org/finos/flowave/template-engines" />
                 <copy todir="target/modules" flatten="false">
                   <fileset refid="maven.project.dependencies" />
                   <mapper>
                     <chainedmapper>
                       <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                      <regexpmapper from="^(org.flowave.template-engines.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                      <regexpmapper from="^(org.finos.flowave.template-engines.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
                     </chainedmapper>
                   </mapper>
                 </copy>
 
-                <delete dir="target/modules/org/flowave/feel" />
+                <delete dir="target/modules/org/finos/flowave/feel" />
                 <copy todir="target/modules" flatten="false">
                   <fileset refid="maven.project.dependencies" />
                   <mapper>
                     <chainedmapper>
                       <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                      <regexpmapper from="^(org.flowave.feel.feel-engine.*)/(([A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${version.feel-scala}-scala-shaded.jar" handledirsep="yes" />
+                      <regexpmapper from="^(org.finos.flowave.feel.feel-engine.*)/(([A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${version.feel-scala}-scala-shaded.jar" handledirsep="yes" />
                     </chainedmapper>
                   </mapper>
                 </copy>

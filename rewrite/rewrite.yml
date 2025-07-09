@@ -8,21 +8,21 @@ recipeList:
       filePattern: "**/pom.xml"
       elementName: //groupId
       oldValue: org\.camunda\.(.*)
-      newValue: org.flowave.$1
+      newValue: org.finos.flowave.$1
       regex: true
 
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: ReplaceCamundaInGroupId2
-displayName: Replace org.camunda with org.flowave
-description: Replaces the groupId org.camunda with org.flowave in pom.xml files.
+displayName: Replace org.camunda with org.finos.flowave
+description: Replaces the groupId org.camunda with org.finos.flowave in pom.xml files.
 
 recipeList:
   - org.openrewrite.xml.ChangeTagValue:
       filePattern: "**/pom.xml"
       elementName: //groupId
       oldValue: org.camunda
-      newValue: org.flowave
+      newValue: org.finos.flowave
 
 ---
 type: specs.openrewrite.org/v1beta/recipe

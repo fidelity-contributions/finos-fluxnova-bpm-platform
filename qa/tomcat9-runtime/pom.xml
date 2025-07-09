@@ -7,7 +7,7 @@
   <name>Flowave Platform - QA Tomcat 9 Test Runtime</name>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -36,7 +36,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa</groupId>
+      <groupId>org.finos.flowave.bpm.qa</groupId>
       <artifactId>flowave-qa-ensure-clean-db</artifactId>
       <version>${project.version}</version>
       <scope>runtime</scope>
@@ -112,7 +112,7 @@
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine</artifactId>
           <exclusions>
             <exclusion>
@@ -127,52 +127,52 @@
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm.identity</groupId>
+          <groupId>org.finos.flowave.bpm.identity</groupId>
           <artifactId>flowave-identity-ldap</artifactId>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.spin</groupId>
+          <groupId>org.finos.flowave.spin</groupId>
           <artifactId>flowave-spin-core</artifactId>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-plugin-spin</artifactId>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.spin</groupId>
+          <groupId>org.finos.flowave.spin</groupId>
           <artifactId>flowave-spin-dataformat-all</artifactId>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.connect</groupId>
+          <groupId>org.finos.flowave.connect</groupId>
           <artifactId>flowave-connect-core</artifactId>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-plugin-connect</artifactId>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.connect</groupId>
+          <groupId>org.finos.flowave.connect</groupId>
           <artifactId>flowave-connect-connectors-all</artifactId>
           <exclusions>
             <exclusion>
-              <groupId>org.flowave.connect</groupId>
+              <groupId>org.finos.flowave.connect</groupId>
               <artifactId>flowave-connect-http-client</artifactId>
             </exclusion>
             <exclusion>
-              <groupId>org.flowave.connect</groupId>
+              <groupId>org.finos.flowave.connect</groupId>
               <artifactId>flowave-connect-soap-http-client</artifactId>
             </exclusion>
           </exclusions>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.template-engines</groupId>
+          <groupId>org.finos.flowave.template-engines</groupId>
           <artifactId>flowave-template-engines-freemarker</artifactId>
         </dependency>
 

@@ -5,7 +5,7 @@
   <name>Flowave Platform - QA Integration Tests - Webapps ITs</name>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-qa-integration-tests-webapps-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
@@ -43,12 +43,12 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest</artifactId>
       <type>jar</type>
       <classifier>classes</classifier>

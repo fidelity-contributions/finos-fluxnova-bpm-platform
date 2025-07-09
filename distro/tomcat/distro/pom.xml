@@ -5,7 +5,7 @@
   <packaging>pom</packaging>
 
   <parent>
-    <groupId>org.flowave.bpm.tomcat</groupId>
+    <groupId>org.finos.flowave.bpm.tomcat</groupId>
     <artifactId>flowave-tomcat</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -15,7 +15,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.bpm.distro</groupId>
+      <groupId>org.finos.flowave.bpm.distro</groupId>
       <artifactId>flowave-sql-scripts</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
@@ -24,21 +24,21 @@
     <!-- Tomcat 10 dependencies -->
 
     <dependency>
-      <groupId>org.flowave.bpm.tomcat</groupId>
+      <groupId>org.finos.flowave.bpm.tomcat</groupId>
       <artifactId>flowave-tomcat-assembly</artifactId>
       <version>${project.version}</version>
       <type>tar.gz</type>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.webapp</groupId>
+      <groupId>org.finos.flowave.bpm.webapp</groupId>
       <artifactId>flowave-webapp-tomcat-jakarta</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-jakarta</artifactId>
       <version>${project.version}</version>
       <classifier>tomcat</classifier>
@@ -46,7 +46,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.example</groupId>
+      <groupId>org.finos.flowave.bpm.example</groupId>
       <artifactId>flowave-example-invoice-jakarta</artifactId>
       <version>${project.version}</version>
       <type>war</type>

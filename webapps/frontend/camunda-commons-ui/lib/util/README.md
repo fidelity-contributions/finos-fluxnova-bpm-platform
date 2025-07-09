@@ -1,6 +1,6 @@
 # commons-ui-util
 
-Utilities for camunda webapps.
+Utilities for flowave webapps.
 
 ## Services
 

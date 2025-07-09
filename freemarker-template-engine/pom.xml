@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-parent</artifactId>
     <relativePath>../parent</relativePath>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.template-engines</groupId>
+  <groupId>org.finos.flowave.template-engines</groupId>
   <artifactId>flowave-template-engines-freemarker</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
@@ -59,7 +59,7 @@
         <version>${maven-bundle-plugin.version}</version>
         <configuration>
           <instructions>
-            <Export-Package>org.camunda.templateengines*</Export-Package>
+            <Export-Package>org.finos.flowave.templateengines*</Export-Package>
           </instructions>
         </configuration>
         <executions>

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.connect</groupId>
+    <groupId>org.finos.flowave.connect</groupId>
     <artifactId>flowave-connect-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -19,12 +19,12 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-http-client</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-soap-http-client</artifactId>
     </dependency>
 
@@ -47,8 +47,8 @@
               <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
               <artifactSet>
                 <excludes>
-                  <exclude>org.flowave.commons:*</exclude>
-                  <exclude>org.flowave.connect:camunda-connect-core</exclude>
+                  <exclude>org.finos.flowave.commons:*</exclude>
+                  <exclude>org.finos.flowave.connect:camunda-connect-core</exclude>
                   <exclude>org.slf4j:*</exclude>
                 </excludes>
               </artifactSet>
@@ -73,7 +73,7 @@
           <includeDependencySources>true</includeDependencySources>
           <includeTransitiveDependencySources>true</includeTransitiveDependencySources>
           <dependencySourceIncludes>
-            <include>org.flowave.connect:*</include>
+            <include>org.finos.flowave.connect:*</include>
           </dependencySourceIncludes>
         </configuration>
       </plugin>
@@ -86,7 +86,7 @@
             <Import-Package>
               !connectjar*,
               javax.*;resolution:=optional,
-              org.camunda.commons.logging
+              org.finos.flowave.commons.logging
             </Import-Package>
             <Bundle-ClassPath>.</Bundle-ClassPath>
             <Embed-Dependency>*;inline=true</Embed-Dependency>

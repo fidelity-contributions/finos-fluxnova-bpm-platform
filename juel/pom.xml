@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-database-settings</artifactId>
     <relativePath>../database</relativePath>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.bpm.juel</groupId>
+  <groupId>org.finos.flowave.bpm.juel</groupId>
   <artifactId>flowave-juel</artifactId>
   <name>Flowave Platform - JUEL</name>
 
@@ -68,7 +68,7 @@
               <relocations>
                 <relocation>
                   <pattern>jakarta.el</pattern>
-                  <shadedPattern>org.camunda.bpm.impl.juel.jakarta.el</shadedPattern>
+                  <shadedPattern>org.finos.flowave.bpm.impl.juel.jakarta.el</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>

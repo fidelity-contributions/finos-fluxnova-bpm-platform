@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.qa.upgrade</groupId>
+    <groupId>org.finos.flowave.bpm.qa.upgrade</groupId>
     <artifactId>flowave-qa-db-instance-migration</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -20,7 +20,7 @@
    <dependencyManagement>
      <dependencies>
        <dependency>
-         <groupId>org.flowave.bpm</groupId>
+         <groupId>org.finos.flowave.bpm</groupId>
          <artifactId>flowave-bom</artifactId>
          <version>7.15.0</version>
          <scope>import</scope>
@@ -32,22 +32,22 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-plugin-spin</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa.upgrade</groupId>
+      <groupId>org.finos.flowave.bpm.qa.upgrade</groupId>
       <artifactId>flowave-qa-upgrade-scenario-util</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -125,7 +125,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm.distro</groupId>
+                      <groupId>org.finos.flowave.bpm.distro</groupId>
                       <artifactId>flowave-sql-scripts</artifactId>
                       <version>7.15.0</version>
                       <type>test-jar</type>
@@ -239,7 +239,7 @@
                 </goals>
                 <phase>process-test-classes</phase>
                 <configuration>
-                  <mainClass>org.camunda.bpm.qa.upgrade.TestFixture</mainClass>
+                  <mainClass>org.finos.flowave.bpm.qa.upgrade.TestFixture</mainClass>
                 </configuration>
               </execution>
             </executions>

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.run</groupId>
+    <groupId>org.finos.flowave.bpm.run</groupId>
     <artifactId>flowave-bpm-run-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
@@ -18,7 +18,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm.springboot</groupId>
+        <groupId>org.finos.flowave.bpm.springboot</groupId>
         <artifactId>flowave-bpm-spring-boot-starter</artifactId>
         <scope>provided</scope>
       </dependency>
@@ -83,7 +83,7 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-engine-rest-core</artifactId>
         <scope>provided</scope>
       </dependency>

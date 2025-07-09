@@ -7,7 +7,7 @@
   <name>Flowave Platform - QA Tomcat Test Runtime</name>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -18,7 +18,7 @@
         Make sure it comes after assembly in the build.
         Leave scope test, otherwise libs from pom will be copied into Tomcat's lib folder
       -->
-      <groupId>org.flowave.bpm.tomcat</groupId>
+      <groupId>org.finos.flowave.bpm.tomcat</groupId>
       <artifactId>flowave-tomcat-assembly</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -54,7 +54,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa</groupId>
+      <groupId>org.finos.flowave.bpm.qa</groupId>
       <artifactId>flowave-qa-ensure-clean-db</artifactId>
       <version>${project.version}</version>
       <scope>runtime</scope>
@@ -87,7 +87,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm.tomcat</groupId>
+                      <groupId>org.finos.flowave.bpm.tomcat</groupId>
                       <artifactId>flowave-tomcat-assembly</artifactId>
                       <version>${project.version}</version>
                       <type>tar.gz</type>

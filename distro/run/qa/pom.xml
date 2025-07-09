@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.run</groupId>
+    <groupId>org.finos.flowave.bpm.run</groupId>
     <artifactId>flowave-bpm-run-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>

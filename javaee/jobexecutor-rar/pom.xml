@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.flowave.bpm.javaee</groupId>
+  <groupId>org.finos.flowave.bpm.javaee</groupId>
   <artifactId>flowave-jobexecutor-rar</artifactId>
   <packaging>rar</packaging>
   <name>Flowave Platform - Job Executor RAR</name>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-parent</artifactId>
     <relativePath>../../parent</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -15,7 +15,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -26,7 +26,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm.javaee</groupId>
+      <groupId>org.finos.flowave.bpm.javaee</groupId>
       <artifactId>flowave-jobexecutor-ra</artifactId>
       <version>${project.version}</version>
     </dependency>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <groupId>org.flowave.bpm.wildfly</groupId>
+    <groupId>org.finos.flowave.bpm.wildfly</groupId>
     <artifactId>flowave-wildfly</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.flowave.bpm.webapp</groupId>
+  <groupId>org.finos.flowave.bpm.webapp</groupId>
   <name>Flowave Platform - webapp - WildFly</name>
   <artifactId>flowave-webapp-wildfly</artifactId>
   <packaging>war</packaging>
@@ -21,7 +21,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm.webapp</groupId>
+      <groupId>org.finos.flowave.bpm.webapp</groupId>
       <artifactId>flowave-webapp-jakarta</artifactId>
       <version>${project.version}</version>
       <type>war</type>
@@ -40,7 +40,7 @@
           <archive>
             <manifestEntries>
               <!-- module dependencies for deployment on JBoss/WildFly -->
-              <Dependencies>org.flowave.bpm.flowave-engine,org.flowave.bpm.dmn.flowave-engine-dmn,org.flowave.bpm.model.flowave-bpmn-model,org.flowave.bpm.model.flowave-cmmn-model,org.flowave.bpm.model.flowave-dmn-model,org.flowave.bpm.model.flowave-xml-model,org.flowave.commons.flowave-commons-logging,org.flowave.spin.flowave-spin-core,org.flowave.bpm.juel.flowave-juel services,org.graalvm.js.js-scriptengine services</Dependencies>
+              <Dependencies>org.finos.flowave.bpm.flowave-engine,org.finos.flowave.bpm.dmn.flowave-engine-dmn,org.finos.flowave.bpm.model.flowave-bpmn-model,org.finos.flowave.bpm.model.flowave-cmmn-model,org.finos.flowave.bpm.model.flowave-dmn-model,org.finos.flowave.bpm.model.flowave-xml-model,org.finos.flowave.commons.flowave-commons-logging,org.finos.flowave.spin.flowave-spin-core,org.finos.flowave.bpm.juel.flowave-juel services,org.graalvm.js.js-scriptengine services</Dependencies>
             </manifestEntries>
           </archive>
         </configuration>

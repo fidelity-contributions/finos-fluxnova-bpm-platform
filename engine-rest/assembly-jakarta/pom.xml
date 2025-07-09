@@ -6,7 +6,7 @@
   <packaging>war</packaging>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-engine-rest-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -45,14 +45,14 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-core-jakarta</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <!-- dependencies only used for assemblies should be scope provided -->
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-core-jakarta</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
@@ -60,7 +60,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-core-jakarta</artifactId>
       <version>${project.version}</version>
       <classifier>tests</classifier>
@@ -107,7 +107,7 @@
               <archive>
                 <manifestEntries>
                   <!-- module dependencies for deployment on wildfly  -->
-                  <Dependencies>org.flowave.bpm.flowave-engine,org.flowave.bpm.dmn.flowave-engine-dmn,org.flowave.commons.flowave-commons-logging,org.flowave.spin.flowave-spin-core,org.flowave.bpm.juel.flowave-juel services,org.graalvm.js.js-scriptengine services</Dependencies>
+                  <Dependencies>org.finos.flowave.bpm.flowave-engine,org.finos.flowave.bpm.dmn.flowave-engine-dmn,org.finos.flowave.commons.flowave-commons-logging,org.finos.flowave.spin.flowave-spin-core,org.finos.flowave.bpm.juel.flowave-juel services,org.graalvm.js.js-scriptengine services</Dependencies>
                 </manifestEntries>
               </archive>
               <descriptors>

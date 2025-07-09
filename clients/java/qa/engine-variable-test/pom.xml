@@ -9,14 +9,14 @@
   <packaging>war</packaging>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-external-task-client-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <scope>provided</scope>
     </dependency>

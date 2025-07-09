@@ -2,12 +2,12 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.flowave.commons</groupId>
+  <groupId>org.finos.flowave.commons</groupId>
   <artifactId>flowave-commons-typed-values</artifactId>
   <name>flowave Commons - Typed Values</name>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-database-settings</artifactId>
     <relativePath>../../database</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -16,7 +16,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -25,7 +25,7 @@
     </dependencies>
   </dependencyManagement>
   <properties>
-    <camunda.artifact>org.flowave.bpm.engine.variable</camunda.artifact>
+    <camunda.artifact>org.finos.flowave.bpm.engine.variable</camunda.artifact>
     <camunda.osgi.import.additional>
       !javax.activation
     </camunda.osgi.import.additional>
@@ -33,7 +33,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-utils</artifactId>
     </dependency>
 
@@ -57,7 +57,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-bpm-archunit</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -74,7 +74,7 @@
           <comparisonVersion>${camunda.version.old}</comparisonVersion>
           <logResults>true</logResults>
           <excludes>
-            <exclude>org/camunda/bpm/engine/impl/**</exclude>
+            <exclude>org/finos/flowave/bpm/engine/impl/**</exclude>
           </excludes>
         </configuration>
         <executions>
@@ -91,11 +91,11 @@
               <ignored>
                 <difference>
                   <differenceType>8001</differenceType>
-                  <className>camundajar/com/sun/activation/**/*</className>
+                  <className>flowavejar/com/sun/activation/**/*</className>
                 </difference>
                 <difference>
                   <differenceType>8001</differenceType>
-                  <className>camundajar/javax/activation/**/*</className>
+                  <className>flowavejar/javax/activation/**/*</className>
                 </difference>
               </ignored>
             </configuration>
@@ -133,11 +133,11 @@
               <relocations>
                 <relocation>
                   <pattern>com.sun.activation</pattern>
-                  <shadedPattern>camundajar.com.sun.activation</shadedPattern>
+                  <shadedPattern>flowavejar.com.sun.activation</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>javax.activation</pattern>
-                  <shadedPattern>camundajar.javax.activation</shadedPattern>
+                  <shadedPattern>flowavejar.javax.activation</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>
@@ -167,7 +167,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <dependenciesToScan>
-            <dependency>org.flowave.bpm:camunda-bpm-archunit</dependency>
+            <dependency>org.finos.flowave.bpm:camunda-bpm-archunit</dependency>
           </dependenciesToScan>
         </configuration>
       </plugin>

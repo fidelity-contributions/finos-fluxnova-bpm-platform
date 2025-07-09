@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.run</groupId>
+    <groupId>org.finos.flowave.bpm.run</groupId>
     <artifactId>flowave-bpm-run-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
@@ -36,7 +36,7 @@
   <dependencies>
     <!-- make sure the assembly runs after the REST module -->
     <dependency>
-      <groupId>org.flowave.bpm.run</groupId>
+      <groupId>org.finos.flowave.bpm.run</groupId>
       <artifactId>flowave-bpm-run-modules-rest</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -51,7 +51,7 @@
 
     <!-- make sure this runs after the oauth2 module -->
     <dependency>
-      <groupId>org.flowave.bpm.run</groupId>
+      <groupId>org.finos.flowave.bpm.run</groupId>
       <artifactId>flowave-bpm-run-modules-oauth2</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -65,7 +65,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.run</groupId>
+      <groupId>org.finos.flowave.bpm.run</groupId>
       <artifactId>flowave-bpm-run-modules-example-invoice</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
@@ -79,7 +79,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.run</groupId>
+      <groupId>org.finos.flowave.bpm.run</groupId>
       <artifactId>flowave-bpm-run-core</artifactId>
       <version>${project.version}</version>
       <exclusions>
@@ -92,7 +92,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>license-book</artifactId>
       <version>${project.version}</version>
       <type>zip</type>

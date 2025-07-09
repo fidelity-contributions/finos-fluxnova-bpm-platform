@@ -1,0 +1,24 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: flowaveToFinosFlowave
+displayName: Rename org.finos.flowave.* to org.finos.flowave.*
+recipeList:
+    - org.openrewrite.java.ChangePackage:
+          oldPackageName: org.finos.flowave
+          newPackageName: org.finos.flowave
+          recursive: true
+    - org.openrewrite.text.FindAndReplace:
+          find: "org.finos.flowave"
+          replace: "org.finos.flowave"
+          filePattern: '**/*.java'
+    - org.openrewrite.text.FindAndReplace:
+          find: "org.finos.flowave"
+          replace: "org.finos.flowave"
+          filePattern: '**/*.xml'
+    - org.openrewrite.text.FindAndReplace:
+          find: "org.finos.flowave"
+          replace: "org.finos.flowave"
+          filePattern: '**/*.properties'
+    - org.openrewrite.text.FindAndReplace:
+          find: "org.finos.flowave"
+          replace: "org.finos.flowave"
+          filePattern: '**/*.yml'
