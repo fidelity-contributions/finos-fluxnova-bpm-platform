@@ -1,4 +1,4 @@
-# camunda-commons-ui
+# flowave-commons-ui
 
 Common frontend / UI resources, widgets and libraries for the [Camunda web application][webapp]:
 

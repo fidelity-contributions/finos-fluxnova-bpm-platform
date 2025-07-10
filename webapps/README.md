@@ -1,22 +1,22 @@
-# Camunda Webapp
+# Flowave Webapp
 
-This is the Camunda Platform web application source.
+This is the Flowave Platform web application source.
 Clean, package and install it via [Maven](https://maven.apache.org/).
 
 ## Structure of this project
 
 The structure is as follows:
 
-* `assembly` - Java sources and tests for the Camunda web application based on `javax` namespace.
-* `assembly-jakarta` - Java sources and tests for the Camunda web application based on `jakarta` namespace.
+* `assembly` - Java sources and tests for the Flowave web application based on `javax` namespace.
+* `assembly-jakarta` - Java sources and tests for the Flowave web application based on `jakarta` namespace.
   * This module is created from the `assembly` module via code transformation.
-* `frontend` - HTML, CSS and Javascript sources as well as Plugins and tests for the Camunda webapplications Cockpit, Tasklist and Admin.
+* `frontend` - HTML, CSS and Javascript sources as well as Plugins and tests for the Flowave webapplications Cockpit, Tasklist and Admin.
 
 ## FRONTEND
 
 ### UI
 
-There are 3 web applications available for the Camunda Platform :
+There are 3 web applications available for the Flowave Platform :
 
 * __cockpit__: an administration interface for processes and decisions
 * __tasklist__: provides an interface to process user tasks

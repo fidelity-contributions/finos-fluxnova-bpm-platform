@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-parent</artifactId>
     <relativePath>../parent</relativePath>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.connect</groupId>
+  <groupId>org.finos.flowave.connect</groupId>
   <artifactId>flowave-connect-root</artifactId>
   <name>Flowave Platform - connect - root</name>
   <inceptionYear>2014</inceptionYear>
@@ -91,7 +91,7 @@
           <configuration>
             <instructions>
               <Export-Package>
-                org.camunda.connect*
+                org.finos.flowave.connect*
               </Export-Package>
             </instructions>
           </configuration>

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.run</groupId>
+    <groupId>org.finos.flowave.bpm.run</groupId>
     <artifactId>flowave-bpm-run-modules</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -21,13 +21,13 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.bpm.springboot</groupId>
+      <groupId>org.finos.flowave.bpm.springboot</groupId>
       <artifactId>flowave-bpm-spring-boot-starter-webapp</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.example</groupId>
+      <groupId>org.finos.flowave.bpm.example</groupId>
       <artifactId>flowave-example-invoice-jakarta</artifactId>
       <version>${project.version}</version>
       <classifier>classes</classifier>
@@ -53,7 +53,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.flowave.bpm.example</groupId>
+                  <groupId>org.finos.flowave.bpm.example</groupId>
                   <artifactId>flowave-example-invoice-jakarta</artifactId>
                   <version>${project.version}</version>
                   <type>war</type>

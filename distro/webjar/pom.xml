@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-parent</artifactId>
     <relativePath>../../parent</relativePath>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.bpm.webapp</groupId>
+  <groupId>org.finos.flowave.bpm.webapp</groupId>
   <artifactId>flowave-webapp-webjar</artifactId>
   <packaging>jar</packaging>
   <name>Flowave Platform - webapp - webjar</name>
@@ -22,7 +22,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -34,7 +34,7 @@
   <!-- add dependency so this is run after the war was build -->
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm.webapp</groupId>
+      <groupId>org.finos.flowave.bpm.webapp</groupId>
       <artifactId>flowave-webapp-jakarta</artifactId>
       <version>${project.parent.version}</version>
       <type>jar</type>
@@ -57,7 +57,7 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.flowave.bpm.webapp</groupId>
+                  <groupId>org.finos.flowave.bpm.webapp</groupId>
                   <artifactId>flowave-webapp-jakarta</artifactId>
                   <version>${project.parent.version}</version>
                   <type>war</type>

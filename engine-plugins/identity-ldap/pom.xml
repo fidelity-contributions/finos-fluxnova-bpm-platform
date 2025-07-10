@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.flowave.bpm.identity</groupId>
+  <groupId>org.finos.flowave.bpm.identity</groupId>
   <artifactId>flowave-identity-ldap</artifactId>
   <packaging>jar</packaging>
   <name>Flowave Platform - engine plugins - identity - ldap</name>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-engine-plugins</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -19,7 +19,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-logging</artifactId>
     </dependency>
 

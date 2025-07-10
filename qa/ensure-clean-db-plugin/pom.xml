@@ -6,13 +6,13 @@
   
   <parent>
     <artifactId>flowave-qa</artifactId>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <scope>provided</scope>
     </dependency>

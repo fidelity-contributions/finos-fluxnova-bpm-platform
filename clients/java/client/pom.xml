@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-external-task-client-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -31,7 +31,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -51,12 +51,12 @@
 
     <!-- mandatory dependencies -->
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-logging</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-typed-values</artifactId>
     </dependency>
 
@@ -92,7 +92,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.model</groupId>
+      <groupId>org.finos.flowave.bpm.model</groupId>
       <artifactId>flowave-bpmn-model</artifactId>
       <scope>test</scope>
     </dependency>
@@ -104,13 +104,13 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-all</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa</groupId>
+      <groupId>org.finos.flowave.bpm.qa</groupId>
       <artifactId>engine-variable-test</artifactId>
       <version>${project.version}</version>
       <classifier>classes</classifier>
@@ -118,7 +118,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.tomcat</groupId>
+      <groupId>org.finos.flowave.bpm.tomcat</groupId>
       <artifactId>flowave-tomcat-assembly</artifactId>
       <version>${project.version}</version>
       <type>tar.gz</type>
@@ -132,7 +132,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-jakarta</artifactId>
       <scope>test</scope>
       <type>war</type>
@@ -141,7 +141,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa</groupId>
+      <groupId>org.finos.flowave.bpm.qa</groupId>
       <artifactId>engine-variable-test</artifactId>
       <scope>test</scope>
       <type>war</type>
@@ -206,7 +206,7 @@
               <skip>${skipTests}</skip>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.flowave.bpm.tomcat</groupId>
+                  <groupId>org.finos.flowave.bpm.tomcat</groupId>
                   <artifactId>flowave-tomcat-assembly</artifactId>
                   <version>${project.version}</version>
                   <type>tar.gz</type>
@@ -283,7 +283,7 @@
           </configuration>
           <deployables>
             <deployable>
-              <groupId>org.flowave.bpm</groupId>
+              <groupId>org.finos.flowave.bpm</groupId>
               <artifactId>flowave-engine-rest-jakarta</artifactId>
               <type>war</type>
               <classifier>tomcat</classifier>
@@ -296,7 +296,7 @@
               </properties>
             </deployable>
             <deployable>
-              <groupId>org.flowave.bpm.qa</groupId>
+              <groupId>org.finos.flowave.bpm.qa</groupId>
               <artifactId>engine-variable-test</artifactId>
               <type>war</type>
             </deployable>

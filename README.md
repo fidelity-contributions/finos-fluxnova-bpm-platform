@@ -1,6 +1,6 @@
 [![FINOS - Forming](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-forming.svg)](https://community.finos.org/docs/governance/Software-Projects/project-lifecycle)
 
-# Camunda Platform 7 - The open source BPMN platform
+# Flowave Platform 7 - The open source BPMN platform
 
 [![Build CI](https://github.com/finos/flowave-bpm-platform/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/finos/flowave-bpm-platform/actions/workflows/build.yaml?query=branch%3Amain) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.camunda.bpm/camunda-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.camunda.bpm/camunda-parent) [![camunda manual latest](https://img.shields.io/badge/manual-latest-brown.svg)](https://docs.camunda.org/manual/latest/) [![License](https://img.shields.io/github/license/camunda/camunda-bpm-platform?color=blue&logo=apache)](https://github.com/camunda/camunda-bpm-platform/blob/master/LICENSE)
 
@@ -21,7 +21,7 @@ Camunda Platform 7 provides a rich set of components centered around the BPM lif
 
 #### Process Implementation and Execution
 
-- Camunda Engine - The core component responsible for executing BPMN 2.0 processes.
+- Flowave Engine - The core component responsible for executing BPMN 2.0 processes.
 - REST API - The REST API provides remote access to running processes.
 - Spring, CDI Integration - Programming model integration that allows developers to write Java Applications that interact with running processes.
 
@@ -31,13 +31,13 @@ Camunda Platform 7 provides a rich set of components centered around the BPM lif
 
 #### Process Operations
 
-- Camunda Engine - JMX and advanced Runtime Container Integration for process engine monitoring.
-- Camunda Cockpit - Web application tool for process operations.
-- Camunda Admin - Web application for managing users, groups, and their access permissions.
+- Flowave Engine - JMX and advanced Runtime Container Integration for process engine monitoring.
+- Flowave Cockpit - Web application tool for process operations.
+- Flowave Admin - Web application for managing users, groups, and their access permissions.
 
 #### Human Task Management
 
-- Camunda Tasklist - Web application for managing and completing user tasks in the context of processes.
+- Flowave Tasklist - Web application for managing and completing user tasks in the context of processes.
 
 #### And there's more...
 

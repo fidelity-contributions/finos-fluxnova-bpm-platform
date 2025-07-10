@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.wildfly</groupId>
+    <groupId>org.finos.flowave.bpm.wildfly</groupId>
     <artifactId>flowave-wildfly</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -33,39 +33,39 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.javaee</groupId>
+      <groupId>org.finos.flowave.bpm.javaee</groupId>
       <artifactId>flowave-ejb-client-jakarta</artifactId>
     </dependency>
     
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.identity</groupId>
+      <groupId>org.finos.flowave.bpm.identity</groupId>
       <artifactId>flowave-identity-ldap</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-cdi-jakarta</artifactId>
     </dependency>
     
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-spring-6</artifactId>
     </dependency>
     
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-jakarta</artifactId>
       <classifier>classes</classifier>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>license-book</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
@@ -117,7 +117,7 @@
     <dependency>
       <!-- this dependency is to make sure that we are executed after flowave-modules
         in the reactor -->
-      <groupId>org.flowave.bpm.wildfly</groupId>
+      <groupId>org.finos.flowave.bpm.wildfly</groupId>
       <artifactId>flowave-wildfly-modules</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>

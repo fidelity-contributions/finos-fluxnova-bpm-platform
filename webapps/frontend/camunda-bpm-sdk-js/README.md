@@ -1,4 +1,4 @@
-# camunda-bpm-sdk-js
+# flowave-bpm-sdk-js
 
 Javascript client library for [Camunda Platform](https://github.com/camunda/camunda-bpm-platform)
 

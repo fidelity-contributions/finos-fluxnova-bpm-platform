@@ -5,7 +5,7 @@
   <name>Flowave Platform - QA Integration Tests - Webapps Shared Engine</name>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-qa-integration-tests-webapps-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
@@ -13,7 +13,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm.qa</groupId>
+      <groupId>org.finos.flowave.bpm.qa</groupId>
       <artifactId>flowave-qa-integration-tests-webapps</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -30,20 +30,20 @@
       <dependencies>
         <dependency>
           <!-- make sure it comes after assembly in the build -->
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-wildfly-runtime</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm.webapp</groupId>
+          <groupId>org.finos.flowave.bpm.webapp</groupId>
           <artifactId>flowave-webapp-wildfly</artifactId>
           <version>${project.version}</version>
           <type>war</type>
           <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-rest-jakarta</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly</classifier>
@@ -51,7 +51,7 @@
           <type>war</type>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm.example</groupId>
+          <groupId>org.finos.flowave.bpm.example</groupId>
           <artifactId>flowave-example-invoice-jakarta</artifactId>
           <version>${project.version}</version>
           <scope>test</scope>
@@ -99,14 +99,14 @@
               </configuration>
               <deployables>
                 <deployable>
-                  <groupId>org.flowave.bpm.example</groupId>
+                  <groupId>org.finos.flowave.bpm.example</groupId>
                   <artifactId>flowave-example-invoice-jakarta</artifactId>
                   <type>war</type>
                   <pingURL>http://localhost:${jboss.http.port}/engine-rest/engine/default/user/demo/profile</pingURL>
                   <pingTimeout>${cargo.deploy.timeout}</pingTimeout>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm</groupId>
+                  <groupId>org.finos.flowave.bpm</groupId>
                   <artifactId>flowave-engine-rest-jakarta</artifactId>
                   <classifier>wildfly</classifier>
                   <type>war</type>
@@ -114,7 +114,7 @@
                   <pingTimeout>${cargo.deploy.timeout}</pingTimeout>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm.webapp</groupId>
+                  <groupId>org.finos.flowave.bpm.webapp</groupId>
                   <artifactId>flowave-webapp-wildfly</artifactId>
                   <type>war</type>
                   <pingURL>http://localhost:${jboss.http.port}/camunda</pingURL>
@@ -146,20 +146,20 @@
       <dependencies>
         <dependency>
           <!-- make sure it comes after assembly in the build -->
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-wildfly26-runtime</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm.webapp</groupId>
+          <groupId>org.finos.flowave.bpm.webapp</groupId>
           <artifactId>flowave-webapp-jboss</artifactId>
           <version>${project.version}</version>
           <type>war</type>
           <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-rest</artifactId>
           <version>${project.version}</version>
           <classifier>wildfly</classifier>
@@ -167,7 +167,7 @@
           <type>war</type>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine</artifactId>
           <scope>test</scope>
           <exclusions>
@@ -219,14 +219,14 @@
               </configuration>
               <deployables>
                 <deployable>
-                  <groupId>org.flowave.bpm.example</groupId>
+                  <groupId>org.finos.flowave.bpm.example</groupId>
                   <artifactId>flowave-example-invoice</artifactId>
                   <type>war</type>
                   <pingURL>http://localhost:${jboss.http.port}/engine-rest/engine/default/user/demo/profile</pingURL>
                   <pingTimeout>${cargo.deploy.timeout}</pingTimeout>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm</groupId>
+                  <groupId>org.finos.flowave.bpm</groupId>
                   <artifactId>flowave-engine-rest</artifactId>
                   <classifier>wildfly</classifier>
                   <type>war</type>
@@ -234,7 +234,7 @@
                   <pingTimeout>${cargo.deploy.timeout}</pingTimeout>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm.webapp</groupId>
+                  <groupId>org.finos.flowave.bpm.webapp</groupId>
                   <artifactId>flowave-webapp-jboss</artifactId>
                   <type>war</type>
                   <pingURL>http://localhost:${jboss.http.port}/camunda</pingURL>
@@ -266,20 +266,20 @@
       <dependencies>
         <dependency>
           <!-- make sure it comes after assembly in the build -->
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-tomcat9-runtime</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm.webapp</groupId>
+          <groupId>org.finos.flowave.bpm.webapp</groupId>
           <artifactId>flowave-webapp-tomcat</artifactId>
           <version>${project.version}</version>
           <type>war</type>
           <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-rest</artifactId>
           <scope>test</scope>
           <type>war</type>
@@ -328,7 +328,7 @@
               </configuration>
               <deployables>
                 <deployable>
-                  <groupId>org.flowave.bpm</groupId>
+                  <groupId>org.finos.flowave.bpm</groupId>
                   <artifactId>flowave-engine-rest</artifactId>
                   <type>war</type>
                   <classifier>tomcat</classifier>
@@ -339,7 +339,7 @@
                   </properties>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm.webapp</groupId>
+                  <groupId>org.finos.flowave.bpm.webapp</groupId>
                   <artifactId>flowave-webapp-tomcat</artifactId>
                   <type>war</type>
                   <pingURL>http://localhost:${tomcat.connector.http.port}/camunda</pingURL>
@@ -349,7 +349,7 @@
                   </properties>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm.example</groupId>
+                  <groupId>org.finos.flowave.bpm.example</groupId>
                   <artifactId>flowave-example-invoice</artifactId>
                   <type>war</type>
                   <properties>
@@ -372,20 +372,20 @@
       <dependencies>
         <dependency>
           <!-- make sure it comes after assembly in the build -->
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-tomcat-runtime</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm.webapp</groupId>
+          <groupId>org.finos.flowave.bpm.webapp</groupId>
           <artifactId>flowave-webapp-tomcat-jakarta</artifactId>
           <version>${project.version}</version>
           <type>war</type>
           <scope>test</scope>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-rest-jakarta</artifactId>
           <version>${project.version}</version>
           <type>war</type>
@@ -393,7 +393,7 @@
           <classifier>tomcat</classifier>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm.example</groupId>
+          <groupId>org.finos.flowave.bpm.example</groupId>
           <artifactId>flowave-example-invoice-jakarta</artifactId>
           <version>${project.version}</version>
           <type>war</type>
@@ -441,7 +441,7 @@
               </configuration>
               <deployables>
                 <deployable>
-                  <groupId>org.flowave.bpm</groupId>
+                  <groupId>org.finos.flowave.bpm</groupId>
                   <artifactId>flowave-engine-rest-jakarta</artifactId>
                   <type>war</type>
                   <classifier>tomcat</classifier>
@@ -452,7 +452,7 @@
                   </properties>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm.webapp</groupId>
+                  <groupId>org.finos.flowave.bpm.webapp</groupId>
                   <artifactId>flowave-webapp-tomcat-jakarta</artifactId>
                   <type>war</type>
                   <pingURL>http://localhost:${tomcat.connector.http.port}/camunda</pingURL>
@@ -462,7 +462,7 @@
                   </properties>
                 </deployable>
                 <deployable>
-                  <groupId>org.flowave.bpm.example</groupId>
+                  <groupId>org.finos.flowave.bpm.example</groupId>
                   <artifactId>flowave-example-invoice-jakarta</artifactId>
                   <type>war</type>
                   <properties>
@@ -503,7 +503,7 @@
             <configuration>
               <redirectTestOutputToFile>true</redirectTestOutputToFile>
               <dependenciesToScan>
-                <dependency>org.flowave.bpm.qa:flowave-qa-integration-tests-webapps</dependency>
+                <dependency>org.finos.flowave.bpm.qa:flowave-qa-integration-tests-webapps</dependency>
               </dependenciesToScan>
               <systemPropertyVariables>
                 <selenium.screenshot.directory>${project.build.directory}/selenium-screenshots</selenium.screenshot.directory>
@@ -532,7 +532,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm</groupId>
+                      <groupId>org.finos.flowave.bpm</groupId>
                       <artifactId>flowave-engine</artifactId>
                       <outputDirectory>${project.build.directory}/sql-scripts/engine</outputDirectory>
                       <overWrite>true</overWrite>
@@ -555,13 +555,13 @@
                 <configuration>
                   <srcFiles>
                     <!-- try dropping the DB if it exists. -->
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.decision.engine.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.case.engine.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.engine.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.identity.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.decision.history.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.case.history.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.history.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.decision.engine.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.case.engine.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.engine.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.identity.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.decision.history.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.case.history.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.history.sql</srcFile>
                   </srcFiles>
                   <autocommit>true</autocommit>
                   <onError>continue</onError>
@@ -591,7 +591,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <dependenciesToScan>
-                <dependency>org.flowave.bpm.qa:flowave-qa-integration-tests-webapps</dependency>
+                <dependency>org.finos.flowave.bpm.qa:flowave-qa-integration-tests-webapps</dependency>
               </dependenciesToScan>
               <skipTests>false</skipTests>
               <includes>

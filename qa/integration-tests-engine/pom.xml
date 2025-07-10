@@ -5,7 +5,7 @@
   <name>Flowave Platform - QA Integration Tests - Engine</name>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -104,32 +104,32 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.javaee</groupId>
+      <groupId>org.finos.flowave.bpm.javaee</groupId>
       <artifactId>flowave-ejb-client</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-cdi</artifactId>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
           <artifactId>flowave-engine</artifactId>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
         </exclusion>
       </exclusions>
     </dependency>
 
     <!-- flowave -->
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.dmn</groupId>
+      <groupId>org.finos.flowave.bpm.dmn</groupId>
       <artifactId>flowave-engine-dmn</artifactId>
       <scope>provided</scope>
       <exclusions>
@@ -149,24 +149,24 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-spring</artifactId>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
           <artifactId>flowave-engine</artifactId>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
         </exclusion>
       </exclusions>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-core</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
     </dependency>
 
@@ -180,7 +180,7 @@
       BOM must be installed before this module is built
     -->
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-bom</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -188,7 +188,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-core-internal-dependencies</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -196,7 +196,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-core</artifactId>
     </dependency>
 
@@ -274,9 +274,9 @@
             <configuration>
               <forceCreation>true</forceCreation>
               <excludes>
-                <exclude>org/camunda/bpm/integrationtest/util/TestConstants*</exclude>
-                <exclude>org/camunda/bpm/integrationtest/util/TestContainer*</exclude>
-                <exclude>org/camunda/bpm/integrationtest/util/TestProcessApplication*</exclude>
+                <exclude>org/finos/flowave/bpm/integrationtest/util/TestConstants*</exclude>
+                <exclude>org/finos/flowave/bpm/integrationtest/util/TestContainer*</exclude>
+                <exclude>org/finos/flowave/bpm/integrationtest/util/TestProcessApplication*</exclude>
               </excludes>
             </configuration>
           </execution>
@@ -292,7 +292,7 @@
       <dependencies>
         <dependency>
           <!-- make sure this comes after runtime in the reactor build -->
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-wildfly26-runtime</artifactId>
           <version>${project.version}</version>
           <scope>provided</scope>
@@ -371,7 +371,7 @@
       <dependencies>
         <dependency>
           <!-- make sure this comes after runtime in the reactor build -->
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-wildfly26-runtime</artifactId>
           <version>${project.version}</version>
           <scope>provided</scope>
@@ -489,7 +489,7 @@
         <dependencies>
           <!-- import internal dependencies before JBoss to preserve internal versions, e.g. for JUnit -->
           <dependency>
-            <groupId>org.flowave.bpm</groupId>
+            <groupId>org.finos.flowave.bpm</groupId>
             <artifactId>flowave-core-internal-dependencies</artifactId>
             <version>${project.version}</version>
             <scope>import</scope>
@@ -507,7 +507,7 @@
       <dependencies>
         <dependency>
           <!-- make sure this comes after runtime in the reactor build -->
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-tomcat9-runtime</artifactId>
           <version>${project.version}</version>
           <scope>provided</scope>
@@ -667,7 +667,7 @@
       <id>clean-db</id>
       <dependencies>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine</artifactId>
           <scope>test</scope>
         </dependency>
@@ -687,7 +687,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm</groupId>
+                      <groupId>org.finos.flowave.bpm</groupId>
                       <artifactId>flowave-engine</artifactId>
                       <outputDirectory>${project.build.directory}/sql-scripts/engine</outputDirectory>
                       <overWrite>true</overWrite>
@@ -710,13 +710,13 @@
                 <configuration>
                   <srcFiles>
                     <!-- try dropping the DB if it exists. -->
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.decision.engine.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.case.engine.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.engine.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.identity.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.decision.history.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.case.history.sql</srcFile>
-                    <srcFile>${project.build.directory}/sql-scripts/engine/org/camunda/bpm/engine/db/drop/activiti.${database.type}.drop.history.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.decision.engine.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.case.engine.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.engine.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.identity.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.decision.history.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.case.history.sql</srcFile>
+                    <srcFile>${project.build.directory}/sql-scripts/engine/org/finos/flowave/bpm/engine/db/drop/activiti.${database.type}.drop.history.sql</srcFile>
                   </srcFiles>
                   <autocommit>true</autocommit>
                   <onError>continue</onError>

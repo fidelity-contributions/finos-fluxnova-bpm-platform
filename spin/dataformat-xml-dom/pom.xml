@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.spin</groupId>
+    <groupId>org.finos.flowave.spin</groupId>
     <artifactId>flowave-spin-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -12,17 +12,17 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-core</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-logging</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-utils</artifactId>
     </dependency>
 
@@ -93,7 +93,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-core</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
@@ -201,7 +201,7 @@
               <comparisonVersion>${spin.version.old}</comparisonVersion>
               <logResults>true</logResults>
               <excludes>
-                <exclude>org/camunda/spin/impl/**</exclude>
+                <exclude>org/finos/flowave/spin/impl/**</exclude>
               </excludes>
             </configuration>
             <executions>

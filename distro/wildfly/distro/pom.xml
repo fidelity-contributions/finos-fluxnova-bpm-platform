@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.wildfly</groupId>
+    <groupId>org.finos.flowave.bpm.wildfly</groupId>
     <artifactId>flowave-wildfly</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -16,7 +16,7 @@
     <dependency>
       <!-- this dependency is to make sure that we are executed after the
         integration tests have passed in the reactor -->
-      <groupId>org.flowave.bpm.qa</groupId>
+      <groupId>org.finos.flowave.bpm.qa</groupId>
       <artifactId>flowave-qa</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -24,21 +24,21 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.wildfly</groupId>
+      <groupId>org.finos.flowave.bpm.wildfly</groupId>
       <artifactId>flowave-wildfly-assembly</artifactId>
       <version>${project.version}</version>
       <type>tar.gz</type>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.distro</groupId>
+      <groupId>org.finos.flowave.bpm.distro</groupId>
       <artifactId>flowave-sql-scripts</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-jakarta</artifactId>
       <version>${project.version}</version>
       <classifier>wildfly</classifier>
@@ -46,14 +46,14 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.webapp</groupId>
+      <groupId>org.finos.flowave.bpm.webapp</groupId>
       <artifactId>flowave-webapp-wildfly</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.example</groupId>
+      <groupId>org.finos.flowave.bpm.example</groupId>
       <artifactId>flowave-example-invoice-jakarta</artifactId>
       <version>${project.version}</version>
       <type>war</type>

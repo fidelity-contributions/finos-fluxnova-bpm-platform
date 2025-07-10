@@ -1,4 +1,4 @@
-# Camunda Platform JUnit 5
+# Flowave Platform JUnit 5
 
 JUnit 5 extension that allows you to inject a process engine into your test.
 
@@ -9,8 +9,8 @@ Add the dependency to your pom.xml
 
 ```xml
     <dependency>
-      <groupId>org.camunda.bpm</groupId>
-      <artifactId>camunda-bpm-junit5</artifactId>
+      <groupId>org.finos.flowave.bpm</groupId>
+      <artifactId>flowave-bpm-junit5</artifactId>
       <version>7.17.0</version>
       <scope>test</scope>
     </dependency>

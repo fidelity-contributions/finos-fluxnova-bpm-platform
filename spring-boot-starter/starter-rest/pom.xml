@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.springboot.project</groupId>
+    <groupId>org.finos.flowave.bpm.springboot.project</groupId>
     <artifactId>flowave-bpm-spring-boot-starter-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.bpm.springboot</groupId>
+  <groupId>org.finos.flowave.bpm.springboot</groupId>
   <artifactId>flowave-bpm-spring-boot-starter-rest</artifactId>
   <name>Flowave Platform - Spring Boot Starter - Rest</name>
 
@@ -20,7 +20,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-rest-core-jakarta</artifactId>
       <version>${project.version}</version>
     </dependency>

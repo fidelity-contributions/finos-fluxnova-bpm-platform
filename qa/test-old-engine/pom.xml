@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -77,7 +77,7 @@
       <dependencyManagement>
         <dependencies>
           <dependency>
-            <groupId>org.flowave.bpm</groupId>
+            <groupId>org.finos.flowave.bpm</groupId>
             <artifactId>flowave-bom</artifactId>
             <!-- Cannot use variables due to bug in Maven Release Plugin -->
             <version>7.22.0</version>
@@ -174,14 +174,14 @@
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm.distro</groupId>
+          <groupId>org.finos.flowave.bpm.distro</groupId>
           <artifactId>flowave-sql-scripts</artifactId>
           <version>${project.version}</version>
           <type>test-jar</type>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine</artifactId>
           <scope>test</scope>
         </dependency>
@@ -206,7 +206,7 @@
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.commons</groupId>
+          <groupId>org.finos.flowave.commons</groupId>
           <artifactId>flowave-commons-testing</artifactId>
           <scope>test</scope>
         </dependency>
@@ -268,7 +268,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm</groupId>
+                      <groupId>org.finos.flowave.bpm</groupId>
                       <artifactId>flowave-engine</artifactId>
                       <version>${camunda.old.engine.version}</version>
                       <type>test-jar</type>
@@ -288,7 +288,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm.distro</groupId>
+                      <groupId>org.finos.flowave.bpm.distro</groupId>
                       <artifactId>flowave-sql-scripts</artifactId>
                       <version>${project.version}</version>
                       <type>test-jar</type>

@@ -3,7 +3,7 @@
 
   <parent>
     <artifactId>flowave-engine-plugins</artifactId>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -14,18 +14,18 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-core</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-http-client</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.connect</groupId>
+      <groupId>org.finos.flowave.connect</groupId>
       <artifactId>flowave-connect-soap-http-client</artifactId>
       <scope>test</scope>
     </dependency>

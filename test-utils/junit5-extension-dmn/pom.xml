@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.flowave.bpm.dmn</groupId>
+  <groupId>org.finos.flowave.bpm.dmn</groupId>
   <artifactId>flowave-dmn-junit5</artifactId>
   <packaging>jar</packaging>
 
   <name>Flowave DMN - JUnit 5 Extension</name>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-database-settings</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../../database</relativePath>
@@ -20,7 +20,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -54,7 +54,7 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.flowave.bpm.dmn</groupId>
+      <groupId>org.finos.flowave.bpm.dmn</groupId>
       <artifactId>flowave-engine-dmn</artifactId>
       <scope>provided</scope>
     </dependency>

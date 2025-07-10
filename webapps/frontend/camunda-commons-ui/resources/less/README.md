@@ -1,4 +1,4 @@
-# Camunda commons styling
+# Flowave commons styling
 
 ## Scaffolding
 

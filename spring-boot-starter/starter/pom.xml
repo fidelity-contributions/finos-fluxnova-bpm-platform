@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.flowave.bpm.springboot.project</groupId>
+    <groupId>org.finos.flowave.bpm.springboot.project</groupId>
     <artifactId>flowave-bpm-spring-boot-starter-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.bpm.springboot</groupId>
+  <groupId>org.finos.flowave.bpm.springboot</groupId>
   <artifactId>flowave-bpm-spring-boot-starter</artifactId>
   <name>Flowave Platform - Spring Boot Starter</name>
 
@@ -24,7 +24,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-spring-6</artifactId>
     </dependency>
 
@@ -47,19 +47,19 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-plugin-spin</artifactId>
       <optional>true</optional>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.spin</groupId>
+      <groupId>org.finos.flowave.spin</groupId>
       <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
       <optional>true</optional>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-plugin-connect</artifactId>
       <optional>true</optional>
     </dependency>
@@ -118,7 +118,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-testing</artifactId>
       <scope>test</scope>
     </dependency>

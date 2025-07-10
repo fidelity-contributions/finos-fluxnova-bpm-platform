@@ -6,7 +6,7 @@
     <name>Flowave Platform - ArchUnit</name>
 
     <parent>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-database-settings</artifactId>
         <relativePath>../../database</relativePath>
         <version>0.0.1-SNAPSHOT</version>

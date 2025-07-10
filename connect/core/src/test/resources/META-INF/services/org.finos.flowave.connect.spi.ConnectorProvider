@@ -1,0 +1,2 @@
+org.finos.flowave.connect.dummy.DummyConnectorProvider
+org.finos.flowave.connect.dummy.MyHttpConnectorProvider

@@ -7,7 +7,7 @@
   <name>Flowave Platform - QA Wildfly Test Runtime</name>
 
   <parent>
-    <groupId>org.flowave.bpm.qa</groupId>
+    <groupId>org.finos.flowave.bpm.qa</groupId>
     <artifactId>flowave-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -21,7 +21,7 @@
         <version>${version.spring.framework6}</version>
       </dependency>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-engine</artifactId>
       </dependency>
     </dependencies>
@@ -50,7 +50,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa</groupId>
+      <groupId>org.finos.flowave.bpm.qa</groupId>
       <artifactId>flowave-qa-ensure-clean-db</artifactId>
       <version>${project.version}</version>
       <scope>runtime</scope>
@@ -151,7 +151,7 @@
       <dependencies>
         <dependency>
           <!-- make sure it comes after assembly in the build -->
-          <groupId>org.flowave.bpm.wildfly</groupId>
+          <groupId>org.finos.flowave.bpm.wildfly</groupId>
           <artifactId>flowave-wildfly-assembly</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
@@ -205,7 +205,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm.wildfly</groupId>
+                      <groupId>org.finos.flowave.bpm.wildfly</groupId>
                       <artifactId>flowave-wildfly-assembly</artifactId>
                       <version>${project.version}</version>
                       <type>tar.gz</type>
@@ -275,7 +275,7 @@
                     </copy>
 
                     <delete>
-                      <fileset dir="${wildfly.runtime.location}/modules/org/camunda/bpm/qa" includes="**/*.jar" />
+                      <fileset dir="${wildfly.runtime.location}/modules/org/finos/flowave/bpm/qa" includes="**/*.jar" />
                     </delete>
                     <!-- copy all files again, but this only matches fox files and this treatment makes is maven 2/3 compatible => timestamped snapshot -->
                     <copy todir="${wildfly.runtime.location}/modules" flatten="false" verbose="true">
@@ -283,7 +283,7 @@
                       <mapper>
                         <chainedmapper>
                           <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                          <regexpmapper from="^(org.flowave.bpm.qa.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$"
+                          <regexpmapper from="^(org.finos.flowave.bpm.qa.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$"
                                         to="\1/\3${project.version}.jar" handledirsep="yes" />
                         </chainedmapper>
                       </mapper>
@@ -311,7 +311,7 @@
       <dependencies>
         <dependency>
           <!-- make sure it comes after assembly in the build -->
-          <groupId>org.flowave.bpm.wildfly</groupId>
+          <groupId>org.finos.flowave.bpm.wildfly</groupId>
           <artifactId>flowave-wildfly-assembly</artifactId>
           <version>${project.version}</version>
           <type>pom</type>
@@ -335,7 +335,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm.wildfly</groupId>
+                      <groupId>org.finos.flowave.bpm.wildfly</groupId>
                       <artifactId>flowave-wildfly-assembly</artifactId>
                       <version>${project.version}</version>
                       <type>tar.gz</type>
@@ -405,7 +405,7 @@
                     </copy>
 
                     <delete>
-                      <fileset dir="${wildfly.runtime.location}/modules/org/camunda/bpm/qa" includes="**/*.jar" />
+                      <fileset dir="${wildfly.runtime.location}/modules/org/finos/flowave/bpm/qa" includes="**/*.jar" />
                     </delete>
                     <!-- copy all files again, but this only matches fox files and this treatment makes is maven 2/3 compatible => timestamped snapshot -->
                     <copy todir="${wildfly.runtime.location}/modules" flatten="false" verbose="true">
@@ -413,7 +413,7 @@
                       <mapper>
                         <chainedmapper>
                           <regexpmapper from="^(.*)/([^/]+)/([^/]*)$$" to="\1/main/\3" handledirsep="yes" />
-                          <regexpmapper from="^(org.flowave.bpm.qa.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
+                          <regexpmapper from="^(org.finos.flowave.bpm.qa.*)/((flowave-[A-Za-z-]*)[0-9\.]*).*.jar$$" to="\1/\3${project.version}.jar" handledirsep="yes" />
                         </chainedmapper>
                       </mapper>
                     </copy>

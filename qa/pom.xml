@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>flowave-qa</artifactId>
-  <groupId>org.flowave.bpm.qa</groupId>
+  <groupId>org.finos.flowave.bpm.qa</groupId>
 
   <packaging>pom</packaging>
   <name>Flowave Platform - QA</name>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-database-settings</artifactId>
     <relativePath>../database</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -52,7 +52,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -78,10 +78,11 @@
         <module>tomcat9-runtime</module>
         <module>integration-tests-webapps</module>
         <module>integration-tests-engine</module>
+        <!-- TODO: uncomment after build strategy is finalized for backward compatibility
         <module>test-db-util</module>
         <module>test-db-instance-migration</module>
         <module>test-db-rolling-update</module>
-        <module>test-old-engine</module>
+        <module>test-old-engine</module-->
         <module>performance-tests-engine</module>
         <module>large-data-tests</module>
         <module>integration-tests-engine-jakarta</module>
@@ -89,15 +90,6 @@
     </profile>
 
     <!-- Server profiles -->
-    <profile>
-      <id>jdk17</id>
-      <activation>
-        <jdk>[17,)</jdk>
-      </activation>
-      <modules>
-        <module>integration-tests-engine-jakarta</module>
-      </modules>
-    </profile>
 
     <profile>
       <id>wildfly</id>
