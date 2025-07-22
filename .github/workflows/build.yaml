@@ -50,3 +50,6 @@ jobs:
 
       - name: Build
         uses: ./.github/actions/build-deploy
+
+      - name: Run Tests
+        uses: ./.github/actions/run-tests
