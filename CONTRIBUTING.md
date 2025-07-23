@@ -362,7 +362,7 @@ tickets, list them in a comma-separated list such as `related to CAM-1234, CAM-4
 Optionally, you can reference the number of the GitHub PR from which the commit is merged. The message footer can then 
 look like `related to <ticket>, closes #<pr_number>` such as `related to CAM-1234, closes #567`.
 
-# License headers abc
+# License headers (see issue) [https://github.com/finos/flowave-bpm-platform/issues/141]
 
 Every source file in an open-source repository needs to contain the following license header at  the top, formatted as a code comment:
 
