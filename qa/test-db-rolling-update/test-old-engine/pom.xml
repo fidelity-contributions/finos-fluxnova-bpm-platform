@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.qa.upgrade</groupId>
+    <groupId>org.finos.flowave.bpm.qa.upgrade</groupId>
     <artifactId>flowave-qa-db-rolling-update</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -15,7 +15,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-bom</artifactId>
         <version>7.22.0</version>
         <scope>import</scope>
@@ -26,12 +26,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa.upgrade</groupId>
+      <groupId>org.finos.flowave.bpm.qa.upgrade</groupId>
       <artifactId>flowave-qa-db-rolling-update-util</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -105,7 +105,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm.distro</groupId>
+                      <groupId>org.finos.flowave.bpm.distro</groupId>
                       <artifactId>flowave-sql-scripts</artifactId>
                       <version>${project.version}</version>
                       <type>test-jar</type>

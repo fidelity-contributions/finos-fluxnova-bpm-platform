@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.qa.upgrade</groupId>
+    <groupId>org.finos.flowave.bpm.qa.upgrade</groupId>
     <artifactId>flowave-qa-db-instance-migration</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -23,7 +23,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-bom</artifactId>
         <version>7.3.0</version>
         <scope>import</scope>
@@ -34,12 +34,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.qa.upgrade</groupId>
+      <groupId>org.finos.flowave.bpm.qa.upgrade</groupId>
       <artifactId>flowave-qa-upgrade-scenario-util</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -109,7 +109,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>org.flowave.bpm.distro</groupId>
+                      <groupId>org.finos.flowave.bpm.distro</groupId>
                       <artifactId>flowave-sql-scripts</artifactId>
                       <version>7.3.0</version>
                       <type>test-jar</type>
@@ -184,7 +184,7 @@
                     <srcFile>${project.build.directory}/scripts-current/sql/upgrade/${database.type}_engine_${camunda.previous.majorVersion}.${camunda.previous.minorVersion}_to_${camunda.current.majorVersion}.${camunda.current.minorVersion}.sql</srcFile>
                     <srcFile>${project.build.directory}/scripts-current/sql/upgrade/${database.type}_identity_${camunda.previous.majorVersion}.${camunda.previous.minorVersion}_to_${camunda.current.majorVersion}.${camunda.current.minorVersion}.sql</srcFile>
                     <!-- delete global grant authorizations created with the engine script -->
-                    <srcFile>src/main/resources/org/camunda/bpm/qa/upgrade/alldb_engine_delete_global_auth.sql</srcFile>
+                    <srcFile>src/main/resources/org/finos/flowave/bpm/qa/upgrade/alldb_engine_delete_global_auth.sql</srcFile>
                   </srcFiles>
                 </configuration>
               </execution>
@@ -209,7 +209,7 @@
                 </goals>
                 <phase>process-test-classes</phase>
                 <configuration>
-                  <mainClass>org.camunda.bpm.qa.upgrade.TestFixture</mainClass>
+                  <mainClass>org.finos.flowave.bpm.qa.upgrade.TestFixture</mainClass>
                 </configuration>
               </execution>
             </executions>

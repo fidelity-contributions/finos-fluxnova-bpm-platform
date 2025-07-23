@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <groupId>org.flowave.bpm.quarkus</groupId>
+    <groupId>org.finos.flowave.bpm.quarkus</groupId>
     <artifactId>flowave-bpm-quarkus-engine-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -25,7 +25,7 @@
         <scope>import</scope>
       </dependency>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -52,7 +52,7 @@
           </systemPropertyVariables>
 
           <dependenciesToScan>
-            <dependency>org.flowave.bpm:flowave-engine-cdi-jakarta</dependency>
+            <dependency>org.finos.flowave.bpm:flowave-engine-cdi-jakarta</dependency>
           </dependenciesToScan>
 
           <excludes>
@@ -73,13 +73,13 @@
     <!-- Flowave dependencies -->
 
     <dependency>
-      <groupId>org.flowave.bpm.quarkus</groupId>
+      <groupId>org.finos.flowave.bpm.quarkus</groupId>
       <artifactId>flowave-bpm-quarkus-engine</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine-cdi-jakarta</artifactId>
       <version>${project.version}</version>
       <type>test-jar</type>

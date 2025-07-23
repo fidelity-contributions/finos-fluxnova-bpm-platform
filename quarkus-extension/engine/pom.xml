@@ -5,7 +5,7 @@
 
   <parent>
     <artifactId>flowave-bpm-quarkus-parent</artifactId>
-    <groupId>org.flowave.bpm.quarkus</groupId>
+    <groupId>org.finos.flowave.bpm.quarkus</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 

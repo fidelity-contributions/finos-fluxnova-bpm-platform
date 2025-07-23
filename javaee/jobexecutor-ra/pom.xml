@@ -5,7 +5,7 @@
   <name>Flowave Platform - Job Executor RA</name>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-parent</artifactId>
     <relativePath>../../parent</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -19,7 +19,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -31,7 +31,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -58,5 +58,5 @@
 
   </dependencies>
 
-  <groupId>org.flowave.bpm.javaee</groupId>
+  <groupId>org.finos.flowave.bpm.javaee</groupId>
 </project>

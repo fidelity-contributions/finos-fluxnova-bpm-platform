@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.run</groupId>
+    <groupId>org.finos.flowave.bpm.run</groupId>
     <artifactId>flowave-bpm-run-qa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
@@ -15,7 +15,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.bpm.webapp</groupId>
+      <groupId>org.finos.flowave.bpm.webapp</groupId>
       <artifactId>flowave-webapp-jakarta</artifactId>
       <classifier>classes</classifier>
     </dependency>

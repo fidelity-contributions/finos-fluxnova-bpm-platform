@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-parent</artifactId>
     <relativePath>../parent</relativePath>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.spin</groupId>
+  <groupId>org.finos.flowave.spin</groupId>
   <artifactId>flowave-spin-root</artifactId>
   <name>flowave Spin - root</name>
   <inceptionYear>2014</inceptionYear>
@@ -36,7 +36,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -146,7 +146,7 @@
           <version>3.5.0</version>
           <configuration>
             <instructions>
-              <Export-Package>org.camunda.spin*</Export-Package>
+              <Export-Package>org.finos.flowave.spin*</Export-Package>
             </instructions>
           </configuration>
         </plugin>

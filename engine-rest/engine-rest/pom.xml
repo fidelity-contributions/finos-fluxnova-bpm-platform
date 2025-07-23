@@ -5,7 +5,7 @@
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-engine-rest-root</artifactId>
     <relativePath>../</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -72,7 +72,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <scope>provided</scope>
       <exclusions>
@@ -84,7 +84,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-logging</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -107,7 +107,7 @@
       BOMs must be installed before this module is built
     -->
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-bom</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -115,7 +115,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-core-internal-dependencies</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
@@ -215,7 +215,7 @@
    </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-testing</artifactId>
       <scope>test</scope>
     </dependency>

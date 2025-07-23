@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.springboot.project</groupId>
+    <groupId>org.finos.flowave.bpm.springboot.project</groupId>
     <artifactId>qa-webapp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -33,27 +33,27 @@
 
         <!-- Web Applications -->
         <dependency>
-          <groupId>org.flowave.bpm.springboot</groupId>
+          <groupId>org.finos.flowave.bpm.springboot</groupId>
           <artifactId>flowave-bpm-spring-boot-starter-webapp</artifactId>
           <version>${project.version}</version>
         </dependency>
 
         <!-- REST API -->
         <dependency>
-          <groupId>org.flowave.bpm.springboot</groupId>
+          <groupId>org.finos.flowave.bpm.springboot</groupId>
           <artifactId>flowave-bpm-spring-boot-starter-rest</artifactId>
           <version>${project.version}</version>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm.qa</groupId>
+          <groupId>org.finos.flowave.bpm.qa</groupId>
           <artifactId>flowave-qa-integration-tests-webapps</artifactId>
           <version>${project.version}</version>
           <scope>test</scope>
         </dependency>
 
         <dependency>
-          <groupId>org.flowave.bpm.springboot.project</groupId>
+          <groupId>org.finos.flowave.bpm.springboot.project</groupId>
           <artifactId>qa-webapp-invoice-example</artifactId>
           <version>${project.version}</version>
         </dependency>
@@ -150,7 +150,7 @@
             <version>3.0.0-M3</version>
             <configuration>
               <dependenciesToScan>
-                <dependency>org.flowave.bpm.qa:flowave-qa-integration-tests-webapps</dependency>
+                <dependency>org.finos.flowave.bpm.qa:flowave-qa-integration-tests-webapps</dependency>
               </dependenciesToScan>
               <skipTests>false</skipTests>
             </configuration>

@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-database-settings</artifactId>
     <relativePath>../../database</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -22,7 +22,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -47,7 +47,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <exclusions>
         <exclusion>
@@ -380,7 +380,7 @@
               <classifier>tests-quarkus</classifier>
               <forceCreation>true</forceCreation>
               <excludes>
-                <exclude>org/camunda/bpm/engine/cdi/test/CdiProcessEngineTestCase.class</exclude>
+                <exclude>org/finos/flowave/bpm/engine/cdi/test/CdiProcessEngineTestCase.class</exclude>
               </excludes>
             </configuration>
           </execution>

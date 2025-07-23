@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.run</groupId>
+    <groupId>org.finos.flowave.bpm.run</groupId>
     <artifactId>flowave-bpm-run-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
@@ -16,14 +16,14 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.flowave.bpm.run</groupId>
+      <groupId>org.finos.flowave.bpm.run</groupId>
       <artifactId>flowave-bpm-run-assembly</artifactId>
       <version>${project.version}</version>
       <type>tar.gz</type>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.distro</groupId>
+      <groupId>org.finos.flowave.bpm.distro</groupId>
       <artifactId>flowave-sql-scripts</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
@@ -31,7 +31,7 @@
 
     <!-- make sure this runs after webapps -->
     <dependency>
-      <groupId>org.flowave.bpm.run</groupId>
+      <groupId>org.finos.flowave.bpm.run</groupId>
       <artifactId>flowave-bpm-run-modules-webapps</artifactId>
       <version>${project.version}</version>
       <type>pom</type>

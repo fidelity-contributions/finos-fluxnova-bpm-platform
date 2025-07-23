@@ -6,7 +6,7 @@
   <name>Flowave Platform - QA - Assert</name>
   
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-bpm-assert-root</artifactId>
     <relativePath>../</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -31,18 +31,18 @@
     </dependency>
     <!-- managed by flowave internal dependencies -->
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-engine</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-bpm-junit5</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-bpm-assert</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>

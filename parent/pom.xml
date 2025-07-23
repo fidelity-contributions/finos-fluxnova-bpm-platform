@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
@@ -121,7 +121,7 @@
     <dependencies>
 
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-bom</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
@@ -295,8 +295,8 @@
             <rules>
               <jakartaDefaults>true</jakartaDefaults>
               <renames>
-                <rename>jar:file:${org.flowave.bpm:flowave-engine:jar}!/META-INF/jakarta-renames.properties</rename>
-                <rename>jar:file:${org.flowave.bpm:flowave-engine:jar}!/META-INF/camunda-renames.properties</rename>
+                <rename>jar:file:${org.finos.flowave.bpm:flowave-engine:jar}!/META-INF/jakarta-renames.properties</rename>
+                <rename>jar:file:${org.finos.flowave.bpm:flowave-engine:jar}!/META-INF/camunda-renames.properties</rename>
               </renames>
             </rules>
             <classifier>jakarta</classifier>

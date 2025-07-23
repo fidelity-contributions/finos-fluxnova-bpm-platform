@@ -1,1 +1,1 @@
-org.camunda.bpm.engine.cdi.impl.ProcessEngineExtension
+org.finos.flowave.bpm.engine.cdi.impl.ProcessEngineExtension

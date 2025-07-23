@@ -6,7 +6,7 @@
   <artifactId>flowave-engine</artifactId>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-database-settings</artifactId>
     <relativePath>../database</relativePath>
     <version>0.0.1-SNAPSHOT</version>
@@ -16,7 +16,7 @@
     <dependencies>
 
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>
@@ -47,22 +47,22 @@
     <!-- flowave dependencies -->
 
     <dependency>
-      <groupId>org.flowave.bpm.model</groupId>
+      <groupId>org.finos.flowave.bpm.model</groupId>
       <artifactId>flowave-bpmn-model</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.model</groupId>
+      <groupId>org.finos.flowave.bpm.model</groupId>
       <artifactId>flowave-cmmn-model</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.juel</groupId>
+      <groupId>org.finos.flowave.bpm.juel</groupId>
       <artifactId>flowave-juel</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.dmn</groupId>
+      <groupId>org.finos.flowave.bpm.dmn</groupId>
       <artifactId>flowave-engine-dmn</artifactId>
       <exclusions>
         <!-- these exclusions are needed when building with Maven >= 3.3
@@ -87,12 +87,12 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-logging</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-typed-values</artifactId>
     </dependency>
 
@@ -242,13 +242,13 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-testing</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-test-utils-testcontainers</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -328,7 +328,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm</groupId>
+      <groupId>org.finos.flowave.bpm</groupId>
       <artifactId>flowave-bpm-archunit</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
@@ -357,7 +357,7 @@
     <skip-third-party-bom>true</skip-third-party-bom>
 
     <camunda.artifact>
-      org.flowave.bpm
+      org.finos.flowave.bpm
     </camunda.artifact>
     <camunda.osgi.export.pkg>
       !${camunda.artifact}.engine.variable.*,
@@ -397,7 +397,7 @@
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
         <includes>
-          <include>org/camunda/bpm/engine/product-info.properties</include>
+          <include>org/finos/flowave/bpm/engine/product-info.properties</include>
         </includes>
       </resource>
     </resources>
@@ -434,7 +434,7 @@
             <exclude>%regex[.*(${test.excludes}).*Test.*.class]</exclude>
           </excludes>
           <dependenciesToScan>
-            <dependency>org.flowave.bpm:flowave-bpm-archunit</dependency>
+            <dependency>org.finos.flowave.bpm:flowave-bpm-archunit</dependency>
           </dependenciesToScan>
         </configuration>
       </plugin>
@@ -478,11 +478,11 @@
           <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
           <artifactSet>
             <excludes>
-              <exclude>org.flowave.bpm.model:*</exclude>
-              <exclude>org.flowave.bpm.dmn:*</exclude>
-              <exclude>org.flowave.bpm.juel:*</exclude>
-              <exclude>org.flowave.commons:*</exclude>
-              <exclude>org.flowave.feel:*</exclude>
+              <exclude>org.finos.flowave.bpm.model:*</exclude>
+              <exclude>org.finos.flowave.bpm.dmn:*</exclude>
+              <exclude>org.finos.flowave.bpm.juel:*</exclude>
+              <exclude>org.finos.flowave.commons:*</exclude>
+              <exclude>org.finos.flowave.feel:*</exclude>
 
               <exclude>org.springframework:*</exclude>
               <exclude>org.slf4j:*</exclude>
@@ -495,7 +495,7 @@
           <relocations>
             <relocation>
               <pattern>com.google.gson</pattern>
-              <shadedPattern>camundajar.impl.com.google.gson</shadedPattern>
+              <shadedPattern>flowavejar.impl.com.google.gson</shadedPattern>
             </relocation>
           </relocations>
           <transformers>
@@ -518,9 +518,9 @@
               <target>
 
                 <!-- copy all upgrade scripts after 7.15 -->
-                <mkdir dir="target/classes/org/camunda/bpm/engine/db/liquibase/upgrade" />
-                <copy todir="target/classes/org/camunda/bpm/engine/db/liquibase/upgrade">
-                  <fileset dir="target/classes/org/camunda/bpm/engine/db/upgrade" excludes="*_6.*_*,*_7.0_*,*_7.1_*,*_7.2_*,*_7.3_*,*_7.4_*,*_7.5_*,*_7.6_*,*_7.7_*, *_7.8_*,*_7.9_*,*_7.10_*,*_7.11_*,*_7.12_*,*_7.13_*,*_7.14_*,*_7.15_*" />
+                <mkdir dir="target/classes/org/finos/flowave/bpm/engine/db/liquibase/upgrade" />
+                <copy todir="target/classes/org/finos/flowave/bpm/engine/db/liquibase/upgrade">
+                  <fileset dir="target/classes/org/finos/flowave/bpm/engine/db/upgrade" excludes="*_6.*_*,*_7.0_*,*_7.1_*,*_7.2_*,*_7.3_*,*_7.4_*,*_7.5_*,*_7.6_*,*_7.7_*, *_7.8_*,*_7.9_*,*_7.10_*,*_7.11_*,*_7.12_*,*_7.13_*,*_7.14_*,*_7.15_*" />
                 </copy>
 
               </target>
@@ -612,7 +612,7 @@
               </execution>
             </executions>
             <configuration>
-              <mainClass>org.camunda.bpm.engine.impl.db.DbSchemaDrop</mainClass>
+              <mainClass>org.finos.flowave.bpm.engine.impl.db.DbSchemaDrop</mainClass>
               <classpathScope>test</classpathScope>
               <cleanupDaemonThreads>false</cleanupDaemonThreads>
             </configuration>
@@ -713,9 +713,9 @@
               <comparisonVersion>${camunda.version.old}</comparisonVersion>
               <logResults>true</logResults>
               <excludes>
-                <exclude>org/camunda/bpm/*/impl/**</exclude>
-                <exclude>org/camunda/bpm/engine/test/ProcessEngineRule</exclude>
-                <exclude>camundajar/**/*</exclude>
+                <exclude>org/finos/flowave/bpm/*/impl/**</exclude>
+                <exclude>org/finos/flowave/bpm/engine/test/ProcessEngineRule</exclude>
+                <exclude>flowavejar/**/*</exclude>
               </excludes>
             </configuration>
             <executions>
@@ -753,27 +753,27 @@
       <id>check-plugins</id>
       <dependencies>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-plugin-spin</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.spin</groupId>
+          <groupId>org.finos.flowave.spin</groupId>
           <artifactId>flowave-spin-dataformat-all</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.bpm</groupId>
+          <groupId>org.finos.flowave.bpm</groupId>
           <artifactId>flowave-engine-plugin-connect</artifactId>
         </dependency>
         <dependency>
-          <groupId>org.flowave.connect</groupId>
+          <groupId>org.finos.flowave.connect</groupId>
           <artifactId>flowave-connect-connectors-all</artifactId>
           <exclusions>
             <exclusion>
-              <groupId>org.flowave.connect</groupId>
+              <groupId>org.finos.flowave.connect</groupId>
               <artifactId>flowave-connect-http-client</artifactId>
             </exclusion>
             <exclusion>
-              <groupId>org.flowave.connect</groupId>
+              <groupId>org.finos.flowave.connect</groupId>
               <artifactId>flowave-connect-soap-http-client</artifactId>
             </exclusion>
           </exclusions>

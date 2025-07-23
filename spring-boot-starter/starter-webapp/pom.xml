@@ -2,12 +2,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm.springboot.project</groupId>
+    <groupId>org.finos.flowave.bpm.springboot.project</groupId>
     <artifactId>flowave-bpm-spring-boot-starter-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>org.flowave.bpm.springboot</groupId>
+  <groupId>org.finos.flowave.bpm.springboot</groupId>
   <artifactId>flowave-bpm-spring-boot-starter-webapp</artifactId>
   <name>Flowave Platform - Spring Boot Starter - Webapps</name>
 
@@ -26,7 +26,7 @@
     </dependency>
 
     <dependency>
-      <groupId>org.flowave.bpm.webapp</groupId>
+      <groupId>org.finos.flowave.bpm.webapp</groupId>
       <artifactId>flowave-webapp-webjar</artifactId>
     </dependency>
     <dependency>

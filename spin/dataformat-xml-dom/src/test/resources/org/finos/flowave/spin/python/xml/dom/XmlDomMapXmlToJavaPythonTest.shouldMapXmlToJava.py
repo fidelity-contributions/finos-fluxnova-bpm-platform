@@ -1,0 +1,1 @@
+order = S(input, "application/xml").mapTo("org.finos.flowave.spin.xml.mapping.Order")

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.commons</groupId>
+    <groupId>org.finos.flowave.commons</groupId>
     <artifactId>flowave-commons-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -13,7 +13,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.flowave.commons</groupId>
+      <groupId>org.finos.flowave.commons</groupId>
       <artifactId>flowave-commons-logging</artifactId>
       <version>${project.version}</version>
     </dependency>

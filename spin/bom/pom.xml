@@ -4,13 +4,13 @@
   <!-- HEADS-UP: Do not use flowave-parent as parent,
   it would introduce a cyclic dependency to this bom -->
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <groupId>org.flowave.spin</groupId>
+  <groupId>org.finos.flowave.spin</groupId>
   <artifactId>flowave-spin-bom</artifactId>
   <name>flowave spin - bom</name>
   <version>0.0.1-SNAPSHOT</version>
@@ -20,30 +20,30 @@
     <dependencies>
 
       <dependency>
-        <groupId>org.flowave.spin</groupId>
+        <groupId>org.finos.flowave.spin</groupId>
         <artifactId>flowave-spin-core</artifactId>
         <version>${project.version}</version>
       </dependency>
       
       <dependency>
-        <groupId>org.flowave.spin</groupId>
+        <groupId>org.finos.flowave.spin</groupId>
         <artifactId>flowave-spin-core</artifactId>
         <type>test-jar</type>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>org.flowave.spin</groupId>
+        <groupId>org.finos.flowave.spin</groupId>
         <artifactId>flowave-spin-dataformat-all</artifactId>
         <version>${project.version}</version>
         <!-- Excluding dependencies that are shaded in flowave-spin-dataformat-all -->
         <exclusions>
           <exclusion>
-            <groupId>org.flowave.spin</groupId>
+            <groupId>org.finos.flowave.spin</groupId>
             <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>org.flowave.spin</groupId>
+            <groupId>org.finos.flowave.spin</groupId>
             <artifactId>flowave-spin-dataformat-xml-dom</artifactId>
           </exclusion>
           <exclusion>
@@ -58,19 +58,19 @@
       </dependency>
 
       <dependency>
-        <groupId>org.flowave.spin</groupId>
+        <groupId>org.finos.flowave.spin</groupId>
         <artifactId>flowave-spin-dataformat-json-jackson</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>org.flowave.spin</groupId>
+        <groupId>org.finos.flowave.spin</groupId>
         <artifactId>flowave-spin-dataformat-xml-dom</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>org.flowave.spin</groupId>
+        <groupId>org.finos.flowave.spin</groupId>
         <artifactId>flowave-spin-dataformat-xml-dom-jakarta</artifactId>
         <version>${project.version}</version>
       </dependency>

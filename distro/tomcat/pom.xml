@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.flowave.bpm</groupId>
+    <groupId>org.finos.flowave.bpm</groupId>
     <artifactId>flowave-database-settings</artifactId>
     <relativePath>../../database</relativePath>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>flowave-tomcat</artifactId>
-  <groupId>org.flowave.bpm.tomcat</groupId>
+  <groupId>org.finos.flowave.bpm.tomcat</groupId>
   <packaging>pom</packaging>
 
   <name>Flowave Platform - tomcat</name>
@@ -17,7 +17,7 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.flowave.bpm</groupId>
+        <groupId>org.finos.flowave.bpm</groupId>
         <artifactId>flowave-core-internal-dependencies</artifactId>
         <version>${project.version}</version>
         <scope>import</scope>

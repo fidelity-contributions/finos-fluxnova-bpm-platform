@@ -6,7 +6,7 @@
   <name>Flowave Platform - Example - Invoice Jakarta</name>
 
   <parent>
-    <groupId>org.flowave.bpm.example</groupId>
+    <groupId>org.finos.flowave.bpm.example</groupId>
     <artifactId>flowave-example-root</artifactId>
     <relativePath>../</relativePath>
     <version>0.0.1-SNAPSHOT</version>
