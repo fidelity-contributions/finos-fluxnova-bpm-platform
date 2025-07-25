@@ -58,10 +58,7 @@ import static org.finos.flowave.bpm.model.bpmn.BpmnTestConstants.TEST_USERS_LIST
 import static org.finos.flowave.bpm.model.bpmn.BpmnTestConstants.TEST_USERS_LIST_XML;
 import static org.finos.flowave.bpm.model.bpmn.BpmnTestConstants.TEST_USERS_XML;
 import static org.finos.flowave.bpm.model.bpmn.BpmnTestConstants.USER_TASK_ID;
-import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.ACTIVITI_NS;
-import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.CAMUNDA_ATTRIBUTE_ERROR_CODE_VARIABLE;
-import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.CAMUNDA_ATTRIBUTE_ERROR_MESSAGE_VARIABLE;
-import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.CAMUNDA_NS;
+import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -147,7 +144,8 @@ public class FlowaveExtensionsTest {
     return Arrays.asList(new Object[][]{
         {CAMUNDA_NS, Bpmn.readModelFromStream(FlowaveExtensionsTest.class.getResourceAsStream("CamundaExtensionsTest.xml"))},
         //for compatability reasons we gotta check the old namespace, too
-        {ACTIVITI_NS, Bpmn.readModelFromStream(FlowaveExtensionsTest.class.getResourceAsStream("CamundaExtensionsCompatabilityTest.xml"))}
+        {ACTIVITI_NS, Bpmn.readModelFromStream(FlowaveExtensionsTest.class.getResourceAsStream("CamundaExtensionsCompatabilityTest.xml"))},
+            {FLOWAVE_NS, Bpmn.readModelFromStream(FlowaveExtensionsTest.class.getResourceAsStream("CamundaExtensionsFlowaveCompatabilityTest.xml"))}
     });
   }
 

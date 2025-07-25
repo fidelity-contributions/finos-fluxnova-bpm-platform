@@ -16,9 +16,7 @@
  */
 package org.finos.flowave.bpm.model.bpmn;
 
-import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.ACTIVITI_NS;
-import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.BPMN20_NS;
-import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.CAMUNDA_NS;
+import static org.finos.flowave.bpm.model.bpmn.impl.BpmnModelConstants.*;
 import static org.finos.flowave.bpm.model.bpmn.impl.instance.ProcessImpl.DEFAULT_HISTORY_TIME_TO_LIVE;
 
 import java.io.File;
@@ -395,6 +393,7 @@ public class Bpmn {
   protected Bpmn() {
     bpmnModelBuilder = ModelBuilder.createInstance("BPMN Model");
     bpmnModelBuilder.alternativeNamespace(ACTIVITI_NS, CAMUNDA_NS);
+    bpmnModelBuilder.alternativeNamespace(FLOWAVE_NS, CAMUNDA_NS);
     doRegisterTypes(bpmnModelBuilder);
     bpmnModel = bpmnModelBuilder.build();
   }

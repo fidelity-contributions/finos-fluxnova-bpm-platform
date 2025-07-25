@@ -57,6 +57,9 @@ public final class DmnModelConstants {
   /** Camunda namespace */
   public static final String CAMUNDA_NS = "http://camunda.org/schema/1.0/dmn";
 
+  /** Flowave namespace */
+  public static final String FLOWAVE_NS = "http://flowave.finos.org/schema/1.0/dmn";
+
   /** DMN element */
 
   public static final String DMN_ELEMENT = "DMNElement";

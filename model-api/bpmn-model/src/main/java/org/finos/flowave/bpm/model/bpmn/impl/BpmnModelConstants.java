@@ -57,6 +57,9 @@ public final class BpmnModelConstants {
   /** CAMUNDA_NS namespace */
   public static final String CAMUNDA_NS = "http://camunda.org/schema/1.0/bpmn";
 
+  /** FLOWAVE_NS namespace */
+  public static final String FLOWAVE_NS = "http://flowave.finos.org/schema/1.0/bpmn";
+
   // elements ////////////////////////////////////////
 
   public static final String BPMN_ELEMENT_BASE_ELEMENT = "baseElement";
