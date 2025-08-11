@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
 
 /**
  * Test to check the interoperability when changing elements and attributes with
- * the {@link BpmnModelConstants#ACTIVITI_NS}. In contrast to
+ * the {@link BpmnModelConstants#FLOWAVE_NS}. In contrast to
  * {@link FlowaveExtensionsTest} this test uses directly the get*Ns() methods to
  * check the expected value.
  *
@@ -42,14 +42,14 @@ import static org.junit.Assert.assertThat;
 public class FlowaveCompatabilityTest {
 
   @Test
-  public void modifyingElementWithActivitiNsKeepsIt() {
+  public void modifyingElementWithFlowaveNsKeepsIt() {
     BpmnModelInstance modelInstance = Bpmn.readModelFromStream(FlowaveExtensionsTest.class.getResourceAsStream("CamundaExtensionsFlowaveCompatabilityTest.xml"));
     ProcessImpl process = modelInstance.getModelElementById(PROCESS_ID);
     ExtensionElements extensionElements = process.getExtensionElements();
     Collection<FlowaveExecutionListener> listeners = extensionElements.getChildElementsByType(FlowaveExecutionListener.class);
     String listenerClass = "org.foo.Bar";
     for (FlowaveExecutionListener listener : listeners) {
-      listener.setCamundaClass(listenerClass);
+      listener.setFlowaveClass(listenerClass);
     }
     for (FlowaveExecutionListener listener : listeners) {
       assertThat(listener.getAttributeValueNs(BpmnModelConstants.FLOWAVE_NS, "class"), is(listenerClass));
@@ -57,21 +57,21 @@ public class FlowaveCompatabilityTest {
   }
 
   @Test
-  public void modifyingAttributeWithActivitiNsKeepsIt() {
+  public void modifyingAttributeWithFlowaveNsKeepsIt() {
     BpmnModelInstance modelInstance = Bpmn.readModelFromStream(FlowaveExtensionsTest.class.getResourceAsStream("CamundaExtensionsFlowaveCompatabilityTest.xml"));
     ProcessImpl process = modelInstance.getModelElementById(PROCESS_ID);
     String priority = "9000";
-    process.setCamundaJobPriority(priority);
-    process.setCamundaTaskPriority(priority);
+    process.setFlowaveJobPriority(priority);
+    process.setFlowaveTaskPriority(priority);
     Integer historyTimeToLive = 10;
-    process.setCamundaHistoryTimeToLive(historyTimeToLive);
-    process.setCamundaIsStartableInTasklist(false);
-    process.setCamundaVersionTag("v1.0.0");
+    process.setFlowaveHistoryTimeToLive(historyTimeToLive);
+    process.setFlowaveIsStartableInTasklist(false);
+    process.setFlowaveVersionTag("v1.0.0");
     assertThat(process.getAttributeValueNs(BpmnModelConstants.FLOWAVE_NS, "jobPriority"), is(priority));
     assertThat(process.getAttributeValueNs(BpmnModelConstants.FLOWAVE_NS, "taskPriority"), is(priority));
     assertThat(process.getAttributeValueNs(BpmnModelConstants.FLOWAVE_NS, "historyTimeToLive"), is(historyTimeToLive.toString()));
-    assertThat(process.isCamundaStartableInTasklist(), is(false));
-    assertThat(process.getCamundaVersionTag(), is("v1.0.0"));
+    assertThat(process.isFlowaveStartableInTasklist(), is(false));
+    assertThat(process.getFlowaveVersionTag(), is("v1.0.0"));
   }
 
 }
