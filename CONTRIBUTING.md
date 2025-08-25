@@ -1,6 +1,8 @@
-# Flowave Contribution and Governance Policies
+# Flowave Contribution Policy
 
-This document describes the contribution process and governance policies of the FINOS Flowave project. The project is also governed by the [Linux Foundation Antitrust Policy](https://www.linuxfoundation.org/antitrust-policy/), and the FINOS [IP Policy]( https://community.finos.org/governance-docs/IP-policy.pdf), [Code of Conduct](https://community.finos.org/docs/governance/code-of-conduct), [Collaborative Principles](https://community.finos.org/docs/governance/collaborative-principles/), and [Meeting Procedures](https://community.finos.org/docs/governance/meeting-procedures/).
+This document describes the contribution process and requirements of the FINOS Flowave project.  
+
+Please also see our [Governance guidelines](https://github.com/finos/flowave-bpm-platform/blob/main/CONTRIBUTING.md), and FINOS [Code of Conduct](https://community.finos.org/docs/governance/code-of-conduct) & [Collaborative Principles](https://community.finos.org/docs/governance/collaborative-principles/).
 
 # How to contribute
 
@@ -16,23 +18,20 @@ This document describes the contribution process and governance policies of the 
 
 # Ways to contribute
 
-We would love you to contribute to this project. You can do so in various ways.
-
+We’re excited you’re here and want to contribute to Flowave! This guide outlines how you can contribute effectively and collaboratively.
 
 ## Contribute your knowledge
 
-Help others by participating in our [forum](https://forum.camunda.org/). Please read the [Forum FAQ](https://forum.camunda.org/faq) before you start.  **Forum Link - Needs To Be Reviewed **
-
+Help others by participating in discussions on [GitHub](https://github.com/finos/flowave-bpm-platform/discussions) or by joining our mailing list [flowave@lists.finos.org](mailto:flowave@lists.finos.org) (email [help@finos.org](mailto:help@finos.org) to add you to the list).
 
 ## File bugs or feature requests
 
 Found a bug in the code or have a feature that you would like to see in the future? [Search our open issues](https://github.com/finos/flowave-bpm-platform/issues) if we have it on the radar already or [create a new issue otherwise](https://github.com/finos/flowave-bpm-platform/issues/new/choose).
 
+Please try to create high quality issues:
+
 Try to apply our best practices for creating issues:
 
-* Only Raise an issue if your request requires a code change in Flowave Platform 7
-  * If you want to contact the Camunda customer support, please see our [Enterprise Support Guide](https://camunda.com/services/enterprise-support-guide/). ** Needs To Be Reviewed **
-  * If you have an understanding question or need help building your solution, check out our [user forum](https://forum.camunda.io/). ** Needs To Be Reviewed **
 * Create a high-quality issue:
   * Give enough context so that a person who doesn't know your project can understand your request
   * Be concise, only add what's needed to understand the core of the request
@@ -40,31 +39,21 @@ Try to apply our best practices for creating issues:
   * Specify your environment (e.g. Flowave version, Flowave modules you use, ...)
   * Provide code. For a bug report, create a test that reproduces the problem. For feature requests, create mockup code that shows how the feature might look like. Fork our [unit test Github template](https://github.com/camunda/camunda-engine-unittest) to get started quickly.** Needs To Be Reviewed **
 
-
-## Write code
+## Contribute code
 
 You can contribute code that fixes bugs and/or implements features. Here is how it works:
 
-1. Select a ticket that you would like to implement. Have a look at [our backlog](https://github.com/finos/flowave-bpm-platform/issues) if you need inspiration. Be aware that some of the issues need good knowledge of the surrounding code.
-1. Tell us in the ticket comments or in the [forum](https://forum.camunda.org/c/contributions/14) (select the *Contributions* category) that you want to work on your ticket. This is also the place where you can ask questions. ** Needs To Be Reviewed **
-1. Check your code changes against our [contribution checklist](#contribution-checklist) ** Needs To Be Reviewed **
-1. [Create a pull request](https://github.com/finos/flowave-bpm-platform/pulls). Note that you can already do this before you have finished your implementation if you would like feedback on your work in progress.
 
+1. Select an issue that you would like to work on. Have a look at [our Project Board](https://github.com/orgs/finos/projects/116) or the issues lists for the individual projects, e.g.  [Flowave-BPM-Platform Issues](https://github.com/finos/flowave-bpm-platform/issues) if you need inspiration. Be aware that some of the issues need good knowledge of the surrounding code.
+1. [Create a fork of the project](https://github.com/finos/flowave-bpm-platform/fork) to contribute from. Create a feature branch in your fork to hold your changes.
+1. Check your code changes against our [contribution checklist](#contribution-checklist)
+    1. For large changes, open a draft PR before you have finished your implementation to get feedback.
+1. [Create a pull request](https://github.com/finos/flowave-bpm-platform/pulls). 
 
 # Browse our issues
 
-In this repository, we manage the [issues](https://github.com/finos/flowave-bpm-platform/issues) for the following Flowave Platform 7 code repositories and projects: ** Repositories arent in FINOS Needs To Be Reviewed **
-
-* https://github.com/finos/flowave-bpm-platform
-* Camunda Platform 7 RPA Bridge  
-* https://github.com/camunda/docker-camunda-bpm-platform
-* Camunda Platform 7 XSLT Script engine Extension
-* https://github.com/camunda/camunda-bpm-examples
-* https://github.com/finos/flowave-docs-manual
-* https://github.com/camunda/camunda-archetypes
-* https://github.com/camunda/camunda-engine-dmn-unittest
-* https://github.com/camunda/camunda-engine-unittest
-* https://github.com/camunda/camunda-external-task-client-js
+We manage issues for the multiple Flowave projects through [our Project Board](https://github.com/orgs/finos/projects/116).
+You can find the full list of FINOS hosted Flowave projects [here](https://github.com/finos/?q=flowave&type=all&language=&sort=).
 
 We use [labels](https://github.com/finos/flowave-bpm-platform/labels) to mark and group our issues for easier browsing. We define the following label prefixes:  ** labels arent in Flowave. Needs To Be Reviewed **
 
@@ -77,43 +66,216 @@ We use [labels](https://github.com/finos/flowave-bpm-platform/labels) to mark an
 * `type:` Issue type. Every issue should have exactly one of these labels. They are automatically added when you create a new issue from a template.
 * `version:` Issues that will be released (with high confidence) with the given version.
 
-
 # Build from source
 
-In order to build our codebase from source, add the following to your Maven `settings.xml`.   ** Public artifactory location. Needs To Be Reviewed **
+## Building Flowave BPM Platform Locally
+
+### Important Note
+
+Currently, not all Flowave packages on FINOS are public. To build `flowave-bpm-platform`, you must first clone and build
+all dependent repositories locally. Once all packages are public, you will be able to build `flowave-bpm-platform` directly
+without building dependencies locally.
+
+### Build Prerequisites
+
+- Java 17+
+- Maven 3.8+
+- Git
+
+### Build Order and Steps
+
+1. **Clone and Build `flowave-release-parent` Repository**
+
+   This repository contains the parent POM used by other Flowave projects.
+
+   ```bash
+   git clone https://github.com/finos/flowave-release-parent
+   cd flowave-release-parent
+   mvn clean install -o
+   ```
+
+2. **Clone and Build `flowave-bpm-release-parent` Repository**
+
+   This repository is the next-level parent POM, used by downstream projects.
+
+   ```bash
+   git clone https://github.com/finos/flowave-bpm-release-parent
+   cd flowave-bpm-release-parent
+   mvn clean install -o
+   ```
+
+3. **Clone and Build `flowave-feel-scala` Repository**
+
+   This repository is a dependency for `flowave-bpm-platform`.
+
+   ```bash
+   git clone https://github.com/finos/flowave-feel-scala
+   cd flowave-feel-scala
+   # To skip tests (recommended for adopters only, contributors should always run tests):
+   mvn clean install -DskipTests -DskipITs -o
+
+   # To run all tests:
+   mvn clean install -o
+   ```
+
+4. **Clone and Build `flowave-bpm-platform` Repository**
+
+   Finally, build the main project. You can skip tests or run them as needed.
+
+   ```bash
+   git clone https://github.com/finos/flowave-bpm-platform
+   cd flowave-bpm-platform
+   # To skip tests:
+   mvn clean install -DskipTests -DskipITs -o
+
+   # To run all tests:
+   mvn clean install -o
+   ```
+
+### Notes
+
+- The `-o` flag enables Maven offline mode, so it uses dependencies from your local `.m2/repository/org/flowave` directory.
+- Artifacts from each build will be stored in your local Maven repository and used by subsequent builds.
+- Once all Flowave dependencies are public, you can build `flowave-bpm-platform` directly without building the other repositories locally.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+## Building with GitHub Actions on FINOS
+
+The `flowave-bpm-platform` project uses GitHub Actions for automated CI/CD on FINOS. This workflow builds, tests, and deploys the project.
+
+### Workflow Triggers
+
+- **Automatic Triggers:**  
+  The workflow runs automatically on every push to the `main` branch and on every pull request.
+- **Manual Trigger:**  
+  You can manually trigger the workflow from the GitHub Actions tab using the "Run workflow" button.  
+  When using this manual trigger (`workflow_dispatch`), you can select which branch to build.
+
+### Steps in the Workflow
+
+1. **Checkout Repository:**  
+   Checks out the latest code from the selected branch.
+2. **Java Setup:**  
+   Sets up the required Java version.
+3. **Git Configuration:**  
+   Configures Git for the workflow environment.
+4. **Set Project Version:**  
+   Sets the Maven project version.
+5. **Download Dependencies:**  
+   Resolves and downloads all Maven dependencies and plugins.
+6. **Build and Deploy:**  
+   Builds the project and deploys artifacts to GitHub Packages.
+7. **Run Tests:**  
+   Runs unit and integration tests in separate jobs.
+
+### Deployment to GitHub Packages
+
+The deployment of artifacts to GitHub Packages is configured in the root `pom.xml` using the `<distributionManagement>` and `<repositories>` tags.
+
+- **`<distributionManagement>`**:  
+  Specifies where Maven should deploy release and snapshot artifacts. For this project, both releases and snapshots are deployed to GitHub Packages.
+
+- **`<repositories>`**:  
+  Lists the Maven repositories (including GitHub Packages for all Flowave dependencies) from which dependencies are resolved during the build.
+
+Example configuration in the root `pom.xml`:
 
 ```xml
-<profiles>
-  <profile>
-    <id>flowave-bpm</id>
-    <repositories>
-      <repository>
-        <id>camunda-bpm-nexus</id>
-        <name>camunda-bpm-nexus</name>
-        <releases>
-          <enabled>true</enabled>
-        </releases>
-        <snapshots>
-          <enabled>true</enabled>
-        </snapshots>
-        <url>https://artifacts.camunda.com/artifactory/public/</url>
-      </repository>
-    </repositories>
-  </profile>
-</profiles>
-<activeProfiles>
-  <activeProfile>flowave-bpm</activeProfile>
-</activeProfiles>
+<repositories>
+  <repository>
+    <id>flowave-bpm-platform</id>
+    <url>https://maven.pkg.github.com/finos/flowave-bpm-platform</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+  <repository>
+    <id>flowave-feel-scala</id>
+    <url>https://maven.pkg.github.com/finos/flowave-feel-scala</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+  <repository>
+    <id>flowave-bpm-release-parent</id>
+    <url>https://maven.pkg.github.com/finos/flowave-bpm-release-parent</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+  <repository>
+    <id>flowave-release-parent</id>
+    <url>https://maven.pkg.github.com/finos/flowave-release-parent</url>
+    <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+  </repository>
+</repositories>
+
+<distributionManagement>
+<repository>
+   <id>flowave-bpm-platform</id>
+   <name>GitHub Flowave Maven Packages</name>
+   <url>https://maven.pkg.github.com/finos/flowave-bpm-platform</url>
+</repository>
+<snapshotRepository>
+   <id>flowave-bpm-platform</id>
+   <name>GitHub Flowave Maven Packages</name>
+   <url>https://maven.pkg.github.com/finos/flowave-bpm-platform</url>
+</snapshotRepository>
+</distributionManagement>
 ```
 
-An entire repository can then be built by running `mvn clean install` in the root directory.
-This will build all sub modules and execute unit tests.
-Furthermore, you can restrict the build to just the module you are changing by running the same command in the corresponding directory.
-Check the repository's or module's README for additional module-specific instructions.
-The `webapps` module requires NodeJS.
-You can exclude building them by running `mvn clean install -pl '!webapps,!webapps/assembly,!webapps/assembly-jakarta'`.
+This setup ensures that all builds and deployments use GitHub Packages for both publishing and resolving dependencies. The workflow uses the `GH_TOKEN` for authentication.
 
-Integration tests (e.g. tests that run in an actual application server) are usually not part of the default Maven profiles. If you think they are relevant to your contribution, please ask us in the ticket, on the forum or in your pull request for how to run them. Smaller contributions usually do not need this.
+### Dependency Management
+
+When building on GitHub Actions, you do **not** need to build dependent projects locally. All dependencies are already
+built and published to GitHub Packages from their respective repositories. The workflow uses the `GH_TOKEN` (a GitHub Personal Access Token)
+to access these packages securely.
+
+### Viewing Packages
+
+- Go to the [Packages](https://github.com/orgs/finos/packages?tab=packages&q=org.flowave) section of the repository on GitHub to view published artifacts.
+- These packages can be used as dependencies in other projects via GitHub Packages.
+
+
+## Running Flowave BPM Platform
+
+You can run Flowave in two modes: **Tomcat** and **Spring Boot**.
+
+### Running the Tomcat Version
+
+1. After a successful build, extract the Tomcat distribution archive:
+   ```bash
+   unzip distro/tomcat/distro/target/flowave-bpm-tomcat-0.0.1-SNAPSHOT.zip
+   ```
+2. Navigate to the extracted folder:
+   ```bash
+   cd flowave-bpm-tomcat-0.0.1-SNAPSHOT
+   ```
+3. Start the Flowave Tomcat server:
+   ```bash
+   sh start-flowave.sh
+   ```
+4. Access the Flowave Cockpit at [http://localhost:8080/flowave/app/cockpit/default/#/dashboard](http://localhost:8080/flowave/app/cockpit/default/#/dashboard)
+
+### Running the Spring Boot Version
+
+1. After a successful build, extract the Spring Boot distribution archive:
+   ```bash
+   unzip distro/run/distro/target/flowave-bpm-run-0.0.1-SNAPSHOT.zip
+   ```
+2. Navigate to the extracted folder:
+   ```bash
+   cd flowave-bpm-run-0.0.1-SNAPSHOT
+   ```
+3. Start the Spring Boot server:
+   ```bash
+   sh start.sh
+   ```
+4. Access the Flowave Cockpit at [http://localhost:8080/flowave/app/cockpit/default/#/dashboard](http://localhost:8080/flowave/app/cockpit/default/#/dashboard)
 
 # Create a pull request
 
@@ -123,7 +285,8 @@ A pull request can be submitted as follows:
 
 1. [Fork the Flowave repository](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) you are contributing to
 1. Commit and push your changes to a branch in your fork
-1. [Submit a Pull Request to the Flowave repository](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork). As the *base* branch (the one that you contribute to), select `master`. This should also be the default in the Github UI.
+1. [Submit a Pull Request to the Flowave repository](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork). As the *base* branch (the one that you contribute to), select `main`. This should also be the default in the Github UI.
+
 1. In the pull request description, reference the github issue that your pull request addresses.
 
 # Contribution checklist
@@ -203,7 +366,7 @@ tickets, list them in a comma-separated list such as `related to CAM-1234, CAM-4
 Optionally, you can reference the number of the GitHub PR from which the commit is merged. The message footer can then 
 look like `related to <ticket>, closes #<pr_number>` such as `related to CAM-1234, closes #567`.
 
-# License headers
+# License headers (see issue) [https://github.com/finos/flowave-bpm-platform/issues/141]
 
 Every source file in an open-source repository needs to contain the following license header at  the top, formatted as a code comment: ** License. Needs To Be Reviewed **
 
@@ -238,43 +401,6 @@ During review we will provide you with feedback and help to get your contributio
 
 Once your code is merged, it will be shipped in the next alpha and minor releases. We usually build alpha releases once a month and minor releases once every six months. If you are curious about the exact next minor release date, check our [release announcements](https://docs.camunda.org/enterprise/announcement/) page. ** Needs To Be Reviewed **
 
-# Governance
-
-## Roles
-
-The project community consists of Contributors and Maintainers:
-* A **Contributor** is anyone who submits a contribution to the project. (Contributions may include code, issues, comments, documentation, media, or any combination of the above.)
-* A **Maintainer** is a Contributor who, by virtue of their contribution history, has been given write access to project repositories and may merge approved contributions.
-* The **Lead Maintainer** is the project's interface with the FINOS team and Board. They are responsible for approving [quarterly project reports](https://community.finos.org/docs/governance/#project-governing-board-reporting) and communicating on behalf of the project. The Lead Maintainer is elected by a vote of the Maintainers. 
-
-## Contribution Rules
-
-Anyone is welcome to submit a contribution to the project. The rules below apply to all contributions. (The key words "MUST", "SHALL", "SHOULD", "MAY", etc. in this document are to be interpreted as described in [IETF RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).)
-
-* All contributions MUST be submitted as pull requests, including contributions by Maintainers.
-* All pull requests SHOULD be reviewed by a Maintainer (other than the Contributor) before being merged.
-* Pull requests for non-trivial contributions SHOULD remain open for a review period sufficient to give all Maintainers a sufficient opportunity to review and comment on them.
-* After the review period, if no Maintainer has an objection to the pull request, any Maintainer MAY merge it.
-* If any Maintainer objects to a pull request, the Maintainers SHOULD try to come to consensus through discussion. If not consensus can be reached, any Maintainer MAY call for a vote on the contribution.
-
-## Maintainer Voting
-
-The Maintainers MAY hold votes only when they are unable to reach consensus on an issue. Any Maintainer MAY call a vote on a contested issue, after which Maintainers SHALL have 36 hours to register their votes. Votes SHALL take the form of "+1" (agree), "-1" (disagree), "+0" (abstain). Issues SHALL be decided by the majority of votes cast. If there is only one Maintainer, they SHALL decide any issue otherwise requiring a Maintainer vote. If a vote is tied, the Lead Maintainer MAY cast an additional tie-breaker vote.
-
-The Maintainers SHALL decide the following matters by consensus or, if necessary, a vote:
-* Contested pull requests
-* Election and removal of the Lead Maintainer
-* Election and removal of Maintainers
-
-All Maintainer votes MUST be carried out transparently, with all discussion and voting occurring in public, either:
-* in comments associated with the relevant issue or pull request, if applicable;
-* on the project mailing list or other official public communication channel; or
-* during a regular, minuted project meeting.
-
-## Maintainer Qualifications
-
-Any Contributor who has made a substantial contribution to the project MAY apply (or be nominated) to become a Maintainer. The existing Maintainers SHALL decide whether to approve the nomination according to the Maintainer Voting process above.
-
-## Changes to this Document
+# Changes to this Document
 
 This document MAY be amended by a vote of the Maintainers according to the Maintainer Voting process above.
