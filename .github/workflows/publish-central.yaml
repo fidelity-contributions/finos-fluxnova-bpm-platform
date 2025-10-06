@@ -31,8 +31,9 @@ jobs:
           gpg-private-key: CI_GPG_PRIVATE_KEY
           gpg-passphrase: CI_GPG_PASSPHRASE
 
-      - name: Import GPG key
-        uses: ./.github/actions/import-gpg-key
+# Removed this step as GPG privae key and passphrase are already handled by setup-java action
+#      - name: Import GPG key
+#        uses: ./.github/actions/import-gpg-key
 
       - name: Configure git
         uses: ./.github/actions/configure-git
