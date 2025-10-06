@@ -22,7 +22,7 @@
             <password>${env.GH_TOKEN}</password>
         </server>
         <server>
-            <id>central</id>
+            <id>ossrh</id>
             <username>${env.CI_DEPLOY_USERNAME}</username>
             <password>${env.CI_DEPLOY_PASSWORD}</password>  <!-- TODO: better to use token here, find out more -->
         </server>

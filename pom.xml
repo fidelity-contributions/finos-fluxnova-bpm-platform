@@ -52,7 +52,9 @@
     <version.joda-time>2.12.5</version.joda-time>
     <version.uuid-generator>4.3.0</version.uuid-generator>
     <version.feel-scala>0.0.1-SNAPSHOT</version.feel-scala>
-    <publish.server.id>central</publish.server.id>
+    <!-- properties required for publishing to maven central-->
+    <gpg.executable>gpg</gpg.executable>
+    <publish.server.id>ossrh</publish.server.id>
     <release.goals>install org.sonatype.central:central-publishing-maven-plugin:0.7.0:publish</release.goals>
     <skip.source.attach>false</skip.source.attach>
   </properties>

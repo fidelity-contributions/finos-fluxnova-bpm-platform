@@ -26,6 +26,7 @@ jobs:
         with:
           java-version: 21
           distribution: 'temurin'
+          server-id: ossrh
           server-username: CI_DEPLOY_USERNAME
           server-password: CI_DEPLOY_PASSWORD
           gpg-private-key: CI_GPG_PRIVATE_KEY
