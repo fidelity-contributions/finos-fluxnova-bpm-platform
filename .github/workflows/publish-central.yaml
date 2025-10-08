@@ -1,10 +1,13 @@
 name: "Publish to Maven Central"
 
+#added github token temporarily to retrieve artifacts from github packages,
+#once artifacts are deployed in maven central & downloaded from there,
+#this shall be removed
 env:
   CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
   CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
   CI_GPG_PASSPHRASE: ${{ secrets.CI_GPG_PASSPHRASE }}
-  CI_GPG_PRIVATE_KEY: ${{ secrets.CI_GPG_PRIVATE_KEY }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 on:
   push:
@@ -29,7 +32,7 @@ jobs:
           server-id: ossrh
           server-username: CI_DEPLOY_USERNAME
           server-password: CI_DEPLOY_PASSWORD
-          gpg-private-key: CI_GPG_PRIVATE_KEY
+          gpg-private-key: ${{ secrets.CI_GPG_PRIVATE_KEY }}
           gpg-passphrase: CI_GPG_PASSPHRASE
 
 # Removed this step as GPG privae key and passphrase are already handled by setup-java action
