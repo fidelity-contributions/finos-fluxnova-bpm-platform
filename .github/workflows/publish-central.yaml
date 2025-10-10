@@ -9,6 +9,8 @@ env:
   CI_GPG_PASSPHRASE: ${{ secrets.CI_GPG_PASSPHRASE }}
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+# pull_request condition added temporarily to test the workflow
+# once verified, it shall be removed
 on:
   push:
     branches:
@@ -35,10 +37,6 @@ jobs:
           gpg-private-key: ${{ secrets.CI_GPG_PRIVATE_KEY }}
           gpg-passphrase: CI_GPG_PASSPHRASE
 
-# Removed this step as GPG privae key and passphrase are already handled by setup-java action
-#      - name: Import GPG key
-#        uses: ./.github/actions/import-gpg-key
-
       - name: Configure git
         uses: ./.github/actions/configure-git
 
@@ -46,6 +44,8 @@ jobs:
         run: mvn de.qaware.maven:go-offline-maven-plugin:resolve-dependencies -s ./settings.xml
 
       #TODO: Remove -DdryRun=true for actual deployment
-      - name: Release to Maven Central
-        run: |
-          mvn -B release:prepare release:perform -DdryRun=true -Prelease -s ./settings.xml
+      - name: Prepare release
+        run: mvn -B -DpreparationGoals=clean -DdryRun=true release:prepare -Prelease -DinteractiveMode=false
+
+      - name: Perform release
+        run: mvn -B release:perform -Prelease -DinteractiveMode=false
