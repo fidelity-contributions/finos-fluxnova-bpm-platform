@@ -76,4 +76,4 @@ The source files in this repository are made available under the [Apache License
 
 SPDX-License-Identifier: [Apache-2.0](https://spdx.org/licenses/Apache-2.0)
 
-Fluxnova Platform 1.0.0 ** Needs To Be Reviewed ** uses and includes third-party dependencies published under various licenses. By downloading and using Fluxnova Platform 7 ** Needs To Be Reviewed **  artifacts, you agree to their terms and conditions. Refer to ** Needs To Be Reviewed ** https://docs.camunda.org/manual/latest/introduction/third-party-libraries/ for an overview of third-party libraries and particularly important third-party licenses we want to make you aware of.
+Fluxnova uses and includes third-party dependencies published under various licenses. By downloading and using Fluxnova artifacts, you agree to their terms and conditions.
