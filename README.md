@@ -59,6 +59,10 @@ Please see our [contribution guidelines](CONTRIBUTING.md) for how to raise issue
 
 To run the tests in this repository, please see our [testing tips and tricks](TESTING.md).
 
+## Get Involved
+
+Join the Fluxnova public mailing list by sending an email to [fluxnova+subscribe@lists.finos.org](mailto:fluxnova+subscribe@lists.finos.org).
+
 ## License
 
 Copyright 2025 FINOS
