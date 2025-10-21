@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.finos.fluxnova</groupId>
     <artifactId>fluxnova-bpm-release-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <!-- do not remove empty tag - http://jira.codehaus.org/browse/MNG-4687 -->
     <relativePath />
   </parent>
@@ -23,20 +23,6 @@
 
   <url>https://github.com/finos/fluxnova-bpm-platform</url>
 
-  <organization>
-    <name>FINOS</name>
-    <url>https://finos.org</url>
-  </organization>
-
-  <developers>
-    <developer>
-      <id>finos.org</id>
-      <name>Fluxnova Community</name>
-      <organization>finos.org</organization>
-      <organizationUrl>https://fluxnova.finos.org</organizationUrl>
-    </developer>
-  </developers>
-
   <scm>
     <connection>scm:git:https://github.com/finos/fluxnova-bpm-platform.git</connection>
     <developerConnection>scm:git:https://github.com/finos/fluxnova-bpm-platform.git</developerConnection>
@@ -52,11 +38,6 @@
     <version.joda-time>2.12.5</version.joda-time>
     <version.uuid-generator>4.3.0</version.uuid-generator>
     <version.feel-scala>0.0.1-SNAPSHOT</version.feel-scala>
-    <!-- properties required for publishing to maven central-->
-    <gpg.executable>gpg</gpg.executable>
-    <publish.server.id>ossrh</publish.server.id>
-    <release.goals>install org.sonatype.central:central-publishing-maven-plugin:0.7.0:publish</release.goals>
-    <skip.source.attach>false</skip.source.attach>
   </properties>
 
   <build>
@@ -70,46 +51,26 @@
           <excludedScopes>test</excludedScopes>
         </configuration>
       </plugin>
-      <!-- TODO: Commenting only for testing maven cnetral artifacts publish, trying to find out fix for gpg error
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-deploy-plugin</artifactId>
-      <version>3.1.4</version>
-      <configuration>
-        <skip>false</skip>
-      </configuration>
-    </plugin>-->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-release-plugin</artifactId>
-      <version>3.1.1</version>
-      <configuration>
-        <autoVersionSubmodules>true</autoVersionSubmodules>
-        <releaseProfiles>release</releaseProfiles>
-        <goals>${release.goals}</goals>
-      </configuration>
-    </plugin>
-    <plugin>
-      <groupId>org.sonatype.central</groupId>
-      <artifactId>central-publishing-maven-plugin</artifactId>
-      <version>0.7.0</version>
-      <extensions>true</extensions>
-      <configuration>
-        <publishingServerId>${publish.server.id}</publishingServerId>
-        <autoPublish>true</autoPublish>
-      </configuration>
-    </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-gpg-plugin</artifactId>
-      <version>3.2.7</version>
-      <configuration>
-        <useAgent>false</useAgent>
-        <gpgArguments>
-          <arg>--digest-algo=SHA512</arg>
-        </gpgArguments>
-      </configuration>
-    </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.1.4</version>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+      </plugin>
   </plugins>
 </build>
 
@@ -479,20 +440,13 @@
     <url>https://github.com/orgs/finos/projects/116</url>
   </issueManagement>
 
-  <!-- TODO: Commenting only for testing maven cnetral artifacts publish, trying to find out fix for gpg error
   <distributionManagement>
-    <repository>
-      <id>fluxnova-bpm-platform</id>
-      <name>GitHub Fluxnova Maven Packages</name>
-      <url>https://maven.pkg.github.com/finos/fluxnova-bpm-platform</url>
-    </repository>
     <snapshotRepository>
       <id>fluxnova-bpm-platform</id>
       <name>GitHub Fluxnova Maven Packages</name>
       <url>https://maven.pkg.github.com/finos/fluxnova-bpm-platform</url>
     </snapshotRepository>
   </distributionManagement>
-  -->
 
 
 </project>
