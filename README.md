@@ -34,7 +34,7 @@ Fluxnova Platform 1.0.0 ** Needs To Be Reviewed ** provides a rich set of compon
 #### Process Operations
 
 - Fluxnova Engine - JMX and advanced Runtime Container Integration for process engine monitoring.
-- Fluxnova Cockpit - Web application tool for process operations.
+- Fluxnova Monitoring - Web application tool for process operations.
 - Fluxnova Admin - Web application for managing users, groups, and their access permissions.
 
 #### Human Task Management

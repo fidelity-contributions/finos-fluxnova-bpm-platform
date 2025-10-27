@@ -1049,7 +1049,7 @@ public class ProcessApplicationDeploymentTest {
     testRule.deploy(repositoryService
         .createDeployment(processApplication.getReference())
         .name(name)
-        .source("cockpit")
+        .source("monitoring")
         .addModelInstance("process.bpmn", model)
         .enableDuplicateFiltering(true));
 
@@ -1059,7 +1059,7 @@ public class ProcessApplicationDeploymentTest {
     testRule.deploy(repositoryService
         .createDeployment(processApplication.getReference())
         .name("my-deployment")
-        .source("cockpit")
+        .source("monitoring")
         .addModelInstance("process.bpmn", model)
         .enableDuplicateFiltering(true));
 

@@ -536,7 +536,7 @@
       </build>
     </profile>
 
-    <!-- profile for running cockpit testsuite with database table prefix -->
+    <!-- profile for running monitoring testsuite with database table prefix -->
     <profile>
       <id>db-table-prefix</id>
       <!-- imports the DbSchemaPrefixTestHelper class -->

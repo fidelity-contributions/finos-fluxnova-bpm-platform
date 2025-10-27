@@ -65,7 +65,7 @@
                                  "raw": "customer=customer name;expiryDate=2022-09-30;camundaBPM=true;optimize=false;cawemo=false"
                                },
                                "webapps": [
-                                 "cockpit",
+                                 "monitoring",
                                  "admin"
                                ]
                              }

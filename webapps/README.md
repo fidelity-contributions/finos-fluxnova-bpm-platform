@@ -10,7 +10,7 @@ The structure is as follows:
 * `assembly` - Java sources and tests for the Fluxnova web application based on `javax` namespace.
 * `assembly-jakarta` - Java sources and tests for the Fluxnova web application based on `jakarta` namespace.
   * This module is created from the `assembly` module via code transformation.
-* `frontend` - HTML, CSS and Javascript sources as well as Plugins and tests for the Fluxnova webapplications Cockpit, Tasklist and Admin.
+* `frontend` - HTML, CSS and Javascript sources as well as Plugins and tests for the Fluxnova webapplications Monitoring, Tasklist and Admin.
 
 ## FRONTEND
 
@@ -18,7 +18,7 @@ The structure is as follows:
 
 There are 3 web applications available for the Fluxnova Platform :
 
-* __cockpit__: an administration interface for processes and decisions
+* __monitoring__: an administration interface for processes and decisions
 * __tasklist__: provides an interface to process user tasks
 * __admin__: is used to administer users, groups and their authorizations
 

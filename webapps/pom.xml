@@ -24,7 +24,7 @@
 
     <frontend.app.path>${project.build.directory}/webapp/</frontend.app.path>
 
-    <frontend.development.cockpit.path>${frontend.app.path}</frontend.development.cockpit.path>
+    <frontend.development.monitoring.path>${frontend.app.path}</frontend.development.monitoring.path>
     <frontend.development.tasklist.path>${frontend.app.path}</frontend.development.tasklist.path>
 
     <exec.shell>bash</exec.shell>
