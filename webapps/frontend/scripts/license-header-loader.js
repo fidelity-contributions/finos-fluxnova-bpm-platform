@@ -19,7 +19,6 @@ var fs = require('fs');
 
 const addMissingLicenseHeaders = (filePath, source) => {
   // This fix ensures windows compatibility
-  // See https://github.com/camunda/camunda-bpm-platform/issues/2824
   const rowFile = filePath.replace(/\\/g, '/');
   if (
     rowFile &&

@@ -48,7 +48,6 @@ You need [node.js](http://nodejs.org) >= 17 and npm.
 ### Setup
 
 #### Adjusting Maven Settings
-** Needs To Be Reviewed - build-from-source **
 See https://github.com/finos/fluxnova-bpm-platform/blob/main/CONTRIBUTING.md#build-from-source
 
 #### Using Webpack
@@ -144,7 +143,7 @@ Have a look at our [contribution guide](https://github.com/finos/fluxnova-bpm-pl
 
 
 ## Help and support
-** Needs To Be Reviewed **
+** Needs To Be Reviewed - stackoverflow **
 * [Documentation](http://docs.fluxnova.finos.org/)
 * [Forum](https://github.com/finos/fluxnova-bpm-platform/discussions)
 * [Stackoverflow](https://stackoverflow.com/questions/tagged/camunda)

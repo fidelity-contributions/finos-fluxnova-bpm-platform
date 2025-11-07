@@ -18,6 +18,7 @@ This guide contains the following main sections:
 - [Running Fluxnova BPM Platform](#running-fluxnova-bpm-platform)
     - [Running the Tomcat Version](#running-the-tomcat-version)
     - [Running the Spring Boot Version](#running-the-spring-boot-version)
+    - [Running with Docker](#running-with-docker)
 
 Please follow the relevant section based on your build environment.
 
@@ -230,3 +231,44 @@ You can run Fluxnova in two modes: **Tomcat** and **Spring Boot**.
    sh start.sh
    ```
 4. Access the Fluxnova Cockpit at [http://localhost:8080/fluxnova/app/cockpit/default/#/dashboard](http://localhost:8080/fluxnova/app/cockpit/default/#/dashboard)
+
+### Running with Docker
+
+You can run the Fluxnova BPM Platform using the official Docker image. By default, the image uses an embedded H2 database. You can customize it to use PostgreSQL or MySQL by providing the required JDBC driver version and database connection details.
+
+#### Pull the Docker Image
+
+```bash
+docker pull ghcr.io/finos/fluxnova-bpm-platform:0.0.1-snapshot
+```
+
+#### Run the Container (Default: H2 Database)
+
+```bash
+docker run -p 8080:8080 ghcr.io/finos/fluxnova-bpm-platform:0.0.1-snapshot
+```
+
+#### Run with PostgreSQL or MySQL
+
+To use PostgreSQL or MySQL, pass the driver version as a build argument and provide DB connection variables as environment variables:
+
+```bash
+docker run -p 8080:8080 \
+  -e DB_DRIVER_CLASS_NAME=org.postgresql.Driver \
+  -e DB_URL=jdbc:postgresql://<host>:<port>/<db> \
+  -e DB_USERNAME=<username> \
+  -e DB_PASSWORD=<password> \
+  ghcr.io/finos/fluxnova-bpm-platform:0.0.1-snapshot
+```
+
+Replace the values as needed for MySQL. Any other Spring Boot configuration can be passed as environment variables.
+
+#### Notes
+
+- The Docker container runs the Spring Boot version of the application and does **not** include additional dependencies like connectors or script engines.
+- If you need a Docker image with these dependencies, use the image from the examples repo:
+
+  ```bash
+  docker pull ghcr.io/finos/fluxnova-examples:1.0.0-snapshot
+  ```
+ 

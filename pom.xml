@@ -5,7 +5,7 @@
     <groupId>org.finos.fluxnova</groupId>
     <artifactId>fluxnova-bpm-release-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <!-- do not remove empty tag - http://jira.codehaus.org/browse/MNG-4687 -->
+    <!-- do not remove empty tag -->
     <relativePath />
   </parent>
 

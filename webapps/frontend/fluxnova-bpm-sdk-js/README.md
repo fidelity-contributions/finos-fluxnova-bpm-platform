@@ -10,7 +10,7 @@ bower install fluxnova-bpm-sdk-js --save
 
 ## Documentation
 
-** Needs To Be Reviewed ** See https://docs.camunda.org/manual/latest/reference/embedded-forms/
+See https://docs.fluxnova.finos.org/reference/forms/embedded-forms/
 
 ## Development
 
@@ -47,8 +47,6 @@ grunt watch:mochacli
 ```
 
 ### Issues
-
-** Needs To Be Reviewed ** https://app.camunda.com/jira/browse/CAM/component/12351
 
 ## Releasing
 

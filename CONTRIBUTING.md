@@ -20,6 +20,7 @@ Please also see our [Governance guidelines](https://github.com/finos/fluxnova-bp
 
 We’re excited you’re here and want to contribute to Fluxnova! This guide outlines how you can contribute effectively and collaboratively.
 
+Help others by participating in our [forum](https://github.com/finos/fluxnova-bpm-platform/discussions). Please read the [Forum FAQ](https://github.com/finos/fluxnova-bpm-platform/discussions/faq) before you start.  **Forum FAQ - Needs To Be Reviewed **
 ### Contribute your knowledge
 
 Help others by participating in discussions on [GitHub](https://github.com/finos/fluxnova-bpm-platform/discussions) or by joining our mailing list [fluxnova@lists.finos.org](mailto:fluxnova@lists.finos.org) (email [help@finos.org](mailto:help@finos.org) to add you to the list).
@@ -30,9 +31,9 @@ Found a bug in the code or have a feature that you would like to see in the futu
 
 Try to apply our best practices for creating issues:
 
-* Only Raise an issue if your request requires a code change in Fluxnova Platform 7
-  * If you want to contact the Camunda customer support, please see our [Enterprise Support Guide](https://camunda.com/services/enterprise-support-guide/). ** Needs To Be Reviewed **
-  * If you have an understanding question or need help building your solution, check out our [user forum](https://forum.camunda.io/). ** Needs To Be Reviewed **
+* Only Raise an issue if your request requires a code change in Fluxnova Platform 1.0.0
+
+* If you have an understanding question or need help building your solution, check out our [user forum](https://github.com/finos/fluxnova-bpm-platform/discussions).
 * Create a high-quality issue:
   * Give enough context so that a person who doesn't know your project can understand your request
   * Be concise, only add what's needed to understand the core of the request
@@ -127,10 +128,25 @@ without building dependencies locally.
 * Artifacts from each build will be stored in your local Maven repository and used by subsequent builds.
 * Once all Fluxnova dependencies are public, you can build `fluxnova-bpm-platform` directly without building the other repositories locally.
 
+In this repository, we manage the [issues](https://github.com/finos/fluxnova-bpm-platform/issues) for the following Fluxnova Platform code repositories and projects: **Some Repositories arent in FINOS Needs To Be Reviewed **
 -----------------------------------------------------------------------------------------------------------------------
 
 ### Building with GitHub Actions on FINOS
 
+We use [labels](https://github.com/finos/fluxnova-bpm-platform/labels) to mark and group our issues for easier browsing. We define the following label prefixes: 
+
+* `bug:` Labels that suggests something isn't working.
+* `documentation:` Labels that define need for improvements or additions to documentation.
+* `duplicate:` Label that refers to issue or pull request already existing.
+* `enhancement-` Labels for new feature or request.
+* `good first issue:` Label for newcomers.
+* `help wanted :` Label suggesting extra attention is needed.
+* `invalid-` Labels suggesting that doesn't seem right.
+* `question:` Label if further information is requested.
+* `refactor :` Label for refactoring to fluxnova after initial fork.
+* `security :` Label to tag for the security issue.
+* `sync :` Label for syncing repos with original fork.
+* `wontfix :` Label to suggest this will not be worked on.
 The `fluxnova-bpm-platform` project uses GitHub Actions for automated CI/CD on FINOS. This workflow builds, tests, and deploys the project.
 
 #### Workflow Triggers
@@ -392,7 +408,7 @@ Note that due to other responsibilities (our own implementation tasks, releases)
 
 During review we will provide you with feedback and help to get your contribution merge-ready. However, before requesting a review, please go through our [contribution checklist](#contribution-checklist).
 
-Once your code is merged, it will be shipped in the next alpha and minor releases. We usually build alpha releases once a month and minor releases once every six months. If you are curious about the exact next minor release date, check our [release announcements](https://docs.camunda.org/enterprise/announcement/) page. ** Needs To Be Reviewed **
+Once your code is merged, it will be shipped in the next alpha and minor releases. We usually build alpha releases once a month and minor releases once every six months. If you are curious about the exact next minor release date, check our [release announcements](https://github.com/finos/fluxnova-bpm-platform/discussions/categories/announcements) page. ** Needs To Be Reviewed **
 
 ## Governance
 
