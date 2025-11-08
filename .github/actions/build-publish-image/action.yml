@@ -18,6 +18,7 @@ runs:
           ghcr.io/${{ github.repository }}
         tags: |
           type=semver,pattern={{version}}
+#          todo: we need to fix this to pick up the real version from the build
           0.0.1-SNAPSHOT
 
     - name: Build/push container image
