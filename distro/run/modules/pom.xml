@@ -17,9 +17,19 @@
     Boot ZIP and are not needed in the resulting dependency sets here -->
   <dependencyManagement>
     <dependencies>
+      <!-- Import Spring Boot dependencies BOM for version management -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${version.spring-boot}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      
       <dependency>
         <groupId>org.finos.fluxnova.bpm.springboot</groupId>
         <artifactId>fluxnova-bpm-spring-boot-starter</artifactId>
+        <version>${project.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -85,6 +95,7 @@
       <dependency>
         <groupId>org.finos.fluxnova.bpm</groupId>
         <artifactId>fluxnova-engine-rest-core</artifactId>
+        <version>${project.version}</version>
         <scope>provided</scope>
       </dependency>
     </dependencies>
