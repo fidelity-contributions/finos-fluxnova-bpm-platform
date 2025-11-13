@@ -1,5 +1,11 @@
 name: "Build and Publish Docker Image"
 description: "Build and publish a Docker image to GitHub Container Registry"
+
+inputs:
+    version:
+        description: "The version tag to apply to the Docker image"
+        required: true
+
 runs:
   using: "composite"
   steps:
@@ -18,8 +24,7 @@ runs:
           ghcr.io/${{ github.repository }}
         tags: |
           type=semver,pattern={{version}}
-#          todo: we need to fix this to pick up the real version from the build
-          0.0.1-SNAPSHOT
+          1.0.0
 
     - name: Build/push container image
       uses: docker/build-push-action@v6

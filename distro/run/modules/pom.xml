@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.finos.fluxnova.bpm.run</groupId>
     <artifactId>fluxnova-bpm-run-root</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -17,74 +17,99 @@
     Boot ZIP and are not needed in the resulting dependency sets here -->
   <dependencyManagement>
     <dependencies>
+      <!-- Import Spring Boot dependencies BOM for version management -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${version.spring-boot}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      
       <dependency>
         <groupId>org.finos.fluxnova.bpm.springboot</groupId>
         <artifactId>fluxnova-bpm-spring-boot-starter</artifactId>
+        <version>${project.version}</version>
         <scope>provided</scope>
       </dependency>
+      <!-- Spring Boot dependencies - explicit versions needed for Maven Central validation -->
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-jersey</artifactId>
+        <version>${version.spring-boot}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-json</artifactId>
+        <version>${version.spring-boot}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-tomcat</artifactId>
+        <version>${version.spring-boot}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-validation</artifactId>
+        <version>${version.spring-boot}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter</artifactId>
+        <version>${version.spring-boot}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-autoconfigure</artifactId>
+        <version>${version.spring-boot}</version>
         <scope>provided</scope>
       </dependency>
+      <!-- Spring Framework dependencies - explicit versions needed for Maven Central validation -->
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-aop</artifactId>
+        <version>${version.spring.framework6}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-beans</artifactId>
+        <version>${version.spring.framework6}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
+        <version>${version.spring.framework6}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
+        <version>${version.spring.framework6}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-expression</artifactId>
+        <version>${version.spring.framework6}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-web</artifactId>
+        <version>${version.spring.framework6}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.finos.fluxnova.bpm</groupId>
         <artifactId>fluxnova-engine-rest-core</artifactId>
+        <version>${project.version}</version>
         <scope>provided</scope>
       </dependency>
     </dependencies>
