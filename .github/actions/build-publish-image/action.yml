@@ -16,6 +16,9 @@ runs:
         username: ${{ github.repository_owner }}
         password: ${{ env.GH_TOKEN }}
 
+    - name: Print release version input
+      run: echo "Input release version =${{ inputs.version }}"
+
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v5

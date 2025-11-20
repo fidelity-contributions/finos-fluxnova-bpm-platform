@@ -103,6 +103,9 @@ jobs:
       - name: Java setup
         uses: ./.github/actions/java-setup
 
+      - name: Print Release Version
+        run: echo "RELEASE_VERSION=${{ env.RELEASE_VERSION }}"
+
       - name: Build and publish Docker image
         uses: ./.github/actions/build-publish-image
         with:
