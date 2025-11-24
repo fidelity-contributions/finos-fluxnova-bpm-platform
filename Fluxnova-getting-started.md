@@ -51,14 +51,14 @@ You can try Fluxnova BPM Platform instantly using the hosted sandbox:
 2. Create a new BPMN diagram:
    - Add a Start Event, a Task, and an End Event.
    - Connect the elements sequentially.
-   - Your diagram should look like this: 
-     <img src="docs/getting-started/images/sample-process.png" alt="Sample Process" width="400" />
+   - Your diagram should look like this:
+  <img src="docs/getting-started/images/sample-process.png" alt="Sample Process" width="400" style="display:block; margin:12px 0;" />
    - Save as `sample-process.bpmn`.
 
 ### 6. Deploying Directly from Fluxnova Modeler
 
 1. Click the "Deploy" button in Fluxnova Modeler.
-   <img src="docs/getting-started/images/deployment-panel.png" alt="Deployment Panel" width="400" />
+  <img src="docs/getting-started/images/deployment-panel.png" alt="Deployment Panel" width="400" style="display:block; margin:12px 0;" />
 2. Enter the deployment endpoint:
    - For local: `http://localhost:8080/engine-rest`
    - For sandbox: `https://demo.fluxnova.finos.org/engine-rest`
@@ -68,10 +68,10 @@ You can try Fluxnova BPM Platform instantly using the hosted sandbox:
 
 ## 7. Starting and Monitoring a Process
 1. In the Fluxnova web UI, navigate to your deployed process definition.
-   <img src="docs/getting-started/images/process-deploy.png" alt="Process_Deployment" width="400" />
-   <img src="docs/getting-started/images/process-definition-list.png" alt="Process Definition List" width="400" />
+  <img src="docs/getting-started/images/process-deploy.png" alt="Process_Deployment" width="400" style="display:block; margin:12px 0;" />
+  <img src="docs/getting-started/images/process-definition-list.png" alt="Process Definition List" width="400" style="display:block; margin:12px 0;" />
 2. Click "Start Process Instance" and provide any required variables.
-   <img src="docs/getting-started/images/start-process-instance.png" alt="Start Process Instance" width="400" />
+  <img src="docs/getting-started/images/start-process-instance.png" alt="Start Process Instance" width="400" style="display:block; margin:12px 0;" />
 3. Monitor the process instance, view active tasks, and complete them as needed.
 
 ## 8. Additional Resources
