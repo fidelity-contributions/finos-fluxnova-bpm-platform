@@ -26,7 +26,7 @@ Please follow the relevant section based on your build environment.
 
 ### Build Prerequisites
 
-- Java 17+
+- Java 21+
 - Maven 3.8+
 - Git
 
