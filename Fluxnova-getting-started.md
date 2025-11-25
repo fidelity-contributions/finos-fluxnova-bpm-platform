@@ -16,7 +16,7 @@ Welcome to Fluxnova BPM Platform! This guide will help you quickly get started w
 Fluxnova BPM Platform enables workflow automation using BPMN models. You can run it locally or use the hosted sandbox environment for quick evaluation.
 
 ## 2. Prerequisites
-- Java 17 or higher
+- Java 21 or higher
 - Maven 3.8 or higher
 - Git
 - Fluxnova Modeler
@@ -52,13 +52,13 @@ You can try Fluxnova BPM Platform instantly using the hosted sandbox:
    - Add a Start Event, a Task, and an End Event.
    - Connect the elements sequentially.
    - Your diagram should look like this:
-  <img src="docs/getting-started/images/sample-process.png" alt="Sample Process" width="400" style="display:block; margin:12px 0;" />
+   ![Sample Process](docs/getting-started/images/sample-process.png)
    - Save as `sample-process.bpmn`.
 
 ### 6. Deploying Directly from Fluxnova Modeler
 
 1. Click the "Deploy" button in Fluxnova Modeler.
-  <img src="docs/getting-started/images/deployment-panel.png" alt="Deployment Panel" width="400" style="display:block; margin:12px 0;" />
+   ![Deployment Panel](docs/getting-started/images/deployment-panel.png)
 2. Enter the deployment endpoint:
    - For local: `http://localhost:8080/engine-rest`
    - For sandbox: `https://demo.fluxnova.finos.org/engine-rest`
@@ -68,10 +68,10 @@ You can try Fluxnova BPM Platform instantly using the hosted sandbox:
 
 ## 7. Starting and Monitoring a Process
 1. In the Fluxnova web UI, navigate to your deployed process definition.
-  <img src="docs/getting-started/images/process-deploy.png" alt="Process_Deployment" width="400" style="display:block; margin:12px 0;" />
-  <img src="docs/getting-started/images/process-definition-list.png" alt="Process Definition List" width="400" style="display:block; margin:12px 0;" />
+   ![Process Deployment](docs/getting-started/images/process-deploy.png)
+   ![Process Definition List](docs/getting-started/images/process-definition-list.png)
 2. Click "Start Process Instance" and provide any required variables.
-  <img src="docs/getting-started/images/start-process-instance.png" alt="Start Process Instance" width="400" style="display:block; margin:12px 0;" />
+   ![Start Process Instance](docs/getting-started/images/start-process-instance.png)
 3. Monitor the process instance, view active tasks, and complete them as needed.
 
 ## 8. Additional Resources
