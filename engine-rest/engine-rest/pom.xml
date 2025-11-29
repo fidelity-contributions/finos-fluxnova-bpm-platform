@@ -256,7 +256,8 @@
         <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
-            <id>release-attach-sources</id>
+            <!-- This id must match the -Prelease-profile id value or else sources will be "uploaded" twice, which causes Nexus to fail -->
+            <id>attach-sources</id>
             <goals>
               <goal>jar</goal>
             </goals>
