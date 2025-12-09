@@ -114,6 +114,7 @@
     <camunda.osgi.remove.headers>Ignore-Package,Include-Resource,Private-Package,Bundle-DocURL</camunda.osgi.remove.headers>
     <camunda.osgi.include.resource>{maven-resources}</camunda.osgi.include.resource>
     <camunda.osgi.embed />
+    <performRelease>false</performRelease>
   </properties>
 
   <dependencyManagement>
