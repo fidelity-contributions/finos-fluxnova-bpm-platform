@@ -90,7 +90,7 @@ jobs:
             -DinteractiveMode=false        
 
       - name: Perform release
-        run: mvn -B release:perform -Psonatype-oss-release,distro,distro-ce -DinteractiveMode=false
+        run: mvn -B release:perform -Psonatype-oss-release -DinteractiveMode=false
 
   publish-docker-image:
     name: Publish Docker Image
@@ -102,6 +102,9 @@ jobs:
 
       - name: Java setup
         uses: ./.github/actions/java-setup
+
+      - name: Print Release Version
+        run: echo "RELEASE_VERSION=${{ env.RELEASE_VERSION }}"
 
       - name: Build and publish Docker image
         uses: ./.github/actions/build-publish-image
