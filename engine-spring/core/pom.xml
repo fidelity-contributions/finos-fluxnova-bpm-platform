@@ -188,6 +188,12 @@
               <excludes>
                 <!-- this is re-defined in the consuming artifacts -->
                 <exclude>META-INF/services/org.finos.fluxnova.bpm.engine.spring.test.SpringTestHelper</exclude>
+                <exclude>**/test/**</exclude>
+                <exclude>**/docs/**</exclude>
+                <exclude>**/node_modules/**</exclude>
+                <exclude>**/*.md</exclude>
+                <exclude>**/*.png</exclude>
+                <exclude>**/*.jpg</exclude>
               </excludes>
             </configuration>
           </execution>
