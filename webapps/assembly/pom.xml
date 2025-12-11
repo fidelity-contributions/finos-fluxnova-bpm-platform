@@ -131,6 +131,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+            <excludes>
+              <exclude>**/test/**</exclude>
+              <exclude>**/docs/**</exclude>
+              <exclude>**/node_modules/**</exclude>
+              <exclude>**/*.md</exclude>
+              <exclude>**/*.png</exclude>
+              <exclude>**/*.jpg</exclude>
+            </excludes>
+          </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
