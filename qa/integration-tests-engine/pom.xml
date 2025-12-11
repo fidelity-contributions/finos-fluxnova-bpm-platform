@@ -277,6 +277,12 @@
                 <exclude>org/finos/fluxnova/bpm/integrationtest/util/TestConstants*</exclude>
                 <exclude>org/finos/fluxnova/bpm/integrationtest/util/TestContainer*</exclude>
                 <exclude>org/finos/fluxnova/bpm/integrationtest/util/TestProcessApplication*</exclude>
+                <exclude>**/test/**</exclude>
+                <exclude>**/docs/**</exclude>
+                <exclude>**/node_modules/**</exclude>
+                <exclude>**/*.md</exclude>
+                <exclude>**/*.png</exclude>
+                <exclude>**/*.jpg</exclude>
               </excludes>
             </configuration>
           </execution>
