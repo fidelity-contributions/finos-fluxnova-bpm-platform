@@ -362,6 +362,14 @@
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <classesDirectory>${project.build.directory}/modules/</classesDirectory>
+          <excludes>
+              <exclude>**/test/**</exclude>
+              <exclude>**/docs/**</exclude>
+              <exclude>**/node_modules/**</exclude>
+              <exclude>**/*.md</exclude>
+              <exclude>**/*.png</exclude>
+              <exclude>**/*.jpg</exclude>
+          </excludes>
         </configuration>
       </plugin>
     </plugins>
