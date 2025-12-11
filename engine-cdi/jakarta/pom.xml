@@ -360,6 +360,14 @@
         <version>3.2.2</version>
         <configuration>
           <useDefaultManifestFile combine.self="override" />
+          <excludes>
+              <exclude>**/test/**</exclude>
+              <exclude>**/docs/**</exclude>
+              <exclude>**/node_modules/**</exclude>
+              <exclude>**/*.md</exclude>
+              <exclude>**/*.png</exclude>
+              <exclude>**/*.jpg</exclude>
+          </excludes>
         </configuration>
         <executions>
           <execution>
