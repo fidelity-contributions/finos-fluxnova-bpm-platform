@@ -256,16 +256,6 @@
             <goals>
               <goal>test-jar</goal>
             </goals>
-            <configuration>
-             <excludes>
-                <exclude>**/test/**</exclude>
-                <exclude>**/docs/**</exclude>
-                <exclude>**/node_modules/**</exclude>
-                <exclude>**/*.md</exclude>
-                <exclude>**/*.png</exclude>
-                <exclude>**/*.jpg</exclude>
-            </excludes>
-          </configuration>
           </execution>
         </executions>
       </plugin>
