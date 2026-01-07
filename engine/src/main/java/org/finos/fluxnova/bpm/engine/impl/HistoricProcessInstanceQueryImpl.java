@@ -55,6 +55,7 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
 
   private static final long serialVersionUID = 1L;
   protected String processInstanceId;
+  protected String rootProcessInstanceId;
   protected String processDefinitionId;
   protected String processDefinitionName;
   protected String processDefinitionNameLike;
@@ -128,6 +129,12 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
     return this;
   }
 
+  public HistoricProcessInstanceQuery rootProcessInstanceId(String rootProcessInstanceId) {
+    ensureNotNull("Root process instance id", rootProcessInstanceId);
+    this.rootProcessInstanceId = rootProcessInstanceId;
+    return this;
+  }
+
   public HistoricProcessInstanceQueryImpl processDefinitionId(String processDefinitionId) {
     this.processDefinitionId = processDefinitionId;
     return this;
@@ -181,7 +188,6 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
 
   public HistoricProcessInstanceQuery withIncidents() {
     this.withIncidents = true;
-
     return this;
   }
 
@@ -569,6 +575,10 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
 
   public String getProcessInstanceId() {
     return processInstanceId;
+  }
+
+  public String getRootProcessInstanceId() {
+    return rootProcessInstanceId;
   }
 
   public Set<String> getProcessInstanceIds() {
