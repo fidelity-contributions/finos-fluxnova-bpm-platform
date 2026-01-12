@@ -30,7 +30,7 @@ For detailed build and run instructions, see the [Fluxnova Build Guide](https://
   ```sh
   git clone https://github.com/finos/fluxnova-bpm-platform
   cd fluxnova-bpm-platform
-  mvn clean install -DskipTests -DskipITs
+  mvn clean install
   ```
 - Run Tomcat or Spring Boot version (see build guide for details).
 - Alternatively, use the official Docker image:
