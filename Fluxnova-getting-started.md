@@ -35,8 +35,8 @@ For detailed build and run instructions, see the [Fluxnova Build Guide](https://
 - Run Tomcat or Spring Boot version (see build guide for details).
 - Alternatively, use the official Docker image:
   ```sh
-  docker pull ghcr.io/finos/fluxnova-bpm-platform:1.0.0
-  docker run -p 8080:8080 ghcr.io/finos/fluxnova-bpm-platform:1.0.0
+  docker pull ghcr.io/finos/fluxnova-bpm-platform:1.1.0
+  docker run -p 8080:8080 ghcr.io/finos/fluxnova-bpm-platform:1.1.0
   ```
 
 ## 4. Accessing the Sandbox Environment

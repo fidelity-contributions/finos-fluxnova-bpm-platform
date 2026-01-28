@@ -202,13 +202,13 @@ You can run the Fluxnova BPM Platform using the official Docker image. By defaul
 #### Pull the Docker Image
 
 ```bash
-docker pull ghcr.io/finos/fluxnova-bpm-platform:0.0.1-snapshot
+docker pull ghcr.io/finos/fluxnova-bpm-platform:1.1.0
 ```
 
 #### Run the Container (Default: H2 Database)
 
 ```bash
-docker run -p 8080:8080 ghcr.io/finos/fluxnova-bpm-platform:0.0.1-snapshot
+docker run -p 8080:8080 ghcr.io/finos/fluxnova-bpm-platform:1.1.0
 ```
 
 #### Run with PostgreSQL or MySQL
@@ -221,7 +221,7 @@ docker run -p 8080:8080 \
   -e DB_URL=jdbc:postgresql://<host>:<port>/<db> \
   -e DB_USERNAME=<username> \
   -e DB_PASSWORD=<password> \
-  ghcr.io/finos/fluxnova-bpm-platform:0.0.1-snapshot
+  ghcr.io/finos/fluxnova-bpm-platform:1.1.0
 ```
 
 Replace the values as needed for MySQL. Any other Spring Boot configuration can be passed as environment variables.
