@@ -55,7 +55,7 @@ public class JavaObjectSerializer extends AbstractObjectValueSerializer {
     ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
     ObjectInputStream ois = null;
     try {
-      ois = new ClassloaderAwareObjectInputStream(bais);
+      ois = new ClassRemappingObjectInputStream(bais);
       return ois.readObject();
     }
     finally {
@@ -86,15 +86,4 @@ public class JavaObjectSerializer extends AbstractObjectValueSerializer {
     return value instanceof Serializable;
   }
 
-  protected static class ClassloaderAwareObjectInputStream extends ObjectInputStream {
-
-    public ClassloaderAwareObjectInputStream(InputStream in) throws IOException {
-      super(in);
-    }
-
-    protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-      return ReflectUtil.loadClass(desc.getName());
-    }
-
-  }
 }
