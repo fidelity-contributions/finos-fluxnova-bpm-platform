@@ -18,15 +18,11 @@ package org.finos.fluxnova.bpm.engine.impl.variable.serializer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
 import java.io.Serializable;
 
 import org.finos.fluxnova.bpm.engine.impl.util.IoUtil;
-import org.finos.fluxnova.bpm.engine.impl.util.ReflectUtil;
 import org.finos.fluxnova.bpm.engine.variable.Variables.SerializationDataFormats;
 
 /**
