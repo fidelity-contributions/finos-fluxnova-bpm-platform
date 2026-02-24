@@ -441,34 +441,26 @@ public class MigratorService {
      * @throws IOException If there is an error creating the directory structure or writing the file
      */
     void createMinimalPom(File pomFile) throws IOException {
-        String minimalPomContent = """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <project xmlns="http://maven.apache.org/POM/4.0.0"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-                 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-            <modelVersion>4.0.0</modelVersion>
-            
-            <groupId>org.finos.fluxnova</groupId>
-            <artifactId>migration-temp</artifactId>
-            <version>1.0.0</version>
-            <packaging>pom</packaging>
-            
-            <name>Temporary Migration Project</name>
-            <description>Temporary project for OpenRewrite migration from Camunda to Fluxnova</description>            
-            <build>
-                <plugins>
-                    <!-- OpenRewrite plugin will be added by prepare() method -->
-                </plugins>
-            </build>
-        </project>
-        """;
+        String templateFile = "minimal-pom-template.xml";
 
         // Ensure parent directory exists
         pomFile.getParentFile().mkdirs();
 
-        try (FileWriter writer = new FileWriter(pomFile)) {
-            writer.write(minimalPomContent);
+        try (InputStream inputStream = Migrator.class.getClassLoader().getResourceAsStream(templateFile)) {
+            if (inputStream == null) {
+                throw new IOException("Template file not found: " + templateFile);
+            }
+
+            // Read the template content
+            String content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+
+            // Write to target location
+            try (FileWriter writer = new FileWriter(pomFile)) {
+                writer.write(content);
+            }
+
+            LOG.info("Created minimal pom.xml from template at: {}", pomFile.getAbsolutePath());
         }
     }
+
 }
