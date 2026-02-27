@@ -75,7 +75,7 @@
     <version.jakarta-ee-spec>10.0.0</version.jakarta-ee-spec>
 
     <version.eirslett.frontend.maven.plugin>1.12.1</version.eirslett.frontend.maven.plugin>
-    <version.nodejs>20.14.0</version.nodejs>
+    <version.nodejs>24.14.0</version.nodejs>
     <version.npm>10.7.0</version.npm>
 
     <!-- OSGi bundles properties -->
