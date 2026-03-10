@@ -340,6 +340,14 @@
       <version>0.24.0</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+      <version>${version.jakarta.activation}</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
 

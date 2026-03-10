@@ -28,6 +28,12 @@
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
       <version>${version.resteasy}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.activation</groupId>
+          <artifactId>jakarta.activation</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
