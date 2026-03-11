@@ -513,7 +513,7 @@ pipeline {
         stage('webapp-UNIT-database-table-prefix') {
           when {
             expression {
-              cambpmIsNotFailedStageType(failedStageTypes, 'webapp-unit') && cambpmWithLabels()
+              cambpmIsNotFailedStageType(failedStageTypes, 'webapp-unit') && cambpmWithLabels('all', 'h2')
             }
           }
           steps {

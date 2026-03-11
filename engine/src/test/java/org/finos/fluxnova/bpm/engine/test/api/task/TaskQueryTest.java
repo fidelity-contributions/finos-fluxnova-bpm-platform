@@ -5541,7 +5541,7 @@ public class TaskQueryTest extends PluggableProcessEngineTest {
     assertThat(((TaskQueryImpl) result).getKeyNotIn())
             .containsExactly(taskDefinitionKey);
   }
-  
+
   @Test
   public void testQueryWithCandidateUsers() {
     BpmnModelInstance process = Bpmn.createExecutableProcess("process")
