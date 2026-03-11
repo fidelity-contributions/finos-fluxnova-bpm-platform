@@ -188,6 +188,10 @@ public class TaskRestServiceInteractionTest extends
   protected static final String HANDLE_BPMN_ERROR_URL = SINGLE_TASK_URL + "/bpmnError";
   protected static final String HANDLE_BPMN_ESCALATION_URL = SINGLE_TASK_URL + "/bpmnEscalation";
 
+  private static final String LOCAL_VARIABLE_KEY = "aLocalVariableId";
+  private static final List<String> LOCAL_VARIABLE_PAYLOAD = Arrays.asList("aLocalValue", "bLocalValue");
+
+  private TaskService taskService;
   private Task mockTask;
   private TaskService taskServiceMock;
   private TaskQuery mockQuery;
@@ -332,7 +336,7 @@ public class TaskRestServiceInteractionTest extends
       .body("variables", equalTo(null))
       .body("attachment", equalTo(null))
       .body("comment", equalTo(null))
-      .when().get(SINGLE_TASK_URL);
+            .when().get(SINGLE_TASK_URL);
   }
   @Test
   public void testGetSingleTaskWithCommentAttachment() {
