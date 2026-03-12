@@ -1,0 +1,13 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: javaPackagesMigration
+displayName: Java Package Names Migration
+recipeList:
+  - org.openrewrite.text.FindAndReplace:
+      find: org.camunda.impl.test.utils.testcontainers.CamundaPostgreSQLContainerProvider
+      replace: org.finos.fluxnova.impl.test.utils.testcontainers.FluxnovaPostgreSQLContainerProvider
+      filePattern: '**/*.java'
+  - org.openrewrite.text.FindAndReplace:
+      find: "org.camunda"
+      replace: "org.finos.fluxnova"
+      filePattern: '**/*.java'
