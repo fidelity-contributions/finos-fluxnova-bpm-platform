@@ -41,6 +41,11 @@
             <artifactId>plexus-utils</artifactId>
             <version>${plexus-utils.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${version.spring.framework6}</version>
+        </dependency>
 
         <!-- Testing Dependencies -->
         <dependency>

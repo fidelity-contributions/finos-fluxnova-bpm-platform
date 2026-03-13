@@ -4,13 +4,18 @@ name: metaInfServicesMigration
 displayName: META-INF Services Migration
 recipeList:
   - org.openrewrite.text.FindAndReplace:
-      find: \b([A-Z][a-zA-Z0-9]*)Camunda([A-Z][a-zA-Z0-9]*)\b
+      find: (org\.finos\.fluxnova\.[a-zA-Z0-9_.]+)\.camunda\.([a-zA-Z0-9_.]+)
+      replace: $1.fluxnova.$2
+      regex: true
+      filePattern: "**/META-INF/**"
+  - org.openrewrite.text.FindAndReplace:
+      find: (org\.finos\.fluxnova\.[a-zA-Z0-9_.]+)Camunda([A-Z][a-zA-Z0-9]*)\b
       replace: $1Fluxnova$2
       regex: true
       caseSensitive: true
       filePattern: "**/META-INF/**"
   - org.openrewrite.text.FindAndReplace:
-      find: \bCamunda([A-Z][a-zA-Z0-9]*)\b
+      find: (org\.finos\.fluxnova\.[a-zA-Z0-9_.]+)\.Camunda([A-Z][a-zA-Z0-9]*)\b
       replace: Fluxnova$1
       regex: true
       caseSensitive: true
@@ -18,11 +23,3 @@ recipeList:
   - org.openrewrite.RenameFile:
       fileMatcher: "**/META-INF/services/org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin"
       fileName: "org.finos.fluxnova.bpm.engine.impl.cfg.ProcessEnginePlugin"
-  - org.openrewrite.text.FindAndReplace:
-      find: "Camunda"
-      replace: "Fluxnova"
-      filePattern: '**/*.java'
-  - org.openrewrite.text.FindAndReplace:
-      find: "camunda"
-      replace: "fluxnova"
-      filePattern: '**/*.java'

@@ -7,7 +7,7 @@ recipeList:
   - mavenPropertiesMigration
   - mavenDependenciesMigration
   - javaClassNamesMigration
-  - javaPackagesMigration
+  - javaPackagesAndTypeMigration
   - propertiesFilesMigration
   - yamlFilesMigration
   - xmlBpmnMigration

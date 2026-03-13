@@ -102,6 +102,7 @@ class MigratorServiceIntegrationTest {
         verifyTextFileMigration();
         verifyHtmlEmbeddedFormMigration();
         verifyMetaInfMigration();
+        VerifyPythonScriptMigration();
         verifyRewriteYmlDeleted();
     }
 
@@ -219,6 +220,17 @@ class MigratorServiceIntegrationTest {
         assertTrue(javaContent.contains("import org.finos.fluxnova.bpm.engine.ProcessEngine;"));
         assertTrue(javaContent.contains("import org.finos.fluxnova.bpm.engine.RuntimeService;"));
         assertTrue(javaContent.contains("import org.finos.fluxnova.bpm.model.bpmn.builder.FluxnovaErrorEventDefinitionBuilder;"));
+        assertTrue(javaContent.contains("import org.finos.fluxnova.bpm.model.bpmn.impl.instance.fluxnova.FluxnovaExecutionListenerImpl;"));
+        assertTrue(javaContent.contains("import org.finos.fluxnova.bpm.model.bpmn.instance.fluxnova.FluxnovaConnector;"));
+        assertTrue(javaContent.contains("import org.finos.fluxnova.bpm.model.bpmn.impl.instance.fluxnova.FluxnovaInputOutputImpl;"));
+        assertTrue(javaContent.contains("FluxnovaExecutionListenerImpl testListener = (FluxnovaExecutionListenerImpl) listener;"));
+        assertTrue(javaContent.contains("FluxnovaExecutionListener newListener = sampleMethod((FluxnovaExecutionListener) listener)"));
+        assertTrue(javaContent.contains("public FluxnovaExecutionListener sampleMethod(FluxnovaExecutionListener exeListener)"));
+        assertTrue(javaContent.contains("getType(FluxnovaConnector.class)"));
+        assertTrue(javaContent.contains("Collection<FluxnovaExecutionListenerImpl> someList"));
+        assertTrue(javaContent.contains("for(FluxnovaExecutionListenerImpl listenerItem : listeners)"));
+        assertTrue(javaContent.contains("FluxnovaInputOutputImpl inputOutputImpl"));
+        assertTrue(javaContent.contains("inputOutputImpl.getFluxnovaInputParameters()"));
         assertFalse(javaContent.contains("org.camunda"));
     }
 
@@ -233,8 +245,11 @@ class MigratorServiceIntegrationTest {
         assertTrue(bpmnContent.contains("exporter=\"Fluxnova Modeler\""));
         assertTrue(bpmnContent.contains("xmlns:modeler=\"http://fluxnova.finos.org/schema/modeler/1.0/\""));
         assertTrue(bpmnContent.contains("exporterVersion=\"" + modelerVersion + "\""));
+        assertTrue(bpmnContent.contains("camunda:initiator=\"starter\""));
         assertTrue(bpmnContent.contains("org.finos.fluxnova.commons.logging.Loggers.getLogger(\"MyProcess\")"));
         assertTrue(bpmnContent.contains("org.finos.fluxnova.bpm.engine.delegate"));
+        assertTrue(bpmnContent.contains("org.finos.fluxnova.example.fluxnova.sample.TestFluxnovaExample"));
+        assertTrue(bpmnContent.contains("camunda:class=\"org.finos.fluxnova.example.fluxnova.sample.TestFluxnovaExample\""));
         assertTrue(bpmnContent.contains("mycamunda:initiator=\"end\""));
         assertTrue(bpmnContent.contains("camundaprocess:initiator=\"end\""));
 
@@ -585,6 +600,22 @@ class MigratorServiceIntegrationTest {
 
             assertFalse(readmeContent.contains("Camunda"),
                     "Should not contain Camunda");
+
+            // Verify Test.txt
+            Path textFile = Path.of(projectLocation + "src/main/resources/Test.txt");
+            String textContent = Files.readString(textFile);
+
+            assertTrue(textContent.contains("org.finos.fluxnova.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin"),
+                    "Should contain Fluxnova AdministratorAuthorizationPlugin");
+            assertTrue(textContent.contains("org.finos.fluxnova.connect.plugin.impl.ConnectProcessEnginePlugin"),
+                    "Should contain Fluxnova ConnectProcessEnginePlugin");
+            assertTrue(textContent.contains("org.finos.fluxnova.bpm.engine.ProcessEngineConfiguration"),
+                    "Should contain Fluxnova ProcessEngineConfiguration");
+            assertTrue(textContent.contains("org.finos.fluxnova.example.fluxnova.sample.TestFluxnovaExample"),
+                    "Should contain Fluxnova TestFluxnovaExample");
+
+            assertFalse(textContent.contains("Camunda"),
+                    "Should not contain Camunda");
         }
 
         // Verify startup.sh
@@ -804,10 +835,8 @@ class MigratorServiceIntegrationTest {
         String persistenceXmlContent = Files.readString(persistenceXmlFile);
         System.out.println("persistenceXmlContent = " + persistenceXmlContent);
 
-        assertFalse(persistenceXmlContent.contains("CamundaPU"),
-                "Should not contain Camunda persistence-unit name");
-        assertTrue(persistenceXmlContent.contains("Fluxnova"),
-                "Should contain Fluxnova persistence-unit name");
+        assertTrue(persistenceXmlContent.contains("CamundaPU"),
+                "Should contain Camunda persistence-unit name");
 
         assertTrue(persistenceXmlContent.contains("<class>org.finos.fluxnova.bpm.engine.impl.persistence.entity.ProcessDefinitionEntity</class>"),
                 "Should contain Fluxnova ProcessDefinitionEntity");
@@ -826,11 +855,54 @@ class MigratorServiceIntegrationTest {
         assertFalse(Files.exists(oldServicePlugin),
                 "Old service file should not exist: org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin");
         assertTrue(Files.exists(newServicePlugin),
-                "New service file should exist: org.fluxnova.bpm.engine.impl.cfg.ProcessEnginePlugin");
-        assertTrue(servicePluginContent.contains("com.example.MyCustomFluxnovaPlugin"),
-                "Should migrate to Fluxnova custom plugin ");
+                "New service file should exist: org.finos.fluxnova.bpm.engine.impl.cfg.ProcessEnginePlugin");
+        assertTrue(servicePluginContent.contains("com.example.MyCustomCamundaPlugin"),
+                "Should preserve Camunda custom plugin ");
         assertTrue(servicePluginContent.contains("com.example.MyCustomPlugin"),
                 "Should preserve custom plugin");
+        assertTrue(servicePluginContent.contains("org.finos.fluxnova.example.fluxnova.sample.TestFluxnovaExample"),
+                "Should migrate to Fluxnova reference");
+    }
+
+    private void VerifyPythonScriptMigration() throws IOException {
+        Path pythonFile = Path.of(projectLocation + "src/main/resources/external-script.py");
+        assertTrue(Files.exists(pythonFile), "python script file should exist");
+
+        String pythonScriptContent = Files.readString(pythonFile);
+        System.out.println("pythonScriptContent = " + pythonScriptContent);
+
+        // Verify Auto Configuration is migrated
+        assertTrue(pythonScriptContent.contains("org.finos.fluxnova.bpm.engine"),
+                "Should contain Fluxnova BPM engine reference");
+        assertTrue(pythonScriptContent.contains("org.finos.fluxnova.bpm.engine.delegate"),
+                "Should contain Fluxnova BPM engine delegate reference");
+        assertTrue(pythonScriptContent.contains("org.finos.fluxnova.bpm.engine.variable"),
+                "Should contain Fluxnova BPM engine variable reference");
+        assertTrue(pythonScriptContent.contains("org.finos.fluxnova.spin"),
+                "Should contain Fluxnova spin reference");
+        assertTrue(pythonScriptContent.contains("org.finos.fluxnova.bpm.engine.impl.context"),
+                "Should contain Fluxnova BPM engine Context reference");
+        assertTrue(pythonScriptContent.contains("org.finos.fluxnova.example.fluxnova.sample"),
+                "Should contain Fluxnova custom import reference");
+        assertTrue(pythonScriptContent.contains("org.finos.fluxnova.bpm.fluxnova.service"),
+                "Should contain Fluxnova custom service reference");
+        assertTrue(pythonScriptContent.contains("process_engine = org.finos.fluxnova.bpm.engine.ProcessEngines.getDefaultProcessEngine()"),
+                "Should contain Fluxnova ProcessEngines");
+        assertTrue(pythonScriptContent.contains("variables = org.finos.fluxnova.bpm.engine.variable.Variables.createVariables()"),
+                "Should contain Fluxnova BPM engine variables reference");
+        assertTrue(pythonScriptContent.contains("json_data = org.finos.fluxnova.spin.Spin.JSON('{\"key\": \"value\"}')"),
+                "Should contain Fluxnova Spin JSON reference");
+        assertTrue(pythonScriptContent.contains("custom_service = org.finos.fluxnova.example.fluxnova.sample.CustomFluxnovaDelegate()"),
+                "Should contain Fluxnova custom service reference");
+        assertTrue(pythonScriptContent.contains("process_service = org.finos.fluxnova.bpm.fluxnova.service.ProcessService()"),
+                "Should contain Fluxnova process service reference");
+        assertTrue(pythonScriptContent.contains("execution.setVariable(\"engine_name\", org.finos.fluxnova.bpm.engine.ProcessEngines.NAME_DEFAULT)"),
+                "Should contain Fluxnova ProcessEngines.NAME_DEFAULT");
+        assertTrue(pythonScriptContent.contains("engine = org.finos.fluxnova.bpm.engine.ProcessEngines.getDefaultProcessEngine()"),
+                "Should contain Fluxnova ProcessEngines.getDefaultProcessEngine()");
+
+        assertFalse(pythonScriptContent.contains("org.camunda"),
+                "Should not contain Camunda reference");
     }
 
     private JsonNode getJsonObject(Path file, ObjectMapper objectMapper) throws IOException {
