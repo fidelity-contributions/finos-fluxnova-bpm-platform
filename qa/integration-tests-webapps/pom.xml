@@ -80,6 +80,10 @@
 	        <groupId>javax.activation</groupId>
 	        <artifactId>activation</artifactId>
 	      </exclusion>
+	      <exclusion>
+	        <groupId>com.sun.xml.bind</groupId>
+	        <artifactId>jaxb-impl</artifactId>
+	      </exclusion>
 	    </exclusions>
 	  </dependency>
 	  

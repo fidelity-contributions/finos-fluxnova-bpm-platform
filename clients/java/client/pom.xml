@@ -158,6 +158,7 @@
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
       <version>${version.jaxb-runtime}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

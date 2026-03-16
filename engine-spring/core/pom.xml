@@ -133,27 +133,30 @@
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-api</artifactId>
         </exclusion>
-        <!-- exclude old javax.activation to use newer Jakarta activation -->
+         <!-- exclude old javax.activation to use newer Jakarta activation -->
         <exclusion>
           <groupId>javax.activation</groupId>
           <artifactId>javax.activation-api</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- Provide newer activation API for Hibernate's JAXB needs -->
     <dependency>
-      <groupId>jakarta.activation</groupId>
-      <artifactId>jakarta.activation-api</artifactId>
-      <version>${version.jakarta.activation}</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- JAXB implementation for Java 11+ -->
     <dependency>
-      <groupId>org.glassfish.jaxb</groupId>
-      <artifactId>jaxb-runtime</artifactId>
-      <version>${version.jaxb-runtime}</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.finos.fluxnova.bpm</groupId>
       <artifactId>fluxnova-bpm-archunit</artifactId>

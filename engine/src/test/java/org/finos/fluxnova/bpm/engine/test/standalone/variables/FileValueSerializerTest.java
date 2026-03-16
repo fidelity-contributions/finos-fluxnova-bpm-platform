@@ -137,7 +137,7 @@ public class FileValueSerializerTest {
 
     assertThat(new String(valueFields.getByteArrayValue(), "UTF-8")).isEqualTo("text");
     assertThat(valueFields.getTextValue()).isEqualTo("simpleFile.txt");
-    assertThat(valueFields.getTextValue2()).isEqualTo("application/octet-stream" + SEPARATOR);
+    assertThat(valueFields.getTextValue2()).isEqualTo("text/plain" + SEPARATOR);
   }
 
   @Test(expected = UnsupportedOperationException.class)
