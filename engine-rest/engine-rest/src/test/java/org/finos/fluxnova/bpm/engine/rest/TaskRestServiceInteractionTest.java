@@ -169,10 +169,12 @@ public class TaskRestServiceInteractionTest extends
 
   protected static final String SINGLE_TASK_ADD_COMMENT_URL = SINGLE_TASK_URL + "/comment/create";
   protected static final String SINGLE_TASK_COMMENTS_URL = SINGLE_TASK_URL + "/comment";
+  protected static final String TASK_COMMENTS_COUNT_URL = SINGLE_TASK_COMMENTS_URL + "/count";
   protected static final String SINGLE_TASK_SINGLE_COMMENT_URL = SINGLE_TASK_COMMENTS_URL + "/{commentId}";
 
   protected static final String SINGLE_TASK_ADD_ATTACHMENT_URL = SINGLE_TASK_URL + "/attachment/create";
   protected static final String SINGLE_TASK_ATTACHMENTS_URL = SINGLE_TASK_URL + "/attachment";
+  protected static final String TASK_ATTACHMENTS_COUNT_URL = SINGLE_TASK_ATTACHMENTS_URL + "/count";
   protected static final String SINGLE_TASK_SINGLE_ATTACHMENT_URL = SINGLE_TASK_ATTACHMENTS_URL + "/{attachmentId}";
   protected static final String SINGLE_TASK_DELETE_SINGLE_ATTACHMENT_URL = SINGLE_TASK_SINGLE_ATTACHMENT_URL;
   protected static final String SINGLE_TASK_SINGLE_ATTACHMENT_DATA_URL = SINGLE_TASK_ATTACHMENTS_URL + "/{attachmentId}/data";
@@ -233,12 +235,14 @@ public class TaskRestServiceInteractionTest extends
     when(taskServiceMock.getTaskComment(EXAMPLE_TASK_ID, EXAMPLE_TASK_COMMENT_ID)).thenReturn(mockTaskComment);
     mockTaskComments = MockProvider.createMockTaskComments();
     when(taskServiceMock.getTaskComments(EXAMPLE_TASK_ID)).thenReturn(mockTaskComments);
+    when(taskServiceMock.getTaskCommentsCount(EXAMPLE_TASK_ID)).thenReturn(2L);
     when(taskServiceMock.createComment(EXAMPLE_TASK_ID, null, EXAMPLE_TASK_COMMENT_FULL_MESSAGE)).thenReturn(mockTaskComment);
 
     mockTaskAttachment = MockProvider.createMockTaskAttachment();
     when(taskServiceMock.getTaskAttachment(EXAMPLE_TASK_ID, EXAMPLE_TASK_ATTACHMENT_ID)).thenReturn(mockTaskAttachment);
     mockTaskAttachments = MockProvider.createMockTaskAttachments();
     when(taskServiceMock.getTaskAttachments(EXAMPLE_TASK_ID)).thenReturn(mockTaskAttachments);
+    when(taskServiceMock.getTaskAttachmentsCount(EXAMPLE_TASK_ID)).thenReturn(2L);
     when(taskServiceMock.createAttachment(any(), any(), any(), any(), any(), Mockito.<String>any())).thenReturn(mockTaskAttachment);
     when(taskServiceMock.createAttachment(any(), any(), any(), any(), any(), Mockito.<InputStream>any())).thenReturn(mockTaskAttachment);
     when(taskServiceMock.getTaskAttachmentContent(EXAMPLE_TASK_ID, EXAMPLE_TASK_ATTACHMENT_ID)).thenReturn(new ByteArrayInputStream(createMockByteData()));
@@ -2377,6 +2381,7 @@ public class TaskRestServiceInteractionTest extends
       .post(DELEGATE_TASK_URL);
   }
 
+  // Comment
   @Test
   public void testGetSingleTaskComment() {
     given()
@@ -2557,6 +2562,60 @@ public class TaskRestServiceInteractionTest extends
       .body("$.size()", equalTo(0))
     .when()
       .get(SINGLE_TASK_COMMENTS_URL);
+  }
+
+  @Test
+  public void testGetTaskCommentsCount() {
+    given()
+        .pathParam("id", MockProvider.EXAMPLE_TASK_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+        .then().expect().statusCode(Status.OK.getStatusCode()).contentType(ContentType.JSON)
+        .body("count", equalTo(2))
+        .when().get(TASK_COMMENTS_COUNT_URL);
+  }
+
+  @Test
+  public void testGetTaskCommentsCountWithHistoryDisabled() {
+    mockHistoryDisabled();
+
+    given()
+        .pathParam("id", EXAMPLE_TASK_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+        .then().expect()
+        .statusCode(Status.OK.getStatusCode())
+        .body("count", equalTo(0))
+        .when()
+        .get(TASK_COMMENTS_COUNT_URL);
+  }
+
+  @Test
+  public void testGetTaskCommentsCountForNonExistingTask() {
+    when(historicTaskInstanceQueryMock.taskId(NON_EXISTING_ID)).thenReturn(historicTaskInstanceQueryMock);
+    when(historicTaskInstanceQueryMock.singleResult()).thenReturn(null);
+
+    given()
+        .pathParam("id", NON_EXISTING_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+        .then().expect()
+        .statusCode(Status.NOT_FOUND.getStatusCode()).contentType(ContentType.JSON)
+        .body(containsString("No task found for task id " + NON_EXISTING_ID))
+        .when()
+        .get(TASK_COMMENTS_COUNT_URL);
+  }
+
+  @Test
+  public void testGetTaskCommentsCountForNonExistingTaskWithHistoryDisabled() {
+    mockHistoryDisabled();
+
+    given()
+        .pathParam("id", NON_EXISTING_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+        .then().expect()
+        .statusCode(Status.OK.getStatusCode())
+        .contentType(ContentType.JSON)
+        .body("count", equalTo(0))
+        .when()
+        .get(TASK_COMMENTS_COUNT_URL);
   }
 
   @Test
@@ -2864,6 +2923,60 @@ public class TaskRestServiceInteractionTest extends
   }
 
   @Test
+  public void testGetTaskAttachmentsCount() {
+    given()
+        .pathParam("id", MockProvider.EXAMPLE_TASK_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+      .then().expect().statusCode(Status.OK.getStatusCode()).contentType(ContentType.JSON)
+        .body("count", equalTo(2))
+      .when().get(TASK_ATTACHMENTS_COUNT_URL);
+  }
+
+  @Test
+  public void testGetTaskAttachmentsCountWithHistoryDisabled() {
+    mockHistoryDisabled();
+
+    given()
+        .pathParam("id", EXAMPLE_TASK_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+      .then().expect()
+        .statusCode(Status.OK.getStatusCode())
+        .body("count", equalTo(0))
+      .when()
+        .get(TASK_ATTACHMENTS_COUNT_URL);
+  }
+
+  @Test
+  public void testGetTaskAttachmentsCountForNonExistingTask() {
+    when(historicTaskInstanceQueryMock.taskId(NON_EXISTING_ID)).thenReturn(historicTaskInstanceQueryMock);
+    when(historicTaskInstanceQueryMock.singleResult()).thenReturn(null);
+
+    given()
+        .pathParam("id", NON_EXISTING_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+      .then().expect()
+        .statusCode(Status.NOT_FOUND.getStatusCode()).contentType(ContentType.JSON)
+        .body(containsString("No task found for task id " + NON_EXISTING_ID))
+      .when()
+        .get(TASK_ATTACHMENTS_COUNT_URL);
+  }
+
+  @Test
+  public void testGetTaskAttachmentsCountForNonExistingTaskWithHistoryDisabled() {
+    mockHistoryDisabled();
+
+    given()
+        .pathParam("id", NON_EXISTING_ID)
+        .header("accept", MediaType.APPLICATION_JSON)
+      .then().expect()
+        .statusCode(Status.OK.getStatusCode())
+        .contentType(ContentType.JSON)
+        .body("count", equalTo(0))
+      .when()
+        .get(TASK_ATTACHMENTS_COUNT_URL);
+  }
+
+  @Test
   public void testCreateCompleteTaskAttachmentWithContent() {
     Response response = given()
       .pathParam("id", EXAMPLE_TASK_ID)
@@ -3058,6 +3171,8 @@ public class TaskRestServiceInteractionTest extends
     .when()
       .get(SINGLE_TASK_SINGLE_ATTACHMENT_DATA_URL);
   }
+
+  // Attachments End GET
 
   @Test
   public void testDeleteSingleTaskAttachment() {
