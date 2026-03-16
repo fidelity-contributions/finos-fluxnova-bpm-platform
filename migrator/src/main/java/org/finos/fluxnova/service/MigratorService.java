@@ -10,7 +10,6 @@ import org.finos.fluxnova.Migrator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.beans.factory.annotation.Value;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -37,7 +36,6 @@ public class MigratorService {
     private String[] recipeFiles;
     private String[] recipeNames;
 
-    @Value("${rewrite.recipes.folder:recipes}") String recipesFolder;
     /**
      * Constructs a new MigratorService with the specified project location.
      *
@@ -508,7 +506,7 @@ public class MigratorService {
      */
     private String[] loadRecipeFiles() throws IOException {
         ClassLoader classLoader = Migrator.class.getClassLoader();
-
+        String recipesFolder = "recipes";
         try {
             URL recipesUrl = classLoader.getResource(recipesFolder);
             if (recipesUrl == null) {

@@ -30,6 +30,7 @@
            // Import Camunda Commons
            importPackage(org.camunda.commons.logging);
            import org.camunda.commons.utils
+           import org.camunda.example.camunda.sample.TestCamundaExample
 
            // Use the services
            var runtimeService = execution.getProcessEngineServices().getRuntimeService();
@@ -44,6 +45,7 @@
            logger.info("Process started");
          ]]></bpmn:script>
        </bpmn:scriptTask>
+       <bpmn:serviceTask id="Task_2" camunda:class="org.camunda.example.camunda.sample.TestCamundaExample" />
     <bpmn:endEvent id="endEvent_1" mycamunda:initiator="end"/>
     <bpmn:endEvent id="endEvent_1" camundaprocess:initiator="end"/>
   </bpmn:process>
