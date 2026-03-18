@@ -8,7 +8,7 @@
     <groupId>org.finos.fluxnova.bpm</groupId>
     <artifactId>fluxnova-engine-rest-root</artifactId>
     <relativePath>../</relativePath>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
 
   <properties>
@@ -33,6 +33,26 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
+    </dependency>
+
+    <!-- HTTP client for IAC/ESG OAuth integration -->
+    <dependency>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
+      <version>5.2.1</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Required for JAX-RS/Jersey Priority annotation -->
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
     </dependency>
 
     <dependency>
@@ -94,6 +114,21 @@
       <artifactId>activation</artifactId>
       <version>${javax.activation.version}</version>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- JWT validation for OAuth authentication -->
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>nimbus-jose-jwt</artifactId>
+      <version>${version.nimbus-jose-jwt}</version>
+    </dependency>
+
+    <!-- IAC (Identity and Access Control) client -->
+    <dependency>
+      <groupId>com.fmr.AP134016.dap-bpm</groupId>
+      <artifactId>iac-client</artifactId>
+      <version>2.0.0</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>

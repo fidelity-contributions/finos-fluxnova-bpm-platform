@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.finos.fluxnova.bpm.springboot.project</groupId>
     <artifactId>fluxnova-bpm-spring-boot-starter-root</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
 
   <groupId>org.finos.fluxnova.bpm.springboot</groupId>
@@ -40,6 +40,13 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
+    
+    <!-- JWT parsing for token authentication -->
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>nimbus-jose-jwt</artifactId>
+      <version>${version.nimbus-jose-jwt}</version>
     </dependency>
     <dependency>
       <artifactId>fluxnova-bpm-spring-boot-starter-test</artifactId>
