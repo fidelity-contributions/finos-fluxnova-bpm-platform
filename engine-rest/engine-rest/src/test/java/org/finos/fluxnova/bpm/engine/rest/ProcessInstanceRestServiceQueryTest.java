@@ -21,16 +21,11 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.path.json.JsonPath.from;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.finos.fluxnova.bpm.engine.rest.util.DateTimeUtils.withTimezone;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.anySet;
+import static org.mockito.Mockito.*;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,6 +70,8 @@ public class ProcessInstanceRestServiceQueryTest extends
 
   protected static final String PROCESS_INSTANCE_QUERY_URL = TEST_RESOURCE_ROOT_PATH + "/process-instance";
   protected static final String PROCESS_INSTANCE_COUNT_QUERY_URL = PROCESS_INSTANCE_QUERY_URL + "/count";
+  protected static final String PROCESS_INSTANCE_COUNT_BY_PDI_LIST_URL =
+          PROCESS_INSTANCE_QUERY_URL + "/instance-counts";
   private static final String TEST_VAR_NAME = "varName";
   private static final String TEST_VAR_VALUE = "varValue";
   protected ProcessInstanceQuery mockedQuery;
@@ -1197,6 +1194,28 @@ public class ProcessInstanceRestServiceQueryTest extends
       .when().post(PROCESS_INSTANCE_COUNT_QUERY_URL);
 
     verify(mockedQuery).count();
+  }
+
+  @Test
+  public void testQueryCountFromPdiListPost() {
+    Map<String, Object> params = new HashMap<>();
+    params.put("processDefinitionIds",
+            List.of(MockProvider.EXAMPLE_PROCESS_DEFINITION_ID, MockProvider.ANOTHER_EXAMPLE_PROCESS_DEFINITION_ID));
+    params.put("active", true);
+    given().contentType(POST_JSON_CONTENT_TYPE)
+            .body(params)
+            .expect()
+            .statusCode(Status.OK.getStatusCode())
+            .body("$.size()", equalTo(2))
+            .body("processDefinitionId",
+                    hasItems(MockProvider.EXAMPLE_PROCESS_DEFINITION_ID, MockProvider.ANOTHER_EXAMPLE_PROCESS_DEFINITION_ID))
+            .body("instanceCount", hasItems(1, 1))
+            .log()
+            .all()
+            .when()
+            .post(PROCESS_INSTANCE_COUNT_BY_PDI_LIST_URL);
+
+    verify(mockedQuery, times(2)).count();
   }
 
   @Test
