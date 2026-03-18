@@ -20,7 +20,7 @@ package org.finos.fluxnova.bpm.engine.rest.security.auth.impl;
 public final class IacConfig {
   
   private String baseUrl = "https://api-dev-aws.fmr.com/dap-access-control/v1";
-  private String appName = "fluxnova-bpm";
+  private String appName = "dap";
   
   private String serviceAccountUsername;
   private String serviceAccountPassword;
