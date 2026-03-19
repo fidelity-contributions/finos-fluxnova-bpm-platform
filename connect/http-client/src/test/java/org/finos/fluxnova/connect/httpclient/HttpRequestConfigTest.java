@@ -44,7 +44,7 @@ import org.mockito.internal.util.reflection.Whitebox;
 
 public class HttpRequestConfigTest {
 
-  public static final String EXAMPLE_URL = "http://camunda.org/example";
+  public static final String EXAMPLE_URL = "http://fluxnova.finos.org/example";
   public static final int PORT = 51234;
 
   @Rule
