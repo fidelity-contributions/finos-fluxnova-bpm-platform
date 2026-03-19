@@ -33,6 +33,10 @@ public class GetTaskAttachmentsCountCmd implements Command<Long>, Serializable {
     this.taskId = taskId;
   }
 
+  public String getTaskId() {
+    return taskId;
+  }
+
   public Long execute(CommandContext commandContext) {
     return commandContext
       .getAttachmentManager()
