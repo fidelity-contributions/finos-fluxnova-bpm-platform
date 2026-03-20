@@ -140,6 +140,9 @@
         <module>parent</module>
         <module>bom</module>
         <module>migrator</module>
+
+        <!-- JaCoCo aggregate report — must be last so all .exec files are available -->
+        <module>coverage</module>
       </modules>
     </profile>
 
@@ -273,15 +276,26 @@
       <!-- profile for running process-engine unit tests in QA -->
       <id>check-engine</id>
       <modules>
+        <module>model-api</module>
+        <module>engine-dmn</module>
+        <module>connect</module>
+        <module>juel</module>
+        <module>spin</module>
+        <module>commons</module>
+        <module>freemarker-template-engine</module>
         <module>engine</module>
         <module>engine-cdi</module>
         <module>engine-spring</module>
         <module>engine-rest</module>
+        <module>engine-plugins</module>
 
         <module>internal-dependencies</module>
         <module>database</module>
         <module>parent</module>
         <module>bom</module>
+
+        <!-- JaCoCo aggregate report -->
+        <module>coverage</module>
       </modules>
     </profile>
 
