@@ -13,12 +13,12 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.jar.JarFile;
 
 /**
  * Service class responsible for migrating Camunda projects to Fluxnova.
@@ -35,6 +35,8 @@ public class MigratorService {
     private final String modelerVersion;
     private String[] recipeFiles;
     private String[] recipeNames;
+    private static final String RECIPES_FOLDER = "recipes";
+    private static final String YML_EXTENSION = ".yml";
 
     /**
      * Constructs a new MigratorService with the specified project location.
@@ -506,19 +508,40 @@ public class MigratorService {
      */
     private String[] loadRecipeFiles() throws IOException {
         ClassLoader classLoader = Migrator.class.getClassLoader();
-        String recipesFolder = "recipes";
+
         try {
-            URL recipesUrl = classLoader.getResource(recipesFolder);
+            URL recipesUrl = classLoader.getResource(RECIPES_FOLDER);
             if (recipesUrl == null) {
                 LOG.warn("Recipes folder not found");
-                return new String[]{};
+                return new String[0];
             }
 
-            File recipesDir = new File(recipesUrl.toURI());
-            File[] files = recipesDir.listFiles((dir, name) -> name.endsWith(".yml"));
+            String protocol = recipesUrl.getProtocol();
 
-            if (files == null || files.length == 0) {
-                LOG.warn("No recipe files found in recipes folder");
+            if ("jar".equals(protocol)) {
+                // Handle JAR file
+                return loadRecipesFromJar(recipesUrl);
+            } else if ("file".equals(protocol)) {
+                // Handle file system
+                return loadRecipesFromFileSystem(recipesUrl);
+            } else {
+                LOG.warn("Unsupported protocol: {}", protocol);
+                return new String[0];
+            }
+
+        } catch (IOException e) {
+            LOG.error("Error reading recipes from JAR", e);
+            return new String[0];
+        }
+    }
+
+    private String[] loadRecipesFromFileSystem(URL recipesUrl) {
+        try {
+            File recipesDir = new File(recipesUrl.toURI());
+            File[] files = recipesDir.listFiles((dir, name) -> name.endsWith(YML_EXTENSION));
+
+            if (files == null) {
+                LOG.warn("No files found in recipes directory");
                 return new String[0];
             }
 
@@ -526,11 +549,30 @@ public class MigratorService {
                     .map(File::getName)
                     .sorted()
                     .toArray(String[]::new);
-
         } catch (URISyntaxException e) {
-            LOG.error("Error accessing recipes folder", e);
-            throw new IOException("Failed to read recipes folder", e);
+            LOG.error("Invalid URI for recipes folder", e);
+            return new String[0];
         }
+    }
+
+    private String[] loadRecipesFromJar(URL recipesUrl) throws IOException {
+        List<String> recipeFiles = new ArrayList<>();
+
+        String jarPath = recipesUrl.getPath();
+        String jarFilePath = jarPath.substring(5, jarPath.indexOf("!"));
+        String recipesPath = jarPath.substring(jarPath.indexOf("!") + 2);
+
+        try (JarFile jarFile = new JarFile(URLDecoder.decode(jarFilePath, StandardCharsets.UTF_8))) {
+            String pathPrefix = recipesPath.endsWith("/") ? recipesPath : recipesPath + "/";
+
+            jarFile.stream()
+                    .filter(entry -> !entry.isDirectory())
+                    .filter(entry -> entry.getName().startsWith(pathPrefix))
+                    .map(entry -> entry.getName().substring(pathPrefix.length()))
+                    .sorted()
+                    .forEach(recipeFiles::add);
+        }
+        return recipeFiles.toArray(new String[0]);
     }
 
     /**
