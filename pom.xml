@@ -38,6 +38,7 @@
     <version.joda-time>2.12.5</version.joda-time>
     <version.uuid-generator>4.3.0</version.uuid-generator>
     <version.feel-scala>1.0.0</version.feel-scala>
+    <version.jacoco>0.8.12</version.jacoco>
     <releasePerform>false</releasePerform>
   </properties>
 
@@ -140,9 +141,6 @@
         <module>parent</module>
         <module>bom</module>
         <module>migrator</module>
-
-        <!-- JaCoCo aggregate report — must be last so all .exec files are available -->
-        <module>coverage</module>
       </modules>
     </profile>
 
@@ -293,10 +291,34 @@
         <module>database</module>
         <module>parent</module>
         <module>bom</module>
-
-        <!-- JaCoCo aggregate report -->
-        <module>coverage</module>
       </modules>
+    </profile>
+
+    <profile>
+      <id>coverage-aggregate</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${version.jacoco}</version>
+            <inherited>false</inherited>
+            <executions>
+              <execution>
+                <id>report-aggregate</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report-aggregate</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
+                  <includeCurrentProject>false</includeCurrentProject>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
     <profile>
