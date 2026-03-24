@@ -19,6 +19,9 @@ package org.finos.fluxnova.bpm.engine.test.history;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.finos.fluxnova.bpm.engine.test.api.runtime.TestOrderingUtil.inverted;
+import static org.finos.fluxnova.bpm.engine.test.api.runtime.TestOrderingUtil.propertyComparator;
+import static org.finos.fluxnova.bpm.engine.test.api.runtime.TestOrderingUtil.verifySorting;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -30,6 +33,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,6 +53,7 @@ import org.finos.fluxnova.bpm.engine.history.HistoricTaskInstance;
 import org.finos.fluxnova.bpm.engine.history.HistoricVariableInstance;
 import org.finos.fluxnova.bpm.engine.history.HistoricVariableInstanceQuery;
 import org.finos.fluxnova.bpm.engine.history.HistoricVariableUpdate;
+import org.finos.fluxnova.bpm.engine.impl.calendar.DateTimeUtil;
 import org.finos.fluxnova.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.finos.fluxnova.bpm.engine.impl.history.HistoryLevel;
 import org.finos.fluxnova.bpm.engine.impl.history.event.HistoryEvent;
@@ -244,6 +249,10 @@ public class HistoricVariableInstanceTest extends PluggableProcessEngineTest {
     assertEquals(5, historyService.createHistoricVariableInstanceQuery().orderByProcessInstanceId().asc().list().size());
     assertEquals(5, historyService.createHistoricVariableInstanceQuery().orderByVariableName().asc().count());
     assertEquals(5, historyService.createHistoricVariableInstanceQuery().orderByVariableName().asc().list().size());
+    assertEquals(5, historyService.createHistoricVariableInstanceQuery().orderByTenantId().asc().count());
+    assertEquals(5, historyService.createHistoricVariableInstanceQuery().orderByTenantId().asc().list().size());
+    assertEquals(5, historyService.createHistoricVariableInstanceQuery().orderByVariableId().asc().count());
+    assertEquals(5, historyService.createHistoricVariableInstanceQuery().orderByVariableId().asc().list().size());
 
     assertEquals(2, historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).count());
     assertEquals(2, historyService.createHistoricVariableInstanceQuery().processInstanceId(processInstance.getId()).list().size());
@@ -2657,6 +2666,62 @@ public class HistoricVariableInstanceTest extends PluggableProcessEngineTest {
     assertThatThrownBy(throwingCallable)
         .isInstanceOf(NullValueException.class)
         .hasMessage("Variable names is null");
+  }
+
+  @Deployment(resources = { "org/finos/fluxnova/bpm/engine/test/history/HistoricVariableInstanceTest.testCallSimpleSubProcess.bpmn20.xml", "org/finos/fluxnova/bpm/engine/test/history/simpleSubProcess.bpmn20.xml" })
+  @Test
+  public void shouldBeCorrectlySortedWhenSortingByVariableId() {
+    // given
+    runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
+    // when
+    List<HistoricVariableInstance> historicVariableInstances = historyService.createHistoricVariableInstanceQuery().orderByVariableId().asc().list();
+    // then
+    assertEquals(5, historicVariableInstances.size());
+    verifySorting(historicVariableInstances, propertyComparator(HistoricVariableInstance::getId));
+  }
+
+  @Deployment(resources = { "org/finos/fluxnova/bpm/engine/test/history/HistoricVariableInstanceTest.testCallSimpleSubProcess.bpmn20.xml", "org/finos/fluxnova/bpm/engine/test/history/simpleSubProcess.bpmn20.xml" })
+  @Test
+  public void shouldBeCorrectlySortedWhenSortingByVariableCreationTime() {
+    // given
+    runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
+
+    // when
+    List<HistoricVariableInstance> historicVariableInstancesAsc =
+            historyService.createHistoricVariableInstanceQuery().orderByCreationTime().asc().list();
+    List<HistoricVariableInstance> historicVariableInstancesDesc =
+            historyService.createHistoricVariableInstanceQuery().orderByCreationTime().desc().list();
+
+    // then
+    assertEquals(5, historicVariableInstancesAsc.size());
+    assertEquals(5, historicVariableInstancesDesc.size());
+    verifySorting(historicVariableInstancesAsc, propertyComparator(HistoricVariableInstance::getCreateTime));
+    verifySorting(historicVariableInstancesDesc, inverted(propertyComparator(HistoricVariableInstance::getCreateTime)));
+  }
+
+  @Deployment(resources = {
+          "org/finos/fluxnova/bpm/engine/test/history/HistoricVariableInstanceTest.testCallSimpleSubProcess.bpmn20.xml",
+          "org/finos/fluxnova/bpm/engine/test/history/simpleSubProcess.bpmn20.xml" })
+  @Test
+  public void shouldQueryByCreatedAfter() {
+    // given
+    Calendar creationDate = Calendar.getInstance();
+    ClockUtil.setCurrentTime(creationDate.getTime());
+    runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
+
+    creationDate.add(Calendar.HOUR, 1);
+    ClockUtil.setCurrentTime(creationDate.getTime());
+    runtimeService.startProcessInstanceByKey("callSimpleSubProcess");
+
+    // when
+    List<HistoricVariableInstance> variablesCreatedAfter = historyService.createHistoricVariableInstanceQuery()
+            .createdAfter(creationDate.getTime())
+            .list();
+    List<HistoricVariableInstance> allVariables = historyService.createHistoricVariableInstanceQuery().list();
+
+    // then
+    assertEquals(5, variablesCreatedAfter.size());
+    assertEquals(10, allVariables.size());
   }
 
 }

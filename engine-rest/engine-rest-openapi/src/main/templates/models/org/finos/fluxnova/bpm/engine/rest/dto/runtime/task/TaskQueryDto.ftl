@@ -280,7 +280,13 @@
         type = "array"
         itemType = "string"
         desc = "Restrict to tasks that have one of the given keys. The keys need to be in a comma-separated list." />
-  
+
+    <@lib.property
+        name = "taskDefinitionKeyNotIn"
+        type = "array"
+        itemType = "string"
+        desc = "Exclude instances by a list of task definition keys. The keys need to be in a comma-separated list." />
+
     <@lib.property
         name = "taskDefinitionKeyLike"
         type = "string"
