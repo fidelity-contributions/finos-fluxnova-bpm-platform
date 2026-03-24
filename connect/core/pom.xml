@@ -90,7 +90,7 @@
               <comparisonVersion>${connect.version.old}</comparisonVersion>
               <logResults>true</logResults>
               <excludes>
-                <exclude>org/camunda/connect/impl/**</exclude>
+                <exclude>org/finos/fluxnova/connect/impl/**</exclude>
               </excludes>
             </configuration>
             <executions>

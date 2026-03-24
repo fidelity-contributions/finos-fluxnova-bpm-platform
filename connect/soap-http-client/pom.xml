@@ -91,7 +91,7 @@
               <comparisonVersion>${connect.version.old}</comparisonVersion>
               <logResults>true</logResults>
               <excludes>
-                <exclude>org/camunda/connect/httpclient/soap/impl/**</exclude>
+                <exclude>org/finos/fluxnova/connect/httpclient/soap/impl/**</exclude>
               </excludes>
             </configuration>
             <executions>
