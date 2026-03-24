@@ -4,6 +4,11 @@ env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
   CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
   CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
+  SONAR_ENABLED: ${{ vars.SONAR_ENABLED || 'false' }}
+  SONAR_PROVIDER: ${{ vars.SONAR_PROVIDER || 'sonarqube' }}
+  SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || '' }}
+  SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY || '' }}
+  SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION || '' }}
 
 on:
   push:
@@ -65,6 +70,41 @@ jobs:
 
       - name: Unit Tests
         uses: ./.github/actions/unit-test
+
+      - name: Sonar Scan (Report Only)
+        if: ${{ env.SONAR_ENABLED == 'true' && (github.event_name == 'pull_request' || github.ref == 'refs/heads/main') && secrets.SONAR_TOKEN != '' }}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${SONAR_PROJECT_KEY}" ]]; then
+            echo "SONAR_PROJECT_KEY is required when SONAR_ENABLED=true"
+            exit 1
+          fi
+
+          if [[ "${SONAR_PROVIDER}" == "sonarcloud" ]]; then
+            if [[ -z "${SONAR_ORGANIZATION}" ]]; then
+              echo "SONAR_ORGANIZATION is required when SONAR_PROVIDER=sonarcloud"
+              exit 1
+            fi
+            SONAR_HOST_ARG="-Dsonar.host.url=https://sonarcloud.io"
+            SONAR_PROVIDER_ARG="-Dsonar.organization=${SONAR_ORGANIZATION}"
+          else
+            if [[ -z "${SONAR_HOST_URL}" ]]; then
+              echo "SONAR_HOST_URL is required when SONAR_PROVIDER=sonarqube"
+              exit 1
+            fi
+            SONAR_HOST_ARG="-Dsonar.host.url=${SONAR_HOST_URL}"
+            SONAR_PROVIDER_ARG=""
+          fi
+
+          mvn -B -e -Psonar-analysis sonar:sonar \
+            -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
+            -Dsonar.token="${SONAR_TOKEN}" \
+            -Dsonar.qualitygate.wait=false \
+            ${SONAR_HOST_ARG} ${SONAR_PROVIDER_ARG}
 
   integration-test:
     name: Integration tests

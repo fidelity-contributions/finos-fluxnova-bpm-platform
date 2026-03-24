@@ -22,6 +22,13 @@ pipeline {
    }
   parameters {
     string name: 'EE_DOWNSTREAM', defaultValue: 'cambpm-ee-main-pr/' + cambpmDefaultBranch(), description: 'The name of the EE branch/PR to run the EE pipeline on, e.g. cambpm-ee-main/PR-333'
+    booleanParam name: 'SONAR_ENABLED', defaultValue: false, description: 'Run Sonar scan'
+    choice name: 'SONAR_PROVIDER', choices: ['sonarqube', 'sonarcloud'], description: 'Sonar backend provider'
+    string name: 'SONAR_HOST_URL', defaultValue: '', description: 'Required when SONAR_PROVIDER=sonarqube'
+    string name: 'SONAR_PROJECT_KEY', defaultValue: '', description: 'Sonar project key'
+    string name: 'SONAR_ORGANIZATION', defaultValue: '', description: 'Required when SONAR_PROVIDER=sonarcloud'
+    string name: 'SONAR_TOKEN_CREDENTIALS_ID', defaultValue: 'sonar-token', description: 'Jenkins string credentials id for Sonar token'
+    choice name: 'SONAR_MODE', choices: ['report', 'enforce'], description: 'report = do not fail on quality gate, enforce = wait and fail on gate'
   }
   stages {
     stage('ASSEMBLY') {
@@ -657,6 +664,51 @@ pipeline {
             ])
           }
         }
+      }
+    }
+    stage('SONAR_SCAN') {
+      when {
+        expression {
+          params.SONAR_ENABLED && (env.BRANCH_NAME == cambpmDefaultBranch() || env.CHANGE_ID != null)
+        }
+      }
+      steps {
+        cambpmConditionalRetry([
+          runSteps: {
+            withCredentials([string(credentialsId: params.SONAR_TOKEN_CREDENTIALS_ID, variable: 'SONAR_TOKEN')]) {
+              script {
+                if (!params.SONAR_PROJECT_KEY?.trim()) {
+                  error('SONAR_PROJECT_KEY is required when SONAR_ENABLED=true')
+                }
+
+                def sonarProviderArgs = ''
+                if (params.SONAR_PROVIDER == 'sonarcloud') {
+                  if (!params.SONAR_ORGANIZATION?.trim()) {
+                    error('SONAR_ORGANIZATION is required when SONAR_PROVIDER=sonarcloud')
+                  }
+                  sonarProviderArgs = "-Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=${params.SONAR_ORGANIZATION}"
+                } else {
+                  if (!params.SONAR_HOST_URL?.trim()) {
+                    error('SONAR_HOST_URL is required when SONAR_PROVIDER=sonarqube')
+                  }
+                  sonarProviderArgs = "-Dsonar.host.url=${params.SONAR_HOST_URL}"
+                }
+
+                def qualityGateArgs = params.SONAR_MODE == 'enforce'
+                  ? '-Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=300'
+                  : '-Dsonar.qualitygate.wait=false'
+
+                cambpmRunMaven('.',
+                  "verify -Pcheck-engine,sonar-analysis -DskipITs=true sonar:sonar -Dsonar.projectKey=${params.SONAR_PROJECT_KEY} -Dsonar.token=\\$SONAR_TOKEN ${sonarProviderArgs} ${qualityGateArgs}",
+                  withCatch: false,
+                  jdkVersion: 'jdk-17-latest')
+              }
+            }
+          },
+          postFailure: {
+            cambpmPublishTestResult()
+          }
+        ])
       }
     }
   }
