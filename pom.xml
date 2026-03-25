@@ -299,29 +299,9 @@
 
     <profile>
       <id>coverage-aggregate</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${version.jacoco}</version>
-            <inherited>false</inherited>
-            <executions>
-              <execution>
-                <id>report-aggregate</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>report-aggregate</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate</outputDirectory>
-                  <includeCurrentProject>false</includeCurrentProject>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
+      <modules>
+        <module>coverage</module>
+      </modules>
     </profile>
 
     <profile>
