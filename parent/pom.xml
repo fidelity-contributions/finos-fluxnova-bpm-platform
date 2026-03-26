@@ -81,7 +81,7 @@
     <version.npm>10.7.0</version.npm>
 
     <!-- JaCoCo coverage -->
-    <version.jacoco>0.8.12</version.jacoco>
+    <version.jacoco>0.8.14</version.jacoco>
     <jacoco.skip>false</jacoco.skip>
 
     <!-- OSGi bundles properties -->

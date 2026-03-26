@@ -38,8 +38,8 @@
     <version.joda-time>2.12.5</version.joda-time>
     <version.uuid-generator>4.3.0</version.uuid-generator>
     <version.feel-scala>2.0.0</version.feel-scala>
-    <version.jacoco>0.8.12</version.jacoco>
-    <version.sonar.maven.plugin>3.11.0.3922</version.sonar.maven.plugin>
+    <version.jacoco>0.8.14</version.jacoco>
+    <version.sonar.maven.plugin>5.5.0.6356</version.sonar.maven.plugin>
     <sonar.coverage.jacoco.xmlReportPaths>**/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
     <releasePerform>false</releasePerform>
