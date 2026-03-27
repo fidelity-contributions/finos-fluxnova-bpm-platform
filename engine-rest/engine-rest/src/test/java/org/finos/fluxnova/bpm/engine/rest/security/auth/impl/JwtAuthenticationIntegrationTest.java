@@ -80,9 +80,6 @@ public class JwtAuthenticationIntegrationTest {
     publicKey = (RSAPublicKey) keyPair.getPublic();
   }
 
-  // -------------------------------------------------------------------------
-  // Positive cases
-  // -------------------------------------------------------------------------
 
   @Test
   public void testValidTokenAuthenticatesUser() throws Exception {
@@ -165,10 +162,6 @@ public class JwtAuthenticationIntegrationTest {
     assertNull("Groups should be null when not configured", result.getGroups());
   }
 
-  // -------------------------------------------------------------------------
-  // Negative cases
-  // -------------------------------------------------------------------------
-
   @Test
   public void testMissingTokenReturnsUnsuccessful() throws Exception {
     JwtAuthenticationProvider provider = createInMemoryProvider("sub", null);
@@ -228,9 +221,6 @@ public class JwtAuthenticationIntegrationTest {
     assertFalse("Wrong audience should not authenticate", result.isAuthenticated());
   }
 
-  // -------------------------------------------------------------------------
-  // Helpers
-  // -------------------------------------------------------------------------
 
   private JwtAuthenticationProvider createInMemoryProvider(String userClaim, String groupsClaim) throws Exception {
     return new JwtAuthenticationProvider(
