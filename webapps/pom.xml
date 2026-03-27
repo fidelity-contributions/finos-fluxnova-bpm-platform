@@ -151,8 +151,6 @@
         <artifactId>frontend-maven-plugin</artifactId>
         <inherited>false</inherited>
         <configuration>
-          <nodeDownloadRoot>https://artifactory.fmr.com/artifactory/npm-public-nodejs/</nodeDownloadRoot>
-          <npmDownloadRoot>https://artifactory.fmr.com/artifactory/npm-public-npmjs-cache/npm/-/</npmDownloadRoot>
           <workingDirectory>./frontend</workingDirectory>
           <outputdir>${project.build.directory}/webapp</outputdir>
           <skip>${skip.frontend.build}</skip>
@@ -165,16 +163,7 @@
             </goals>
           </execution>
           <execution>
-            <id>npm set registry</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>config set registry=https://artifactory.fmr.com/api/npm/npm-prereleases/</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install</id>
+            <id>npm ci</id>
             <goals>
               <goal>npm</goal>
             </goals>

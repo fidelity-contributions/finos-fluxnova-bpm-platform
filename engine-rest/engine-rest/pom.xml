@@ -35,17 +35,11 @@
       <artifactId>commons-io</artifactId>
     </dependency>
 
-    <!-- HTTP client for IAC/ESG OAuth integration -->
+    <!-- Nimbus JOSE+JWT for eJWT validation -->
     <dependency>
-      <groupId>org.apache.httpcomponents.client5</groupId>
-      <artifactId>httpclient5</artifactId>
-      <version>5.2.1</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <optional>true</optional>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>nimbus-jose-jwt</artifactId>
+      <version>9.37.3</version>
     </dependency>
 
     <!-- Required for JAX-RS/Jersey Priority annotation -->
@@ -114,21 +108,6 @@
       <artifactId>activation</artifactId>
       <version>${javax.activation.version}</version>
       <scope>provided</scope>
-    </dependency>
-
-    <!-- JWT validation for OAuth authentication -->
-    <dependency>
-      <groupId>com.nimbusds</groupId>
-      <artifactId>nimbus-jose-jwt</artifactId>
-      <version>${version.nimbus-jose-jwt}</version>
-    </dependency>
-
-    <!-- IAC (Identity and Access Control) client -->
-    <dependency>
-      <groupId>com.fmr.AP134016.dap-bpm</groupId>
-      <artifactId>iac-client</artifactId>
-      <version>2.0.0</version>
-      <optional>true</optional>
     </dependency>
 
     <dependency>

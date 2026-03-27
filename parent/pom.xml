@@ -309,8 +309,6 @@
           <configuration>
             <nodeVersion>v${version.nodejs}</nodeVersion>
             <npmVersion>${version.npm}</npmVersion>
-            <nodeDownloadRoot>https://artifactory.fmr.com/artifactory/npm-public-nodejs/</nodeDownloadRoot>
-            <npmDownloadRoot>https://artifactory.fmr.com/artifactory/npm-public-npmjs-cache/npm/-/</npmDownloadRoot>
           </configuration>
         </plugin>
 
