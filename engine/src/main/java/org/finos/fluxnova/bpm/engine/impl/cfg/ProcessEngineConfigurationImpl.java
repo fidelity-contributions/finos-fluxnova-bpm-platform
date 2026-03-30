@@ -2923,6 +2923,18 @@ public abstract class ProcessEngineConfigurationImpl extends ProcessEngineConfig
     return processEngineName;
   }
 
+  public String getProcessEngineDescription() {
+    return processEngineDescription;
+  }
+
+  public String getProcessEngineGroup() {
+    return processEngineGroupName;
+  }
+
+  public String getProcessEngineGroupDescription() {
+    return processEngineGroupDescription;
+  }
+
   public HistoryLevel getHistoryLevel() {
     return historyLevel;
   }
@@ -2946,6 +2958,21 @@ public abstract class ProcessEngineConfigurationImpl extends ProcessEngineConfig
   @Override
   public ProcessEngineConfigurationImpl setProcessEngineName(String processEngineName) {
     this.processEngineName = processEngineName;
+    return this;
+  }
+
+  public ProcessEngineConfigurationImpl setProcessEngineDescription(String processEngineDescriptio) {
+    this.processEngineDescription = processEngineDescriptio;
+    return this;
+  }
+
+  public ProcessEngineConfigurationImpl setProcessEngineGroupName(String processEngineGroupName) {
+    this.processEngineGroupName = processEngineGroupName;
+    return this;
+  }
+
+  public ProcessEngineConfigurationImpl setProcessEngineGroupDescription(String processEngineGroupDescription) {
+    this.processEngineGroupDescription = processEngineGroupDescription;
     return this;
   }
 
