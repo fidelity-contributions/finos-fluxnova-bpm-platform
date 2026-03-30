@@ -56,36 +56,10 @@
       </dependency>
 
       <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>4.5.9</version>
+        <groupId>org.apache.httpcomponents.client5</groupId>
+        <artifactId>httpclient5</artifactId>
+        <version>${version.httpclient5}</version>
       </dependency>
-    
-      <dependency>
-        <groupId>com.sun.jersey.contribs</groupId>
-        <artifactId>jersey-apache-client4</artifactId>
-        <version>1.15</version>
-      </dependency>
-	  <dependency>
-	    <groupId>com.sun.jersey</groupId>
-	    <artifactId>jersey-json</artifactId>
-	    <version>1.15</version>
-	    <exclusions>
-	      <!-- exclude old javax dependencies to use Jakarta instead -->
-	      <exclusion>
-	        <groupId>javax.xml.bind</groupId>
-	        <artifactId>jaxb-api</artifactId>
-	      </exclusion>
-	      <exclusion>
-	        <groupId>javax.activation</groupId>
-	        <artifactId>activation</artifactId>
-	      </exclusion>
-	      <exclusion>
-	        <groupId>com.sun.xml.bind</groupId>
-	        <artifactId>jaxb-impl</artifactId>
-	      </exclusion>
-	    </exclusions>
-	  </dependency>
 	  
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
@@ -166,26 +140,16 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
       <scope>test</scope>
     </dependency>
 
     <dependency>
-      <groupId>com.sun.jersey.contribs</groupId>
-      <artifactId>jersey-apache-client4</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-json</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.jersey.contribs</groupId>
-      <artifactId>jersey-multipart</artifactId>
-      <version>1.15</version>
+      <groupId>com.konghq</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>${version.unirest-java}</version>
+      <classifier>standalone</classifier>
       <scope>test</scope>
     </dependency>
 

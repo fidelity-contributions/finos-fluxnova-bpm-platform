@@ -19,10 +19,9 @@
 
     <version.jersey-json>1.15</version.jersey-json>
     <version.jersey-apache-client>1.15</version.jersey-apache-client>
-    <version.httpcomponents>4.5.10</version.httpcomponents>
+    <version.httpcomponents>5.3.1</version.httpcomponents>
     <version.junit>4.13.1</version.junit>
     <version.chromedriver>141.0.7390.54</version.chromedriver>
-
     <host.chromedriver>https://storage.googleapis.com/chrome-for-testing-public</host.chromedriver>
   </properties>
 
@@ -30,17 +29,11 @@
     <dependencies>
 
       <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcomponents-client</artifactId>
+        <groupId>org.apache.httpcomponents.client5</groupId>
+        <artifactId>httpclient5-parent</artifactId>
         <version>${version.httpcomponents}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>com.sun.jersey.contribs</groupId>
-        <artifactId>jersey-apache-client4</artifactId>
-        <version>${version.jersey-apache-client}</version>
       </dependency>
 
       <dependency>
@@ -53,12 +46,6 @@
             <artifactId>jakarta.activation</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-
-      <dependency>
-        <groupId>com.sun.jersey</groupId>
-        <artifactId>jersey-json</artifactId>
-        <version>${version.jersey-json}</version>
       </dependency>
 
       <!-- using 4.13 in order to have @BeforeParam/@AfterParam for parameterized 
