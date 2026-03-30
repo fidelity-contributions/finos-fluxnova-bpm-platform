@@ -100,7 +100,7 @@ jobs:
             SONAR_PROVIDER_ARG=""
           fi
 
-          mvn -B -e -Psonar-analysis sonar:sonar \
+          mvn -B -e sonar:sonar \
             -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
             -Dsonar.token="${SONAR_TOKEN}" \
             -Dsonar.qualitygate.wait=false \

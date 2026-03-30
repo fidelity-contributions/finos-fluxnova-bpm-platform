@@ -380,6 +380,17 @@
               <skip>${jacoco.skip}</skip>
             </configuration>
           </execution>
+          <!-- Generates the per-module integration test report after integration tests run -->
+          <execution>
+            <id>jacoco-report-integration</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>report-integration</goal>
+            </goals>
+            <configuration>
+              <skip>${jacoco.skip}</skip>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

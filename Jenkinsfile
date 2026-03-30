@@ -28,7 +28,6 @@ pipeline {
     string name: 'SONAR_PROJECT_KEY', defaultValue: '', description: 'Sonar project key'
     string name: 'SONAR_ORGANIZATION', defaultValue: '', description: 'Required when SONAR_PROVIDER=sonarcloud'
     string name: 'SONAR_TOKEN_CREDENTIALS_ID', defaultValue: 'sonar-token', description: 'Jenkins string credentials id for Sonar token'
-    choice name: 'SONAR_MODE', choices: ['report', 'enforce'], description: 'report = do not fail on quality gate, enforce = wait and fail on gate'
   }
   stages {
     stage('ASSEMBLY') {
@@ -611,12 +610,10 @@ pipeline {
                   sonarProviderArgs = "-Dsonar.host.url=${params.SONAR_HOST_URL}"
                 }
 
-                def qualityGateArgs = params.SONAR_MODE == 'enforce'
-                  ? '-Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=300'
-                  : '-Dsonar.qualitygate.wait=false'
+                def qualityGateArgs = '-Dsonar.qualitygate.wait=false'
 
                 cambpmRunMaven('.',
-                  "verify -Pcheck-engine,sonar-analysis -DskipITs=true sonar:sonar -Dsonar.projectKey=${params.SONAR_PROJECT_KEY} -Dsonar.token=\\$SONAR_TOKEN ${sonarProviderArgs} ${qualityGateArgs}",
+                  "verify -Pcheck-engine -DskipITs=true sonar:sonar -Dsonar.projectKey=${params.SONAR_PROJECT_KEY} -Dsonar.token=\\$SONAR_TOKEN ${sonarProviderArgs} ${qualityGateArgs}",
                   withCatch: false,
                   jdkVersion: 'jdk-17-latest')
               }

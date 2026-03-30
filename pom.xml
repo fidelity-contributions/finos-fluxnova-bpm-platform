@@ -39,9 +39,6 @@
     <version.uuid-generator>4.3.0</version.uuid-generator>
     <version.feel-scala>2.0.0</version.feel-scala>
     <version.jacoco>0.8.14</version.jacoco>
-    <version.sonar.maven.plugin>5.5.0.6356</version.sonar.maven.plugin>
-    <sonar.coverage.jacoco.xmlReportPaths>**/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-    <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
     <releasePerform>false</releasePerform>
   </properties>
 
@@ -302,27 +299,6 @@
       <modules>
         <module>coverage</module>
       </modules>
-    </profile>
-
-    <profile>
-      <id>sonar-analysis</id>
-      <properties>
-        <sonar.host.url>${env.SONAR_HOST_URL}</sonar.host.url>
-        <sonar.token>${env.SONAR_TOKEN}</sonar.token>
-        <sonar.projectKey>${env.SONAR_PROJECT_KEY}</sonar.projectKey>
-        <sonar.organization>${env.SONAR_ORGANIZATION}</sonar.organization>
-        <sonar.qualitygate.wait>false</sonar.qualitygate.wait>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonarsource.scanner.maven</groupId>
-            <artifactId>sonar-maven-plugin</artifactId>
-            <version>${version.sonar.maven.plugin}</version>
-            <inherited>false</inherited>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
 
     <profile>
