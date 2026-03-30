@@ -24,10 +24,10 @@ pipeline {
     string name: 'EE_DOWNSTREAM', defaultValue: 'cambpm-ee-main-pr/' + cambpmDefaultBranch(), description: 'The name of the EE branch/PR to run the EE pipeline on, e.g. cambpm-ee-main/PR-333'
     booleanParam name: 'SONAR_ENABLED', defaultValue: false, description: 'Run Sonar scan'
     choice name: 'SONAR_PROVIDER', choices: ['sonarqube', 'sonarcloud'], description: 'Sonar backend provider'
-    string name: 'SONAR_HOST_URL', defaultValue: '', description: 'Required when SONAR_PROVIDER=sonarqube'
-    string name: 'SONAR_PROJECT_KEY', defaultValue: '', description: 'Sonar project key'
-    string name: 'SONAR_ORGANIZATION', defaultValue: '', description: 'Required when SONAR_PROVIDER=sonarcloud'
-    string name: 'SONAR_TOKEN_CREDENTIALS_ID', defaultValue: 'sonar-token', description: 'Jenkins string credentials id for Sonar token'
+    string name: 'SONAR_HOST_URL_SECRET_ID', defaultValue: '', description: 'Jenkins Secret Text id for Sonar host URL (required when SONAR_PROVIDER=sonarqube)'
+    string name: 'SONAR_PROJECT_KEY_SECRET_ID', defaultValue: '', description: 'Jenkins Secret Text id for Sonar project key'
+    string name: 'SONAR_ORGANIZATION_SECRET_ID', defaultValue: '', description: 'Jenkins Secret Text id for Sonar organization (required when SONAR_PROVIDER=sonarcloud)'
+    string name: 'SONAR_TOKEN_SECRET_ID', defaultValue: 'sonar-token', description: 'Jenkins Secret Text id for Sonar token'
   }
   stages {
     stage('ASSEMBLY') {
@@ -591,29 +591,44 @@ pipeline {
       steps {
         cambpmConditionalRetry([
           runSteps: {
-            withCredentials([string(credentialsId: params.SONAR_TOKEN_CREDENTIALS_ID, variable: 'SONAR_TOKEN')]) {
+            def sonarCredentialsBindings = [string(credentialsId: params.SONAR_TOKEN_SECRET_ID, variable: 'SONAR_TOKEN')]
+            if (params.SONAR_PROJECT_KEY_SECRET_ID?.trim()) {
+              sonarCredentialsBindings << string(credentialsId: params.SONAR_PROJECT_KEY_SECRET_ID, variable: 'SONAR_PROJECT_KEY_SECRET')
+            }
+            if (params.SONAR_PROVIDER == 'sonarcloud' && params.SONAR_ORGANIZATION_SECRET_ID?.trim()) {
+              sonarCredentialsBindings << string(credentialsId: params.SONAR_ORGANIZATION_SECRET_ID, variable: 'SONAR_ORGANIZATION_SECRET')
+            }
+            if (params.SONAR_PROVIDER == 'sonarqube' && params.SONAR_HOST_URL_SECRET_ID?.trim()) {
+              sonarCredentialsBindings << string(credentialsId: params.SONAR_HOST_URL_SECRET_ID, variable: 'SONAR_HOST_URL_SECRET')
+            }
+
+            withCredentials(sonarCredentialsBindings) {
               script {
-                if (!params.SONAR_PROJECT_KEY?.trim()) {
-                  error('SONAR_PROJECT_KEY is required when SONAR_ENABLED=true')
+                def sonarProjectKey = env.SONAR_PROJECT_KEY_SECRET?.trim()
+                def sonarHostUrl = env.SONAR_HOST_URL_SECRET?.trim()
+                def sonarOrganization = env.SONAR_ORGANIZATION_SECRET?.trim()
+
+                if (!sonarProjectKey) {
+                  error('SONAR_PROJECT_KEY_SECRET_ID is required when SONAR_ENABLED=true')
                 }
 
                 def sonarProviderArgs = ''
                 if (params.SONAR_PROVIDER == 'sonarcloud') {
-                  if (!params.SONAR_ORGANIZATION?.trim()) {
-                    error('SONAR_ORGANIZATION is required when SONAR_PROVIDER=sonarcloud')
+                  if (!sonarOrganization) {
+                    error('SONAR_ORGANIZATION_SECRET_ID is required when SONAR_PROVIDER=sonarcloud')
                   }
-                  sonarProviderArgs = "-Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=${params.SONAR_ORGANIZATION}"
+                  sonarProviderArgs = "-Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=${sonarOrganization}"
                 } else {
-                  if (!params.SONAR_HOST_URL?.trim()) {
-                    error('SONAR_HOST_URL is required when SONAR_PROVIDER=sonarqube')
+                  if (!sonarHostUrl) {
+                    error('SONAR_HOST_URL_SECRET_ID is required when SONAR_PROVIDER=sonarqube')
                   }
-                  sonarProviderArgs = "-Dsonar.host.url=${params.SONAR_HOST_URL}"
+                  sonarProviderArgs = "-Dsonar.host.url=${sonarHostUrl}"
                 }
 
                 def qualityGateArgs = '-Dsonar.qualitygate.wait=false'
 
                 cambpmRunMaven('.',
-                  "verify -Pcheck-engine -DskipITs=true sonar:sonar -Dsonar.projectKey=${params.SONAR_PROJECT_KEY} -Dsonar.token=\\$SONAR_TOKEN ${sonarProviderArgs} ${qualityGateArgs}",
+                  "verify -Pcheck-engine -DskipITs=true sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.token=\\$SONAR_TOKEN ${sonarProviderArgs} ${qualityGateArgs}",
                   withCatch: false,
                   jdkVersion: 'jdk-17-latest')
               }
