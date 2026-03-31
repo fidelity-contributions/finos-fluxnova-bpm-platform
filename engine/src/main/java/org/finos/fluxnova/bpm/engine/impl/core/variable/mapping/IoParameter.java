@@ -44,6 +44,7 @@ public abstract class IoParameter {
   public IoParameter(String name, ParameterValueProvider valueProvider) {
     this.name = name;
     this.valueProvider = valueProvider;
+    this.isTransient = false;
   }
 
   public IoParameter(String name, ParameterValueProvider valueProvider, boolean isTransient) {
