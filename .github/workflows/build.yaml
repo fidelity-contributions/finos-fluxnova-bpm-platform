@@ -107,6 +107,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Java setup
         uses: ./.github/actions/java-setup
@@ -149,7 +151,7 @@ jobs:
             SONAR_PROVIDER_ARG=""
           fi
 
-          mvn -B -e verify -DskipTests -Djacoco.skip=true sonar:sonar \
+          mvn -B -e package -DskipTests -DskipITs -Djacoco.skip=true sonar:sonar \
             -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
             -Dsonar.token="${SONAR_TOKEN}" \
             -Dsonar.qualitygate.wait=false \

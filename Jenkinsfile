@@ -628,7 +628,7 @@ pipeline {
                 def qualityGateArgs = '-Dsonar.qualitygate.wait=false'
 
                 cambpmRunMaven('.',
-                  "verify -Pcheck-engine -DskipITs=true sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.token=\\$SONAR_TOKEN ${sonarProviderArgs} ${qualityGateArgs}",
+                  "verify -Pcoverage-aggregate -DskipITs=true sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.token=\\$SONAR_TOKEN ${sonarProviderArgs} ${qualityGateArgs}",
                   withCatch: false,
                   jdkVersion: 'jdk-17-latest')
               }
