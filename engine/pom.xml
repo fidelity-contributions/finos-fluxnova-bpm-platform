@@ -479,7 +479,7 @@
         <artifactId>maven-shade-plugin</artifactId>
         <configuration>
           <promoteTransitiveDependencies>false</promoteTransitiveDependencies>
-          <createSourcesJar>false</createSourcesJar>
+          <createSourcesJar>true</createSourcesJar>
           <createDependencyReducedPom>true</createDependencyReducedPom>
           <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
           <artifactSet>
