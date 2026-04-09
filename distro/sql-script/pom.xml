@@ -402,7 +402,7 @@
     <profile>
       <id>check-sql</id>
       <properties>
-    <jacoco.skip>true</jacoco.skip>
+        <jacoco.skip>true</jacoco.skip>
         <skipTests>false</skipTests>
       </properties>
       <build>

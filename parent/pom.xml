@@ -84,6 +84,9 @@
     <version.jacoco>0.8.14</version.jacoco>
     <jacoco.skip>false</jacoco.skip>
 
+    <!-- Sonar -->
+    <version.sonar.plugin>5.5.0.6356</version.sonar.plugin>
+
     <!-- OSGi bundles properties -->
     <camunda.artifact />
     <camunda.osgi.import.camunda.spin.version>version="[$(version;==;${camunda.spin.version.clean}),$(version;=+;${camunda.spin.version.clean}))"</camunda.osgi.import.camunda.spin.version>
@@ -142,6 +145,11 @@
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>${version.jacoco}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>${version.sonar.plugin}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

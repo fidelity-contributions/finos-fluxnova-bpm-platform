@@ -103,7 +103,7 @@
       <id>large-data-tests</id>
 
       <properties>
-    <jacoco.skip>true</jacoco.skip>
+        <jacoco.skip>true</jacoco.skip>
         <skipTests>false</skipTests>
       </properties>
 
@@ -132,7 +132,7 @@
     <profile>
       <id>cfgJdbcBatchProcessingOff</id>
       <properties>
-    <jacoco.skip>true</jacoco.skip>
+        <jacoco.skip>true</jacoco.skip>
         <jdbcBatchProcessing>false</jdbcBatchProcessing>
       </properties>
     </profile>
