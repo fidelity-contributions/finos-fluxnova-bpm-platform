@@ -2923,24 +2923,6 @@ public abstract class ProcessEngineConfigurationImpl extends ProcessEngineConfig
   }
 
   // getters and setters //////////////////////////////////////////////////////
-
-  @Override
-  public String getProcessEngineName() {
-    return processEngineName;
-  }
-
-  public String getProcessEngineDescription() {
-    return processEngineDescription;
-  }
-
-  public String getProcessEngineGroup() {
-    return processEngineGroupName;
-  }
-
-  public String getProcessEngineGroupDescription() {
-    return processEngineGroupDescription;
-  }
-
   public HistoryLevel getHistoryLevel() {
     return historyLevel;
   }
@@ -2962,14 +2944,28 @@ public abstract class ProcessEngineConfigurationImpl extends ProcessEngineConfig
   }
 
   @Override
+  public String getProcessEngineName() {
+    return processEngineName;
+  }
+
+
+  @Override
   public ProcessEngineConfigurationImpl setProcessEngineName(String processEngineName) {
     this.processEngineName = processEngineName;
     return this;
   }
 
-  public ProcessEngineConfigurationImpl setProcessEngineDescription(String processEngineDescriptio) {
-    this.processEngineDescription = processEngineDescriptio;
+  public String getProcessEngineDisplayName() {
+    return processEngineDisplayName;
+  }
+
+  public ProcessEngineConfigurationImpl setProcessEngineDisplayName(String processEngineDescriptio) {
+    this.processEngineDisplayName = processEngineDescriptio;
     return this;
+  }
+
+  public String getProcessEngineGroupName() {
+    return processEngineGroupName;
   }
 
   public ProcessEngineConfigurationImpl setProcessEngineGroupName(String processEngineGroupName) {
@@ -2977,8 +2973,13 @@ public abstract class ProcessEngineConfigurationImpl extends ProcessEngineConfig
     return this;
   }
 
-  public ProcessEngineConfigurationImpl setProcessEngineGroupDescription(String processEngineGroupDescription) {
-    this.processEngineGroupDescription = processEngineGroupDescription;
+  public String getProcessEngineGroupDisplayName() {
+    return processEngineGroupDisplayName;
+  }
+
+
+  public ProcessEngineConfigurationImpl setProcessEngineGroupDisplayName(String processEngineGroupDescription) {
+    this.processEngineGroupDisplayName = processEngineGroupDescription;
     return this;
   }
 
