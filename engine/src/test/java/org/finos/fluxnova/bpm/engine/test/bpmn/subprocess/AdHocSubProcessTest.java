@@ -326,4 +326,109 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
 
     assertNotNull(taskAfter);
   }
+
+    @Deployment
+    @Test
+    public void testBoundaryErrorEventOnAdHocSubProcess() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBoundaryError");
+
+        Task boundaryTask = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .taskDefinitionKey("boundaryTask")
+                .singleResult();
+
+        Task adHocTask = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .taskDefinitionKey("taskA")
+                .singleResult();
+
+        Task taskAfter = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .taskDefinitionKey("taskAfter")
+                .singleResult();
+
+        assertNotNull(boundaryTask);
+        assertNull(adHocTask);
+        assertNull(taskAfter);
+
+        taskService.complete(boundaryTask.getId());
+        assertEquals(0, runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+    }
+
+    @Deployment
+    @Test
+    public void testMultiInstanceParallelAdHocSubProcessStartsAllInstances() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessMultiInstanceParallel");
+
+        List<Task> adHocTasks = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .orderByTaskName()
+                .asc()
+                .list();
+
+        assertEquals(4, adHocTasks.size());
+
+        long taskACount = adHocTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
+        long taskBCount = adHocTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
+        assertEquals(2, taskACount);
+        assertEquals(2, taskBCount);
+
+        for (Task task : adHocTasks) {
+            taskService.complete(task.getId());
+        }
+
+        Task taskAfter = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .taskDefinitionKey("taskAfter")
+                .singleResult();
+
+        assertNotNull(taskAfter);
+    }
+
+    @Deployment
+    @Test
+    public void testMultiInstanceSequentialAdHocSubProcessStartsOneInstanceAtATime() {
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessMultiInstanceSequential");
+
+        List<Task> firstInstanceTasks = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .orderByTaskName()
+                .asc()
+                .list();
+
+        assertEquals(2, firstInstanceTasks.size());
+
+        long firstInstanceTaskACount = firstInstanceTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
+        long firstInstanceTaskBCount = firstInstanceTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
+        assertEquals(1, firstInstanceTaskACount);
+        assertEquals(1, firstInstanceTaskBCount);
+
+        for (Task task : firstInstanceTasks) {
+            taskService.complete(task.getId());
+        }
+
+        List<Task> secondInstanceTasks = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .orderByTaskName()
+                .asc()
+                .list();
+
+        assertEquals(2, secondInstanceTasks.size());
+
+        long secondInstanceTaskACount = secondInstanceTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
+        long secondInstanceTaskBCount = secondInstanceTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
+        assertEquals(1, secondInstanceTaskACount);
+        assertEquals(1, secondInstanceTaskBCount);
+
+        for (Task task : secondInstanceTasks) {
+            taskService.complete(task.getId());
+        }
+
+        Task taskAfter = taskService.createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .taskDefinitionKey("taskAfter")
+                .singleResult();
+
+        assertNotNull(taskAfter);
+    }
 }
