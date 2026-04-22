@@ -126,12 +126,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- JSON parsing for OAuth responses -->
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-    </dependency>
-
     <!--
       needed for offline shrinkwrap (in particular CustomJacksonDateFormatTest),
       BOMs must be installed before this module is built
