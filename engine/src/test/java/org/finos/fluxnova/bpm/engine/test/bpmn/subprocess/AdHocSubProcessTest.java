@@ -161,13 +161,12 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
     taskService.complete(taskA.getId());
     taskService.complete(taskB.getId());
 
-    Execution remainingAdHocExecution = runtimeService.createExecutionQuery()
+    assertNull(runtimeService.createExecutionQuery()
         .processInstanceId(processInstance.getId())
         .activityId("adHocSubProcess")
-        .singleResult();
+        .singleResult());
 
-    assertNotNull(remainingAdHocExecution);
-    assertNull(taskService.createTaskQuery()
+    assertNotNull(taskService.createTaskQuery()
         .processInstanceId(processInstance.getId())
         .taskDefinitionKey("taskAfter")
         .singleResult());
