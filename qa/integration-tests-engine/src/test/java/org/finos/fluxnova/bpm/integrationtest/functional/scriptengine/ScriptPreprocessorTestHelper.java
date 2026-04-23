@@ -10,6 +10,7 @@
  */
 package org.finos.fluxnova.bpm.integrationtest.functional.scriptengine;
 
+import org.finos.fluxnova.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.finos.fluxnova.bpm.engine.impl.scripting.preprocessor.ScriptPreprocessor;
 import org.finos.fluxnova.bpm.engine.impl.scripting.preprocessor.ScriptPreprocessorRequest;
 
@@ -82,5 +83,13 @@ final class ScriptPreprocessorTestHelper {
         return "throwingPreprocessor";
       }
     };
+  }
+
+  /**
+   * Resets script preprocessing configuration to a known default.
+   */
+  static void resetScriptPreprocessing(ProcessEngineConfigurationImpl config) {
+    config.setEnableScriptPreprocessing(false);
+    config.setScriptPreprocessors(null);
   }
 }

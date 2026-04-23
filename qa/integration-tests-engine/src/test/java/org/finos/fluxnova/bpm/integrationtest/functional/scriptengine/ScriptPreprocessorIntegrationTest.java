@@ -57,18 +57,19 @@ public class ScriptPreprocessorIntegrationTest extends AbstractFoxPlatformIntegr
   @Deployment
   public static WebArchive createProcessApplication() {
     return initWebArchiveDeployment()
+        .addClass(ScriptPreprocessorTestHelper.class)
         .addAsResource(createScriptTaskProcess(), "process.bpmn20.xml")
         .addAsResource(createVarBindingProcess(), "varBindingProcess.bpmn20.xml");
   }
 
   @Before
   public void beforeEach() {
-    resetScriptPreprocessing();
+    ScriptPreprocessorTestHelper.resetScriptPreprocessing(processEngineConfiguration);
   }
 
   @After
   public void afterEach() {
-    resetScriptPreprocessing();
+    ScriptPreprocessorTestHelper.resetScriptPreprocessing(processEngineConfiguration);
   }
 
   @Test
@@ -192,14 +193,6 @@ public class ScriptPreprocessorIntegrationTest extends AbstractFoxPlatformIntegr
     String processInstanceId = runtimeService.startProcessInstanceByKey(VAR_PROCESS_KEY, vars).getId();
 
     assertEquals(10, runtimeService.getVariable(processInstanceId, RESULT_VARIABLE));
-  }
-
-  /**
-   * Resets script preprocessing configuration to a known default state between tests.
-   */
-  private void resetScriptPreprocessing() {
-    processEngineConfiguration.setEnableScriptPreprocessing(false);
-    processEngineConfiguration.setScriptPreprocessors(null);
   }
 
   /**

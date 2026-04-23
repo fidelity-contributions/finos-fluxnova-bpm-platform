@@ -52,7 +52,8 @@ public class ScriptPreprocessingCompilationTest extends AbstractFoxPlatformInteg
 
   @Deployment
   public static WebArchive createProcessApplication() {
-    return initWebArchiveDeployment();
+    return initWebArchiveDeployment()
+        .addClass(ScriptPreprocessorTestHelper.class);
   }
 
   protected static final String SCRIPT_LANGUAGE = "groovy";
@@ -68,23 +69,15 @@ public class ScriptPreprocessingCompilationTest extends AbstractFoxPlatformInteg
 
   protected ScriptFactory scriptFactory;
 
-  private boolean compilationEnabledBefore;
-  private boolean preprocessingEnabledBefore;
-  private List<ScriptPreprocessor> preprocessorsBefore;
-
   @Before
   public void setUp() {
     scriptFactory = processEngineConfiguration.getScriptFactory();
-    compilationEnabledBefore = processEngineConfiguration.isEnableScriptCompilation();
-    preprocessingEnabledBefore = processEngineConfiguration.isEnableScriptPreprocessing();
-    preprocessorsBefore = processEngineConfiguration.getScriptPreprocessors();
+    ScriptPreprocessorTestHelper.resetScriptPreprocessing(processEngineConfiguration);
   }
 
   @After
   public void tearDown() {
-    processEngineConfiguration.setEnableScriptCompilation(compilationEnabledBefore);
-    processEngineConfiguration.setEnableScriptPreprocessing(preprocessingEnabledBefore);
-    processEngineConfiguration.setScriptPreprocessors(preprocessorsBefore);
+    ScriptPreprocessorTestHelper.resetScriptPreprocessing(processEngineConfiguration);
   }
 
   // -------------------------------------------------------------------------
