@@ -29,6 +29,7 @@ import org.finos.fluxnova.bpm.engine.RuntimeService;
 import org.finos.fluxnova.bpm.engine.batch.Batch;
 import org.finos.fluxnova.bpm.engine.form.FormData;
 import org.finos.fluxnova.bpm.engine.history.HistoricProcessInstanceQuery;
+import org.finos.fluxnova.bpm.engine.impl.cmd.CompleteAdHocSubProcessCmd;
 import org.finos.fluxnova.bpm.engine.impl.cmd.CreateIncidentCmd;
 import org.finos.fluxnova.bpm.engine.impl.cmd.DeleteProcessInstanceCmd;
 import org.finos.fluxnova.bpm.engine.impl.cmd.DeleteProcessInstancesCmd;
@@ -549,6 +550,16 @@ public class RuntimeServiceImpl extends ServiceImpl implements RuntimeService {
                                      Collection<String> activityIds,
                                      Map<String, Map<String, Object>> activityVariables) {
     commandExecutor.execute(new TriggerAdHocActivitiesCmd(executionId, activityIds, activityVariables));
+  }
+
+  @Override
+  public void completeAdHocSubProcess(String executionId) {
+    completeAdHocSubProcess(executionId, null);
+  }
+
+  @Override
+  public void completeAdHocSubProcess(String executionId, Map<String, Object> variables) {
+    commandExecutor.execute(new CompleteAdHocSubProcessCmd(executionId, variables));
   }
 
   @Override

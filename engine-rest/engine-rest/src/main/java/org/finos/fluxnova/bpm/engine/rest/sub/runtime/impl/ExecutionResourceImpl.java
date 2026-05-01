@@ -29,6 +29,7 @@ import org.finos.fluxnova.bpm.engine.ProcessEngineException;
 import org.finos.fluxnova.bpm.engine.RuntimeService;
 import org.finos.fluxnova.bpm.engine.rest.dto.CreateIncidentDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.VariableValueDto;
+import org.finos.fluxnova.bpm.engine.rest.dto.runtime.AdHocSubProcessCompletionDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.runtime.AdHocActivitiesTriggerDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.runtime.AdHocActivityTriggerInstructionDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.runtime.ExecutionDto;
@@ -123,6 +124,32 @@ public class ExecutionResourceImpl implements ExecutionResource {
     } catch (ProcessEngineException e) {
       throw new RestException(Status.INTERNAL_SERVER_ERROR, e,
           "Cannot trigger ad-hoc activities for execution " + executionId + ": " + e.getMessage());
+
+    }
+  }
+
+  @Override
+  public void completeAdHocSubProcess(AdHocSubProcessCompletionDto completionDto) {
+    RuntimeService runtimeService = engine.getRuntimeService();
+    try {
+      Map<String, VariableValueDto> variables = completionDto != null ? completionDto.getVariables() : null;
+      Map<String, Object> convertedVariables = VariableValueDto.toMap(variables, engine, objectMapper);
+      runtimeService.completeAdHocSubProcess(executionId, convertedVariables);
+
+    } catch (RestException e) {
+      String errorMessage = String.format("Cannot complete ad-hoc subprocess for execution %s: %s", executionId, e.getMessage());
+      throw new InvalidRequestException(e.getStatus(), e, errorMessage);
+
+    } catch (BadUserRequestException e) {
+      throw new InvalidRequestException(Status.BAD_REQUEST, e,
+          "Cannot complete ad-hoc subprocess for execution " + executionId + ": " + e.getMessage());
+
+    } catch (AuthorizationException e) {
+      throw e;
+
+    } catch (ProcessEngineException e) {
+      throw new RestException(Status.INTERNAL_SERVER_ERROR, e,
+          "Cannot complete ad-hoc subprocess for execution " + executionId + ": " + e.getMessage());
 
     }
   }

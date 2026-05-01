@@ -1111,6 +1111,39 @@ public interface RuntimeService {
                               Collection<String> activityIds,
                               Map<String, Map<String, Object>> activityVariables);
 
+  /**
+   * Completes an active ad-hoc subprocess execution.
+   *
+   * <p>This operation is intended for manually completing an ad-hoc subprocess
+   * scope when no inner activities are currently active.
+   *
+   * @param executionId the execution id of the active ad-hoc subprocess scope
+   *
+   * @throws BadUserRequestException
+   *          when the executionId is null, the execution does not exist,
+   *          the execution is not an ad-hoc subprocess scope, or one or more
+   *          inner activities are currently active.
+   */
+  void completeAdHocSubProcess(String executionId);
+
+  /**
+   * Completes an active ad-hoc subprocess execution and optionally sets variables
+   * before leaving the ad-hoc scope.
+   *
+   * <p>This operation is intended for manually completing an ad-hoc subprocess
+   * scope when no inner activities are currently active.
+   *
+   * @param executionId the execution id of the active ad-hoc subprocess scope
+   * @param variables optional variables to set on the ad-hoc subprocess execution
+   *                  before completion; may be {@code null}
+   *
+   * @throws BadUserRequestException
+   *          when the executionId is null, the execution does not exist,
+   *          the execution is not an ad-hoc subprocess scope, or one or more
+   *          inner activities are currently active.
+   */
+  void completeAdHocSubProcess(String executionId, Map<String, Object> variables);
+
   // Variables ////////////////////////////////////////////////////////////////////
 
   /**

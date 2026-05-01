@@ -26,7 +26,7 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
   @Deployment
   @Test
   public void testTriggerAdHocActivityAndCompleteSubProcess() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
 
     List<Task> adHocTasks = taskService.createTaskQuery()
         .processInstanceId(processInstance.getId())
@@ -53,9 +53,9 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
     taskService.complete(taskB.getId());
 
     Task taskAfter = taskService.createTaskQuery()
-      .processInstanceId(processInstance.getId())
-      .taskDefinitionKey("taskAfter")
-      .singleResult();
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskAfter")
+        .singleResult();
 
     assertNotNull(taskAfter);
   }
@@ -65,7 +65,7 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
   public void testParallelActivationRespectsActiveTasksList() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(
         "adHocSubProcessBasic",
-                Collections.singletonMap("initialTaskIds", Collections.singletonList("taskB")));
+        Collections.singletonMap("initialTaskIds", Collections.singletonList("taskB")));
 
     Task taskA = taskService.createTaskQuery()
         .processInstanceId(processInstance.getId())
@@ -116,7 +116,7 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
   public void testEmptyActiveTasksCollectionLeavesAdHocSubProcessActive() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(
         "adHocSubProcessBasic",
-        Collections.singletonMap("initialTaskIds", Collections.emptyList()));
+    Collections.singletonMap("initialTaskIds", Collections.emptyList()));
 
     assertEquals(0, taskService.createTaskQuery()
         .processInstanceId(processInstance.getId())
@@ -136,7 +136,7 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
 
   @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testMissingActiveTasksCollectionFailsAdHocStart.bpmn20.xml")
   @Test
-    public void testTriggerAdHocActivitiesAfterIdleStartActivatesTasks() {
+  public void testTriggerAdHocActivitiesAfterIdleStartActivatesTasks() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
 
     Execution adHocExecution = runtimeService.createExecutionQuery()
@@ -172,10 +172,106 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
         .singleResult());
   }
 
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testMissingActiveTasksCollectionFailsAdHocStart.bpmn20.xml")
+  @Test
+  public void testCompleteAdHocSubProcessAfterIdleStart() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
+
+    Execution adHocExecution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult();
+
+    assertNotNull(adHocExecution);
+
+    runtimeService.completeAdHocSubProcess(adHocExecution.getId());
+
+    assertNull(runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult());
+
+    assertNotNull(taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskAfter")
+        .singleResult());
+  }
+
+    @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testMissingActiveTasksCollectionFailsAdHocStart.bpmn20.xml")
+    @Test
+    public void testCompleteAdHocSubProcessWithVariablesAfterIdleStart() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
+
+    Execution adHocExecution = runtimeService.createExecutionQuery()
+      .processInstanceId(processInstance.getId())
+      .activityId("adHocSubProcess")
+      .singleResult();
+
+    assertNotNull(adHocExecution);
+
+    runtimeService.completeAdHocSubProcess(adHocExecution.getId(),
+      Collections.singletonMap("completionReason", "manual"));
+
+    assertEquals("manual", runtimeService.getVariable(processInstance.getId(), "completionReason"));
+
+    assertNull(runtimeService.createExecutionQuery()
+      .processInstanceId(processInstance.getId())
+      .activityId("adHocSubProcess")
+      .singleResult());
+
+    assertNotNull(taskService.createTaskQuery()
+      .processInstanceId(processInstance.getId())
+      .taskDefinitionKey("taskAfter")
+      .singleResult());
+    }
+
+  @Deployment
+  @Test
+  public void testCompleteAdHocSubProcessFailsWhenActivitiesAreActive() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
+
+    Execution adHocExecution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult();
+
+    assertNotNull(adHocExecution);
+
+    try {
+      runtimeService.completeAdHocSubProcess(adHocExecution.getId());
+      fail("Expected BadUserRequestException");
+    } catch (BadUserRequestException e) {
+      testRule.assertTextPresent("has active child activities and cannot be completed", e.getMessage());
+    }
+
+    assertNotNull(runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult());
+  }
+
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerAdHocActivityFailsForNonAdHocExecution.bpmn20.xml")
+  @Test
+  public void testCompleteAdHocSubProcessFailsForNonAdHocExecution() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("simpleUserTaskProcess");
+
+    Execution execution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("userTask")
+        .singleResult();
+
+    try {
+      runtimeService.completeAdHocSubProcess(execution.getId());
+      fail("Expected BadUserRequestException");
+    } catch (BadUserRequestException e) {
+      testRule.assertTextPresent("is not waiting in an adHocSubProcess", e.getMessage());
+    }
+  }
+
   @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testStarterActivitiesFlowToDownstreamTask.bpmn20.xml")
   @Test
   public void testStarterActivitiesFlowToDownstreamTask() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithDownstreamFlow");
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithDownstreamFlow");
 
     Task taskA = taskService.createTaskQuery()
         .processInstanceId(processInstance.getId())
@@ -223,172 +319,172 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
     assertNotNull(taskAfter);
   }
 
-    @Deployment
+  @Deployment
   @Test
-    public void testNonStarterConfiguredTasksFailAdHocStart() {
+  public void testNonStarterConfiguredTasksFailAdHocStart() {
     try {
-            runtimeService.startProcessInstanceByKey("adHocSubProcessWithDownstreamFlow");
+      runtimeService.startProcessInstanceByKey("adHocSubProcessWithDownstreamFlow");
       fail("Expected BadUserRequestException");
     } catch (BadUserRequestException e) {
-            testRule.assertTextPresent(
-                    "activeTasksCollection contains non-startable activities in adHocSubProcess 'adHocSubProcess': [taskC]",
-                    e.getMessage());
+      testRule.assertTextPresent(
+          "activeTasksCollection contains non-startable activities in adHocSubProcess 'adHocSubProcess': [taskC]",
+          e.getMessage());
     }
   }
 
-    @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerAdHocActivityWithUnknownActivityId.bpmn20.xml")
-    @Test
-    public void testCamundaAliasActiveTasksCollectionStartsConfiguredTasks() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerAdHocActivityWithUnknownActivityId.bpmn20.xml")
+  @Test
+  public void testCamundaAliasActiveTasksCollectionStartsConfiguredTasks() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
 
-        Task taskA = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .taskDefinitionKey("taskA")
-                .singleResult();
+    Task taskA = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskA")
+        .singleResult();
 
-        Task taskB = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .taskDefinitionKey("taskB")
-                .singleResult();
+    Task taskB = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskB")
+        .singleResult();
 
-        assertNotNull(taskA);
-        assertNull(taskB);
+    assertNotNull(taskA);
+    assertNull(taskB);
+  }
+
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerAdHocActivityWithUnknownActivityId.bpmn20.xml")
+  @Test
+  public void testTriggerAdHocActivityWithUnknownActivityId() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
+
+    Execution adHocExecution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult();
+
+    try {
+      runtimeService.triggerAdHocActivities(adHocExecution.getId(), Collections.singletonList("doesNotExist"), null);
+      fail("Expected BadUserRequestException");
+    } catch (BadUserRequestException e) {
+      testRule.assertTextPresent("adHoc activity 'doesNotExist' does not exist in adHocSubProcess adHocSubProcess", e.getMessage());
+    }
+  }
+
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerMultipleAdHocActivitiesWithActivityVariables.bpmn20.xml")
+  @Test
+  public void testTriggerMultipleAdHocActivitiesWithActivityVariables() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithThreeTasks");
+
+    Execution adHocExecution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult();
+
+    Map<String, Map<String, Object>> activityVariables = new LinkedHashMap<>();
+    Map<String, Object> taskBVariables = new HashMap<>();
+    taskBVariables.put("assigneeHint", "john");
+    Map<String, Object> taskCVariables = new HashMap<>();
+    taskCVariables.put("assigneeHint", "mary");
+    activityVariables.put("taskB", taskBVariables);
+    activityVariables.put("taskC", taskCVariables);
+
+    runtimeService.triggerAdHocActivities(adHocExecution.getId(), Arrays.asList("taskB", "taskC"), activityVariables);
+
+    Task taskB = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskB")
+        .singleResult();
+
+    Task taskC = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskC")
+        .singleResult();
+
+    Task taskA = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskA")
+        .singleResult();
+
+    assertNotNull(taskA);
+    assertNotNull(taskB);
+    assertNotNull(taskC);
+
+    assertEquals("john", runtimeService.getVariableLocal(taskB.getExecutionId(), "assigneeHint"));
+    assertEquals("mary", runtimeService.getVariableLocal(taskC.getExecutionId(), "assigneeHint"));
+    assertNull(runtimeService.getVariableLocal(taskA.getExecutionId(), "assigneeHint"));
+  }
+
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerMultipleAdHocActivitiesWithActivityVariables.bpmn20.xml")
+  @Test
+  public void testTriggerMultipleAdHocActivitiesFailsAllWhenOneIsInvalid() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithThreeTasks");
+
+    Execution adHocExecution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult();
+
+    try {
+      runtimeService.triggerAdHocActivities(adHocExecution.getId(), Arrays.asList("taskB", "doesNotExist"), null);
+      fail("Expected BadUserRequestException");
+    } catch (BadUserRequestException e) {
+      testRule.assertTextPresent("adHoc activity 'doesNotExist' does not exist", e.getMessage());
     }
 
-    @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerAdHocActivityWithUnknownActivityId.bpmn20.xml")
-    @Test
-    public void testTriggerAdHocActivityWithUnknownActivityId() {
-                ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBasic");
+    Task taskB = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskB")
+        .singleResult();
+    Task taskC = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskC")
+        .singleResult();
 
-        Execution adHocExecution = runtimeService.createExecutionQuery()
-                .processInstanceId(processInstance.getId())
-                .activityId("adHocSubProcess")
-                .singleResult();
+    assertNull(taskB);
+    assertNull(taskC);
+  }
 
-        try {
-            runtimeService.triggerAdHocActivities(adHocExecution.getId(), Collections.singletonList("doesNotExist"), null);
-            fail("Expected BadUserRequestException");
-        } catch (BadUserRequestException e) {
-            testRule.assertTextPresent("adHoc activity 'doesNotExist' does not exist in adHocSubProcess adHocSubProcess", e.getMessage());
-        }
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerAdHocActivityFailsForNonAdHocExecution.bpmn20.xml")
+  @Test
+  public void testTriggerAdHocActivityFailsForNonAdHocExecution() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("simpleUserTaskProcess");
+
+    Execution execution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("userTask")
+        .singleResult();
+
+    try {
+      runtimeService.triggerAdHocActivities(execution.getId(), Collections.singletonList("taskA"), null);
+      fail("Expected BadUserRequestException");
+    } catch (BadUserRequestException e) {
+      testRule.assertTextPresent("is not waiting in an adHocSubProcess", e.getMessage());
     }
+  }
 
-        @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerMultipleAdHocActivitiesWithActivityVariables.bpmn20.xml")
-        @Test
-        public void testTriggerMultipleAdHocActivitiesWithActivityVariables() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithThreeTasks");
+  @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testStarterActivitiesFlowToDownstreamTask.bpmn20.xml")
+  @Test
+  public void testTriggerAdHocActivityFailsForNonStarterActivity() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithDownstreamFlow");
 
-        Execution adHocExecution = runtimeService.createExecutionQuery()
-            .processInstanceId(processInstance.getId())
-            .activityId("adHocSubProcess")
-            .singleResult();
+    Execution adHocExecution = runtimeService.createExecutionQuery()
+        .processInstanceId(processInstance.getId())
+        .activityId("adHocSubProcess")
+        .singleResult();
 
-        Map<String, Map<String, Object>> activityVariables = new LinkedHashMap<>();
-        Map<String, Object> taskBVariables = new HashMap<>();
-        taskBVariables.put("assigneeHint", "john");
-        Map<String, Object> taskCVariables = new HashMap<>();
-        taskCVariables.put("assigneeHint", "mary");
-        activityVariables.put("taskB", taskBVariables);
-        activityVariables.put("taskC", taskCVariables);
-
-        runtimeService.triggerAdHocActivities(adHocExecution.getId(), Arrays.asList("taskB", "taskC"), activityVariables);
-
-        Task taskB = taskService.createTaskQuery()
-            .processInstanceId(processInstance.getId())
-            .taskDefinitionKey("taskB")
-            .singleResult();
-
-        Task taskC = taskService.createTaskQuery()
-            .processInstanceId(processInstance.getId())
-            .taskDefinitionKey("taskC")
-            .singleResult();
-
-        Task taskA = taskService.createTaskQuery()
-            .processInstanceId(processInstance.getId())
-            .taskDefinitionKey("taskA")
-            .singleResult();
-
-        assertNotNull(taskA);
-        assertNotNull(taskB);
-        assertNotNull(taskC);
-
-        assertEquals("john", runtimeService.getVariableLocal(taskB.getExecutionId(), "assigneeHint"));
-        assertEquals("mary", runtimeService.getVariableLocal(taskC.getExecutionId(), "assigneeHint"));
-        assertNull(runtimeService.getVariableLocal(taskA.getExecutionId(), "assigneeHint"));
-        }
-
-        @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerMultipleAdHocActivitiesWithActivityVariables.bpmn20.xml")
-        @Test
-        public void testTriggerMultipleAdHocActivitiesFailsAllWhenOneIsInvalid() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithThreeTasks");
-
-        Execution adHocExecution = runtimeService.createExecutionQuery()
-            .processInstanceId(processInstance.getId())
-            .activityId("adHocSubProcess")
-            .singleResult();
-
-        try {
-            runtimeService.triggerAdHocActivities(adHocExecution.getId(), Arrays.asList("taskB", "doesNotExist"), null);
-            fail("Expected BadUserRequestException");
-        } catch (BadUserRequestException e) {
-            testRule.assertTextPresent("adHoc activity 'doesNotExist' does not exist", e.getMessage());
-        }
-
-        Task taskB = taskService.createTaskQuery()
-            .processInstanceId(processInstance.getId())
-            .taskDefinitionKey("taskB")
-            .singleResult();
-        Task taskC = taskService.createTaskQuery()
-            .processInstanceId(processInstance.getId())
-            .taskDefinitionKey("taskC")
-            .singleResult();
-
-        assertNull(taskB);
-        assertNull(taskC);
-        }
-
-    @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testTriggerAdHocActivityFailsForNonAdHocExecution.bpmn20.xml")
-    @Test
-    public void testTriggerAdHocActivityFailsForNonAdHocExecution() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("simpleUserTaskProcess");
-
-        Execution execution = runtimeService.createExecutionQuery()
-                .processInstanceId(processInstance.getId())
-                .activityId("userTask")
-                .singleResult();
-
-        try {
-            runtimeService.triggerAdHocActivities(execution.getId(), Collections.singletonList("taskA"), null);
-            fail("Expected BadUserRequestException");
-        } catch (BadUserRequestException e) {
-            testRule.assertTextPresent("is not waiting in an adHocSubProcess", e.getMessage());
-        }
+    try {
+      runtimeService.triggerAdHocActivities(adHocExecution.getId(), Collections.singletonList("taskC"), null);
+      fail("Expected BadUserRequestException");
+    } catch (BadUserRequestException e) {
+      testRule.assertTextPresent("adHoc activity 'taskC' is not startable in adHocSubProcess adHocSubProcess", e.getMessage());
     }
-
-    @Deployment(resources = "org/finos/fluxnova/bpm/engine/test/bpmn/subprocess/AdHocSubProcessTest.testStarterActivitiesFlowToDownstreamTask.bpmn20.xml")
-    @Test
-    public void testTriggerAdHocActivityFailsForNonStarterActivity() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessWithDownstreamFlow");
-
-        Execution adHocExecution = runtimeService.createExecutionQuery()
-                .processInstanceId(processInstance.getId())
-                .activityId("adHocSubProcess")
-                .singleResult();
-
-        try {
-            runtimeService.triggerAdHocActivities(adHocExecution.getId(), Collections.singletonList("taskC"), null);
-            fail("Expected BadUserRequestException");
-        } catch (BadUserRequestException e) {
-            testRule.assertTextPresent("adHoc activity 'taskC' is not startable in adHocSubProcess adHocSubProcess", e.getMessage());
-        }
-    }
+  }
 
   @Deployment
   @Test
   public void testCompletionConditionCancelsRemainingActivities() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(
         "adHocSubProcessWithCompletionCondition",
-                Collections.singletonMap("approved", false));
+        Collections.singletonMap("approved", false));
 
     Task taskA = taskService.createTaskQuery()
         .processInstanceId(processInstance.getId())
@@ -431,7 +527,7 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
   public void testCompletionConditionDefersUntilActiveActivitiesFinish() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(
         "adHocSubProcessWithDeferredCompletion",
-                Collections.singletonMap("approved", false));
+        Collections.singletonMap("approved", false));
 
     Task taskA = taskService.createTaskQuery()
         .processInstanceId(processInstance.getId())
@@ -472,108 +568,110 @@ public class AdHocSubProcessTest extends PluggableProcessEngineTest {
     assertNotNull(taskAfter);
   }
 
-    @Deployment
-    @Test
-    public void testBoundaryErrorEventOnAdHocSubProcess() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBoundaryError");
+  @Deployment
+  @Test
+  public void testBoundaryErrorEventOnAdHocSubProcess() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessBoundaryError");
 
-        Task boundaryTask = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .taskDefinitionKey("boundaryTask")
-                .singleResult();
+    Task boundaryTask = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("boundaryTask")
+        .singleResult();
 
-        Task adHocTask = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .taskDefinitionKey("taskA")
-                .singleResult();
+    Task adHocTask = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskA")
+        .singleResult();
 
-        Task taskAfter = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .taskDefinitionKey("taskAfter")
-                .singleResult();
+    Task taskAfter = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskAfter")
+        .singleResult();
 
-        assertNotNull(boundaryTask);
-        assertNull(adHocTask);
-        assertNull(taskAfter);
+    assertNotNull(boundaryTask);
+    assertNull(adHocTask);
+    assertNull(taskAfter);
 
-        taskService.complete(boundaryTask.getId());
-        assertEquals(0, runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+    taskService.complete(boundaryTask.getId());
+    assertEquals(0, runtimeService.createProcessInstanceQuery().processInstanceId(processInstance.getId()).count());
+  }
+
+  @Deployment
+  @Test
+  public void testMultiInstanceParallelAdHocSubProcessStartsAllInstances() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessMultiInstanceParallel");
+
+    List<Task> adHocTasks = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .orderByTaskName()
+        .asc()
+        .list();
+
+    assertEquals(4, adHocTasks.size());
+
+    long taskACount = adHocTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
+    long taskBCount = adHocTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
+    assertEquals(2, taskACount);
+    assertEquals(2, taskBCount);
+
+    for (Task task : adHocTasks) {
+      taskService.complete(task.getId());
     }
 
-    @Deployment
-    @Test
-    public void testMultiInstanceParallelAdHocSubProcessStartsAllInstances() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessMultiInstanceParallel");
+    Task taskAfter = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskAfter")
+        .singleResult();
 
-        List<Task> adHocTasks = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .orderByTaskName()
-                .asc()
-                .list();
+    assertNotNull(taskAfter);
+  }
 
-        assertEquals(4, adHocTasks.size());
+  @Deployment
+  @Test
+  public void testMultiInstanceSequentialAdHocSubProcessStartsOneInstanceAtATime() {
+    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessMultiInstanceSequential");
 
-        long taskACount = adHocTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
-        long taskBCount = adHocTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
-        assertEquals(2, taskACount);
-        assertEquals(2, taskBCount);
+    List<Task> firstInstanceTasks = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .orderByTaskName()
+        .asc()
+        .list();
 
-        for (Task task : adHocTasks) {
-            taskService.complete(task.getId());
-        }
+    assertEquals(2, firstInstanceTasks.size());
 
-        Task taskAfter = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .taskDefinitionKey("taskAfter")
-                .singleResult();
+    long firstInstanceTaskACount = firstInstanceTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
+    long firstInstanceTaskBCount = firstInstanceTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
+    assertEquals(1, firstInstanceTaskACount);
+    assertEquals(1, firstInstanceTaskBCount);
 
-        assertNotNull(taskAfter);
+    for (Task task : firstInstanceTasks) {
+      taskService.complete(task.getId());
     }
 
-    @Deployment
-    @Test
-    public void testMultiInstanceSequentialAdHocSubProcessStartsOneInstanceAtATime() {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("adHocSubProcessMultiInstanceSequential");
+    List<Task> secondInstanceTasks = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .orderByTaskName()
+        .asc()
+        .list();
 
-        List<Task> firstInstanceTasks = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .orderByTaskName()
-                .asc()
-                .list();
+    assertEquals(2, secondInstanceTasks.size());
 
-        assertEquals(2, firstInstanceTasks.size());
+    long secondInstanceTaskACount = secondInstanceTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
+    long secondInstanceTaskBCount = secondInstanceTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
+    assertEquals(1, secondInstanceTaskACount);
+    assertEquals(1, secondInstanceTaskBCount);
 
-        long firstInstanceTaskACount = firstInstanceTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
-        long firstInstanceTaskBCount = firstInstanceTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
-        assertEquals(1, firstInstanceTaskACount);
-        assertEquals(1, firstInstanceTaskBCount);
-
-        for (Task task : firstInstanceTasks) {
-            taskService.complete(task.getId());
-        }
-
-        List<Task> secondInstanceTasks = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .orderByTaskName()
-                .asc()
-                .list();
-
-        assertEquals(2, secondInstanceTasks.size());
-
-        long secondInstanceTaskACount = secondInstanceTasks.stream().filter(t -> "taskA".equals(t.getTaskDefinitionKey())).count();
-        long secondInstanceTaskBCount = secondInstanceTasks.stream().filter(t -> "taskB".equals(t.getTaskDefinitionKey())).count();
-        assertEquals(1, secondInstanceTaskACount);
-        assertEquals(1, secondInstanceTaskBCount);
-
-        for (Task task : secondInstanceTasks) {
-            taskService.complete(task.getId());
-        }
-
-        Task taskAfter = taskService.createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .taskDefinitionKey("taskAfter")
-                .singleResult();
-
-        assertNotNull(taskAfter);
+    for (Task task : secondInstanceTasks) {
+      taskService.complete(task.getId());
     }
+
+    Task taskAfter = taskService.createTaskQuery()
+        .processInstanceId(processInstance.getId())
+        .taskDefinitionKey("taskAfter")
+        .singleResult();
+
+    assertNotNull(taskAfter);
+  }
 }
+
+

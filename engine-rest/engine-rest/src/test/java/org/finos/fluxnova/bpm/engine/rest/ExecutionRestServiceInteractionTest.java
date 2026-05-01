@@ -36,6 +36,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.isNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,6 +96,7 @@ public class ExecutionRestServiceInteractionTest extends AbstractRestServiceTest
   protected static final String EXECUTION_URL = TEST_RESOURCE_ROOT_PATH + "/execution/{id}";
   protected static final String SIGNAL_EXECUTION_URL = EXECUTION_URL + "/signal";
   protected static final String TRIGGER_AD_HOC_ACTIVITIES_URL = EXECUTION_URL + "/ad-hoc-activities/trigger";
+  protected static final String COMPLETE_AD_HOC_SUB_PROCESS_URL = EXECUTION_URL + "/ad-hoc-activities/complete";
   protected static final String EXECUTION_LOCAL_VARIABLES_URL = EXECUTION_URL + "/localVariables";
   protected static final String SINGLE_EXECUTION_LOCAL_VARIABLE_URL = EXECUTION_LOCAL_VARIABLES_URL + "/{varId}";
   protected static final String SINGLE_EXECUTION_LOCAL_BINARY_VARIABLE_URL = SINGLE_EXECUTION_LOCAL_VARIABLE_URL + "/data";
@@ -285,6 +287,85 @@ public class ExecutionRestServiceInteractionTest extends AbstractRestServiceTest
       activityVariablesCaptor.capture());
 
     Assert.assertTrue(activityVariablesCaptor.getValue().isEmpty());
+  }
+
+  @Test
+  public void testCompleteAdHocSubProcess() {
+    given().pathParam("id", MockProvider.EXAMPLE_EXECUTION_ID).contentType(ContentType.JSON).body("{}")
+      .then().expect().statusCode(Status.NO_CONTENT.getStatusCode())
+      .when().post(COMPLETE_AD_HOC_SUB_PROCESS_URL);
+
+    verify(runtimeServiceMock).completeAdHocSubProcess(eq(MockProvider.EXAMPLE_EXECUTION_ID), isNull());
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void testCompleteAdHocSubProcessWithVariables() {
+    Map<String, Object> variables = VariablesBuilder.create().variable("completionReason", "manual").getVariables();
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("variables", variables);
+
+    given().pathParam("id", MockProvider.EXAMPLE_EXECUTION_ID).contentType(ContentType.JSON).body(payload)
+      .then().expect().statusCode(Status.NO_CONTENT.getStatusCode())
+      .when().post(COMPLETE_AD_HOC_SUB_PROCESS_URL);
+
+    ArgumentCaptor<Map<String, Object>> variablesCaptor =
+      (ArgumentCaptor<Map<String, Object>>) (ArgumentCaptor<?>) ArgumentCaptor.forClass(Map.class);
+
+    verify(runtimeServiceMock).completeAdHocSubProcess(eq(MockProvider.EXAMPLE_EXECUTION_ID), variablesCaptor.capture());
+
+    Map<String, Object> capturedVariables = variablesCaptor.getValue();
+    Assert.assertEquals("manual", capturedVariables.get("completionReason"));
+  }
+
+  @Test
+  public void testCompleteAdHocSubProcessWithNotSupportedVariableType() {
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("variables", VariablesBuilder.create().variable("aKey", "1abc", "X").getVariables());
+
+    given().pathParam("id", MockProvider.EXAMPLE_EXECUTION_ID).contentType(ContentType.JSON).body(payload)
+      .then().expect().statusCode(Status.BAD_REQUEST.getStatusCode()).contentType(ContentType.JSON)
+      .body("type", equalTo(InvalidRequestException.class.getSimpleName()))
+      .body("message", equalTo("Cannot complete ad-hoc subprocess for execution " + MockProvider.EXAMPLE_EXECUTION_ID + ": Unsupported value type 'X'"))
+      .when().post(COMPLETE_AD_HOC_SUB_PROCESS_URL);
+  }
+
+  @Test
+  public void testCompleteAdHocSubProcessThrowsAuthorizationException() {
+    String message = "expected exception";
+    doThrow(new AuthorizationException(message)).when(runtimeServiceMock)
+      .completeAdHocSubProcess(anyString(), isNull());
+
+    given().pathParam("id", MockProvider.EXAMPLE_EXECUTION_ID).contentType(ContentType.JSON).body("{}")
+      .then().expect().statusCode(Status.FORBIDDEN.getStatusCode()).contentType(ContentType.JSON)
+      .body("type", equalTo(AuthorizationException.class.getSimpleName()))
+      .body("message", equalTo(message))
+      .when().post(COMPLETE_AD_HOC_SUB_PROCESS_URL);
+  }
+
+  @Test
+  public void testCompleteAdHocSubProcessThrowsProcessEngineException() {
+    doThrow(new ProcessEngineException("expected exception")).when(runtimeServiceMock)
+      .completeAdHocSubProcess(anyString(), isNull());
+
+    given().pathParam("id", MockProvider.EXAMPLE_EXECUTION_ID).contentType(ContentType.JSON).body("{}")
+      .then().expect().statusCode(Status.INTERNAL_SERVER_ERROR.getStatusCode()).contentType(ContentType.JSON)
+      .body("type", equalTo(RestException.class.getSimpleName()))
+      .body("message", equalTo("Cannot complete ad-hoc subprocess for execution " + MockProvider.EXAMPLE_EXECUTION_ID + ": expected exception"))
+      .when().post(COMPLETE_AD_HOC_SUB_PROCESS_URL);
+  }
+
+  @Test
+  public void testCompleteAdHocSubProcessThrowsBadUserRequestException() {
+    doThrow(new BadUserRequestException("adHocSubProcess has active child activities and cannot be completed"))
+      .when(runtimeServiceMock).completeAdHocSubProcess(anyString(), isNull());
+
+    given().pathParam("id", MockProvider.EXAMPLE_EXECUTION_ID).contentType(ContentType.JSON).body("{}")
+      .then().expect().statusCode(Status.BAD_REQUEST.getStatusCode()).contentType(ContentType.JSON)
+      .body("type", equalTo(InvalidRequestException.class.getSimpleName()))
+      .body("message", equalTo("Cannot complete ad-hoc subprocess for execution " + MockProvider.EXAMPLE_EXECUTION_ID
+          + ": adHocSubProcess has active child activities and cannot be completed"))
+      .when().post(COMPLETE_AD_HOC_SUB_PROCESS_URL);
   }
 
   @Test
