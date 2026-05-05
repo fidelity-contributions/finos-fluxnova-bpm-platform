@@ -133,12 +133,6 @@
         </dependency>
 
         <dependency>
-          <groupId>commons-collections</groupId>
-          <artifactId>commons-collections</artifactId>
-          <scope>test</scope>
-        </dependency>
-
-        <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-email</artifactId>
           <scope>test</scope>
