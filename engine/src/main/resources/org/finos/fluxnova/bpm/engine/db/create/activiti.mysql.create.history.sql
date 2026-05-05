@@ -205,6 +205,7 @@ create table ACT_HI_ATTACHMENT (
     TENANT_ID_ varchar(64),
     CREATE_TIME_ datetime,
     REMOVAL_TIME_ datetime,
+    CREATED_BY_ varchar(255),
     primary key (ID_)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_bin;
 
