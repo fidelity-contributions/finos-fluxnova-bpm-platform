@@ -189,5 +189,5 @@ jobs:
             -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
             -Dsonar.token="${SONAR_TOKEN}" \
             -Dsonar.qualitygate.wait=false \
-            -Dsonar.coverage.jacoco.xmlReportPaths=coverage/target/site/jacoco-aggregate/jacoco.xml \
+            -Dsonar.coverage.jacoco.aggregateXmlReportPaths="${GITHUB_WORKSPACE}/coverage/target/site/jacoco-aggregate/jacoco.xml" \
             ${SONAR_HOST_ARG} ${SONAR_PROVIDER_ARG}
