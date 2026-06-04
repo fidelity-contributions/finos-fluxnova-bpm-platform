@@ -122,7 +122,7 @@ public class SourceExecutableScript extends CompiledExecutableScript {
 
   protected Object evaluateScript(ScriptEngine engine, Bindings bindings) throws ScriptException {
     LOG.debugEvaluatingNonCompiledScript(scriptSource);
-    return engine.eval(scriptSource, bindings);
+    return ScriptEvaluationUtil.evaluate(engine, scriptSource, bindings);
   }
 
   public String getScriptSource() {
