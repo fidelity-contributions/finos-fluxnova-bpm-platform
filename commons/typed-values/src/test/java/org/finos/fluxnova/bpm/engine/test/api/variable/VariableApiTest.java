@@ -17,10 +17,7 @@
 package org.finos.fluxnova.bpm.engine.test.api.variable;
 
 import static org.finos.fluxnova.bpm.engine.variable.Variables.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -38,7 +35,8 @@ import org.finos.fluxnova.bpm.engine.variable.Variables;
 import org.finos.fluxnova.bpm.engine.variable.Variables.SerializationDataFormats;
 import org.finos.fluxnova.bpm.engine.variable.value.ObjectValue;
 import org.finos.fluxnova.bpm.engine.variable.value.TypedValue;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Daniel Meyer
@@ -192,7 +190,7 @@ public class VariableApiTest {
 
     for (Entry<String, Object> e : variableMap.entrySet()) {
       TypedValue value = (TypedValue) variableMap.getValueTyped(e.getKey());
-      assertTrue("Variable '" + e.getKey() + "' is not transient: " + value, value.isTransient());
+      assertTrue(value.isTransient(), "Variable '" + e.getKey() + "' is not transient: " + value);
     }
   }
 
@@ -217,7 +215,7 @@ public class VariableApiTest {
 
     for (Entry<String, Object> e : variableMap.entrySet()) {
       TypedValue value = (TypedValue) variableMap.getValueTyped(e.getKey());
-      assertTrue("Variable '" + e.getKey() + "' is not transient: " + value, value.isTransient());
+      assertTrue(value.isTransient(), "Variable '" + e.getKey() + "' is not transient: " + value);
     }
   }
 
