@@ -34,7 +34,7 @@
 
     <dependency>
       <groupId>org.finos.fluxnova.bpm.javaee</groupId>
-      <artifactId>fluxnova-ejb-client-jakarta</artifactId>
+      <artifactId>fluxnova-ejb-client</artifactId>
     </dependency>
     
     <dependency>

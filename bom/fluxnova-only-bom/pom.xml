@@ -79,11 +79,6 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.finos.fluxnova.bpm.javaee</groupId>
-        <artifactId>fluxnova-ejb-client-jakarta</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.finos.fluxnova.bpm.juel</groupId>
         <artifactId>fluxnova-juel</artifactId>
         <version>${project.version}</version>
