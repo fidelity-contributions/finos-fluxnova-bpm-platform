@@ -603,12 +603,6 @@ recipeList:
       newArtifactId: fluxnova-spin-dataformat-xml-dom
       newVersion: {{TARGET_VERSION}}
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.spin
-      oldArtifactId: camunda-spin-dataformat-xml-dom-jakarta
-      newGroupId: org.finos.fluxnova.spin
-      newArtifactId: fluxnova-spin-dataformat-xml-dom-jakarta
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.template-engines
       oldArtifactId: camunda-template-engines-freemarker
       newGroupId: org.finos.fluxnova.template-engines
