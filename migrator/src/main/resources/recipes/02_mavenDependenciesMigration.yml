@@ -46,12 +46,6 @@ recipeList:
       newVersion: {{TARGET_VERSION}}
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.bpm
-      oldArtifactId: camunda-engine-cdi-jakarta
-      newGroupId: org.finos.fluxnova.bpm
-      newArtifactId: fluxnova-engine-cdi-jakarta
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm
       oldArtifactId: camunda-engine-plugin-connect
       newGroupId: org.finos.fluxnova.bpm
       newArtifactId: fluxnova-engine-plugin-connect
@@ -265,12 +259,6 @@ recipeList:
       oldArtifactId: camunda-ejb-client
       newGroupId: org.finos.fluxnova.bpm.javaee
       newArtifactId: fluxnova-ejb-client
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm.javaee
-      oldArtifactId: camunda-ejb-client-jakarta
-      newGroupId: org.finos.fluxnova.bpm.javaee
-      newArtifactId: fluxnova-ejb-client-jakarta
       newVersion: {{TARGET_VERSION}}
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.bpm.javaee
