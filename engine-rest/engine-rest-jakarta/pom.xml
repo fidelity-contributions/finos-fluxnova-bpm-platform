@@ -429,55 +429,6 @@
       </plugin>
 
       <plugin>
-        <groupId>org.eclipse.transformer</groupId>
-        <artifactId>transformer-maven-plugin</artifactId>
-        <!-- sources & test-sources -->
-        <executions>
-          <execution>
-            <id>transform-jakarta-sources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>transform</goal>
-            </goals>
-            <configuration>
-              <transformDirectory>${project.build.directory}/generated-sources/jakarta</transformDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>transform-jakarta-test-sources</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>transform</goal>
-            </goals>
-            <configuration>
-              <transformDirectory>${project.build.directory}/generated-test-sources/jakarta</transformDirectory>
-            </configuration>
-          </execution>
-          <!-- resteasy test-sources & test-resources -->
-          <execution>
-            <id>transform-jakarta-test-sources-resteasy</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>transform</goal>
-            </goals>
-            <configuration>
-              <transformDirectory>${project.build.directory}/generated-test-sources/jakarta-resteasy</transformDirectory>
-            </configuration>
-          </execution>
-          <execution>
-            <id>transform-jakarta-test-resources-resteasy</id>
-            <phase>generate-test-resources</phase>
-            <goals>
-              <goal>transform</goal>
-            </goals>
-            <configuration>
-              <transformDirectory>${project.build.directory}/generated-test-resources/jakarta-resteasy</transformDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <executions>
