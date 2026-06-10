@@ -38,7 +38,7 @@
     </dependency>
     <dependency>
       <groupId>org.finos.fluxnova.bpm</groupId>
-      <artifactId>fluxnova-engine-rest-jakarta</artifactId>
+      <artifactId>fluxnova-engine-rest</artifactId>
       <version>${project.version}</version>
       <classifier>tomcat</classifier>
       <type>war</type>

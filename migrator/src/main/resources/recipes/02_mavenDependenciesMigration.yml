@@ -76,12 +76,6 @@ recipeList:
       newVersion: {{TARGET_VERSION}}
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.bpm
-      oldArtifactId: camunda-engine-rest-jakarta
-      newGroupId: org.finos.fluxnova.bpm
-      newArtifactId: fluxnova-engine-rest-jakarta
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm
       oldArtifactId: camunda-engine-rest-jaxrs2
       newGroupId: org.finos.fluxnova.bpm
       newArtifactId: fluxnova-engine-rest-jaxrs2
@@ -481,12 +475,6 @@ recipeList:
       oldArtifactId: camunda-webapp-ee-plugins-jakarta
       newGroupId: org.finos.fluxnova.bpm.webapp
       newArtifactId: fluxnova-webapp-ee-plugins-jakarta
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm.webapp
-      oldArtifactId: camunda-webapp-jakarta
-      newGroupId: org.finos.fluxnova.bpm.webapp
-      newArtifactId: fluxnova-webapp-jakarta
       newVersion: {{TARGET_VERSION}}
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.bpm.webapp
