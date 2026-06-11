@@ -41,6 +41,9 @@ public abstract class DynamicExecutableScript extends ExecutableScript {
 
   public Object evaluate(ScriptEngine scriptEngine, VariableScope variableScope, Bindings bindings) {
     String source = getScriptSource(variableScope);
+    if (source == null) {
+      throw new ScriptEvaluationException("Script source must not be null", null);
+    }
     try {
         return ScriptEvaluationUtil.evaluate(scriptEngine, source, bindings);
     }
