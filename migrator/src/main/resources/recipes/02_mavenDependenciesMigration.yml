@@ -177,12 +177,6 @@ recipeList:
       newArtifactId: fluxnova-example-invoice
       newVersion: {{TARGET_VERSION}}
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm.example
-      oldArtifactId: camunda-example-invoice-jakarta
-      newGroupId: org.finos.fluxnova.bpm.example
-      newArtifactId: fluxnova-example-invoice-jakarta
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.bpm.extension
       oldArtifactId: camunda-bpm-assert-scenario
       newGroupId: org.finos.fluxnova.bpm.extension

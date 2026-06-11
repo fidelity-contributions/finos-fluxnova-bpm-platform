@@ -51,7 +51,7 @@
 
     <dependencySet>
         <includes>
-          <include>org.finos.fluxnova.bpm.example:fluxnova-example-invoice-jakarta:war:*</include>
+          <include>org.finos.fluxnova.bpm.example:fluxnova-example-invoice:war:*</include>
         </includes>
         <outputDirectory>server/wildfly-${version.wildfly}/standalone/deployments</outputDirectory>
     </dependencySet>
