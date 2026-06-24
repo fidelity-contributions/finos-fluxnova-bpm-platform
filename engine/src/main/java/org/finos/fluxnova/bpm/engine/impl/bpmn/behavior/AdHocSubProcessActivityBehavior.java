@@ -80,7 +80,6 @@ public class AdHocSubProcessActivityBehavior extends AbstractBpmnActivityBehavio
       return;
     }
 
-    scopeExecution.tryPruneLastConcurrentChild();
     scopeExecution.forceUpdate();
   }
 
