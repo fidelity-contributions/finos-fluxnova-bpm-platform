@@ -34,7 +34,7 @@ public class SchemaLogEnsureSqlScriptTest extends SchemaLogTestCase {
 
   protected String currentSchemaVersion;
   protected String dataBaseType;
-  private static final String FLUXNOVA_VERSION = "2.0.0";
+  private static final String FLUXNOVA_VERSION = "3.0.0";
 
   @Override
   @BeforeEach
