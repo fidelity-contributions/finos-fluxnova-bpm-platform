@@ -1529,6 +1529,69 @@ public class VariableInstanceQueryTest extends PluggableProcessEngineTest {
 
   @Test
   @Deployment(resources={"org/finos/fluxnova/bpm/engine/test/api/runtime/oneTaskProcess.bpmn20.xml"})
+  public void testQueryByProcessInstanceBusinessKey() {
+    // given
+    Map<String, Object> variables1 = new HashMap<>();
+    variables1.put("stringVar", "test");
+    runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "businessKey-1", variables1);
+
+    Map<String, Object> variables2 = new HashMap<>();
+    variables2.put("stringVar", "another");
+    runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "businessKey-2", variables2);
+
+    // when
+    VariableInstanceQuery query = runtimeService.createVariableInstanceQuery().processInstanceBusinessKey("businessKey-1");
+
+    // then
+    List<VariableInstance> result = query.list();
+    assertFalse(result.isEmpty());
+    assertEquals(1, result.size());
+    assertEquals(1, query.count());
+
+    VariableInstance variable = result.get(0);
+    assertEquals("stringVar", variable.getName());
+    assertEquals("test", variable.getValue());
+  }
+
+  @Test
+  @Deployment(resources={"org/finos/fluxnova/bpm/engine/test/api/runtime/oneTaskProcess.bpmn20.xml"})
+  public void testQueryByInvalidProcessInstanceBusinessKey() {
+    // given
+    Map<String, Object> variables = new HashMap<>();
+    variables.put("stringVar", "test");
+    runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "businessKey-1", variables);
+
+    // then
+    assertEquals(0, runtimeService.createVariableInstanceQuery().processInstanceBusinessKey("invalid").count());
+
+    try {
+      runtimeService.createVariableInstanceQuery().processInstanceBusinessKey(null).count();
+      fail();
+    } catch (ProcessEngineException ignored) {
+      // expected
+    }
+  }
+
+  @Test
+  @Deployment(resources={"org/finos/fluxnova/bpm/engine/test/api/runtime/oneTaskProcess.bpmn20.xml"})
+  public void testQueryByProcessInstanceBusinessKeyLike() {
+    // given
+    Map<String, Object> variables1 = new HashMap<>();
+    variables1.put("stringVar", "test");
+    runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "businessKey-1", variables1);
+
+    Map<String, Object> variables2 = new HashMap<>();
+    variables2.put("stringVar", "another");
+    runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "otherKey-1", variables2);
+
+    // then
+    assertEquals(1, runtimeService.createVariableInstanceQuery().processInstanceBusinessKeyLike("business%").count());
+    assertEquals(1, runtimeService.createVariableInstanceQuery().processInstanceBusinessKeyLike("%businessKey-1").count());
+    assertEquals(1, runtimeService.createVariableInstanceQuery().processInstanceBusinessKeyLike("%nessKey%").count());
+  }
+
+  @Test
+  @Deployment(resources={"org/finos/fluxnova/bpm/engine/test/api/runtime/oneTaskProcess.bpmn20.xml"})
   public void testQueryByExecutionId() {
     // given
     Map<String, Object> variables = new HashMap<>();

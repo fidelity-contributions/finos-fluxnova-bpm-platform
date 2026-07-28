@@ -71,6 +71,7 @@ public class VariableInstanceEntity implements VariableInstance, CoreVariableIns
 
   protected String processDefinitionId;
   protected String processInstanceId;
+  protected String processInstanceBusinessKey;
   protected String executionId;
   protected String taskId;
   protected String batchId;
@@ -433,6 +434,14 @@ public class VariableInstanceEntity implements VariableInstance, CoreVariableIns
 
   public String getProcessInstanceId() {
     return processInstanceId;
+  }
+
+  public String getProcessInstanceBusinessKey() {
+    return processInstanceBusinessKey;
+  }
+
+  public void setProcessInstanceBusinessKey(String processInstanceBusinessKey) {
+    this.processInstanceBusinessKey = processInstanceBusinessKey;
   }
 
   public String getProcessDefinitionId() {

@@ -88,6 +88,11 @@ public class DelegateCaseVariableInstanceImpl implements DelegateCaseVariableIns
     return processInstanceId;
   }
 
+  @Override
+  public String getProcessInstanceBusinessKey() {
+    return null;
+  }
+
   public String getExecutionId() {
     return executionId;
   }

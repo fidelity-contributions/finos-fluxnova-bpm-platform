@@ -319,6 +319,10 @@ public class HistoricVariableInstanceEntity implements ValueFields, HistoricVari
     return processInstanceId;
   }
 
+  public String getProcessInstanceBusinessKey() {
+    return null;
+  }
+
   public void setProcessInstanceId(String processInstanceId) {
     this.processInstanceId = processInstanceId;
   }

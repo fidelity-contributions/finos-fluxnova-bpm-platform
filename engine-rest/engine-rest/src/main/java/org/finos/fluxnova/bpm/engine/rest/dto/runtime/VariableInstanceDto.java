@@ -36,6 +36,7 @@ public class VariableInstanceDto extends VariableValueDto {
   protected String activityInstanceId;
   protected String errorMessage;
   protected String tenantId;
+  protected String processInstanceBusinessKey;
 
   public VariableInstanceDto() { }
 
@@ -123,6 +124,10 @@ public class VariableInstanceDto extends VariableValueDto {
     return tenantId;
   }
 
+  public String getProcessInstanceBusinessKey() {
+    return processInstanceBusinessKey;
+  }
+
   public static VariableInstanceDto fromVariableInstance(VariableInstance variableInstance) {
     VariableInstanceDto dto = new VariableInstanceDto();
 
@@ -140,6 +145,7 @@ public class VariableInstanceDto extends VariableValueDto {
     dto.activityInstanceId = variableInstance.getActivityInstanceId();
 
     dto.tenantId = variableInstance.getTenantId();
+    dto.processInstanceBusinessKey = variableInstance.getProcessInstanceBusinessKey();
 
     if(variableInstance.getErrorMessage() == null) {
       VariableValueDto.fromTypedValue(dto, variableInstance.getTypedValue());

@@ -62,6 +62,8 @@ public class VariableInstanceQueryDto extends AbstractQueryDto<VariableInstanceQ
   protected Boolean variableValuesIgnoreCase;
   protected String[] executionIdIn;
   protected String[] processInstanceIdIn;
+  protected String businessKey;
+  protected String businessKeyLike;
   protected String[] caseExecutionIdIn;
   protected String[] caseInstanceIdIn;
   protected String[] taskIdIn;
@@ -109,6 +111,16 @@ public class VariableInstanceQueryDto extends AbstractQueryDto<VariableInstanceQ
   @FluxnovaQueryParam(value="processInstanceIdIn", converter = StringArrayConverter.class)
   public void setProcessInstanceIdIn(String[] processInstanceIdIn) {
     this.processInstanceIdIn = processInstanceIdIn;
+  }
+
+  @FluxnovaQueryParam("businessKey")
+  public void setBusinessKey(String businessKey) {
+    this.businessKey = businessKey;
+  }
+
+  @FluxnovaQueryParam("businessKeyLike")
+  public void setBusinessKeyLike(String businessKeyLike) {
+    this.businessKeyLike = businessKeyLike;
   }
 
   @FluxnovaQueryParam(value="caseExecutionIdIn", converter = StringArrayConverter.class)
@@ -206,6 +218,14 @@ public class VariableInstanceQueryDto extends AbstractQueryDto<VariableInstanceQ
 
     if (processInstanceIdIn != null && processInstanceIdIn.length > 0) {
       query.processInstanceIdIn(processInstanceIdIn);
+    }
+
+    if (businessKey != null) {
+      query.processInstanceBusinessKey(businessKey);
+    }
+
+    if (businessKeyLike != null) {
+      query.processInstanceBusinessKeyLike(businessKeyLike);
     }
 
     if (caseExecutionIdIn != null && caseExecutionIdIn.length > 0) {
