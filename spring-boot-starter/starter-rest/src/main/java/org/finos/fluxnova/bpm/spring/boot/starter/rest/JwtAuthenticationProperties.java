@@ -67,8 +67,8 @@ public class JwtAuthenticationProperties {
   /** HTTP header name that carries the JWT token. Defaults to {@code Authorization}. */
   private String headerName = "Authorization";
 
-  /** Token prefix in the header value (e.g. {@code Bearer}). Use an empty string for no prefix. Defaults to {@code Bearer}. */
-  private String headerPrefix = "Bearer";
+  /** Token prefix in the header value. Must end with a space if non-empty (e.g. {@code "Bearer "}). Defaults to {@code "Bearer "}. */
+  private String headerPrefix = "Bearer ";
 
   /** JWT claim whose value is used as the authenticated user identity. Defaults to {@code sub}. */
   private String userClaimName = "sub";
