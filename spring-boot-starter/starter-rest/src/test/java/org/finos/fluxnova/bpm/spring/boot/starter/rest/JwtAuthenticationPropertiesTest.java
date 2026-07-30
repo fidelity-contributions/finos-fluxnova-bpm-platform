@@ -34,7 +34,7 @@ class JwtAuthenticationPropertiesTest {
 
   @Test
   void shouldHaveBearerPrefixByDefault() {
-    assertThat(new JwtAuthenticationProperties().getHeaderPrefix()).isEqualTo("Bearer ");
+    assertThat(new JwtAuthenticationProperties().getHeaderPrefix()).isEqualTo("Bearer");
   }
 
   @Test
