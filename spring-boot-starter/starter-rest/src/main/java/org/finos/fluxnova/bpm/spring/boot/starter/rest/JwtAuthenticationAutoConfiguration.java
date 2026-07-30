@@ -19,6 +19,7 @@ package org.finos.fluxnova.bpm.spring.boot.starter.rest;
 import org.finos.fluxnova.bpm.engine.rest.security.auth.ProcessEngineAuthenticationFilter;
 import org.finos.fluxnova.bpm.engine.rest.security.auth.impl.JwtAuthenticationPlugin;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -81,8 +82,13 @@ public class JwtAuthenticationAutoConfiguration {
    * If you need to change the order or URL pattern, define your own
    * {@code FilterRegistrationBean<ProcessEngineAuthenticationFilter>} bean — Spring Boot
    * will use yours instead via {@code @ConditionalOnMissingBean}.
+   *
+   * <p>Suppressed when {@code distro/run} is present and has already registered its own
+   * {@code processEngineAuthenticationFilter} bean (e.g. via
+   * {@code fluxnova.bpm.run.auth.enabled=true, authentication=jwt}).
    */
   @Bean
+  @ConditionalOnMissingBean(name = "processEngineAuthenticationFilter")
   public FilterRegistrationBean<ProcessEngineAuthenticationFilter> jwtAuthenticationFilter(
       JwtAuthenticationPlugin jwtAuthenticationPlugin) {
     ProcessEngineAuthenticationFilter filter = new ProcessEngineAuthenticationFilter();

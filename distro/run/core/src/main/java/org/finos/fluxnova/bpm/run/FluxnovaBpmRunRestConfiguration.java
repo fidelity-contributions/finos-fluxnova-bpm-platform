@@ -19,12 +19,14 @@ package org.finos.fluxnova.bpm.run;
 import jakarta.servlet.Filter;
 import org.apache.catalina.filters.CorsFilter;
 import org.finos.fluxnova.bpm.engine.rest.security.auth.ProcessEngineAuthenticationFilter;
+import org.finos.fluxnova.bpm.engine.rest.security.auth.impl.JwtAuthenticationPlugin;
 import org.finos.fluxnova.bpm.run.property.FluxnovaBpmRunAuthenticationProperties;
 import org.finos.fluxnova.bpm.run.property.FluxnovaBpmRunCorsProperty;
 import org.finos.fluxnova.bpm.run.property.FluxnovaBpmRunProperties;
 import org.finos.fluxnova.bpm.spring.boot.starter.FluxnovaBpmAutoConfiguration;
 import org.finos.fluxnova.bpm.spring.boot.starter.rest.FluxnovaBpmRestInitializer;
 import org.finos.fluxnova.bpm.spring.boot.starter.rest.FluxnovaJerseyResourceConfig;
+import org.finos.fluxnova.bpm.spring.boot.starter.rest.JwtAuthenticationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -37,7 +39,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
 
-@EnableConfigurationProperties(FluxnovaBpmRunProperties.class)
+@EnableConfigurationProperties({ FluxnovaBpmRunProperties.class, JwtAuthenticationProperties.class })
 @Configuration
 @AutoConfigureAfter({ FluxnovaBpmAutoConfiguration.class })
 @ConditionalOnClass(FluxnovaBpmRestInitializer.class)
@@ -45,6 +47,9 @@ public class FluxnovaBpmRunRestConfiguration {
 
   @Autowired
   FluxnovaBpmRunProperties fluxnovaBpmRunProperties;
+
+  @Autowired
+  JwtAuthenticationProperties jwtAuthenticationProperties;
 
   /*
    * The CORS and Authentication filters need to run before other camunda
@@ -67,17 +72,38 @@ public class FluxnovaBpmRunRestConfiguration {
   public FilterRegistrationBean<Filter> processEngineAuthenticationFilter(JerseyApplicationPath applicationPath) {
     FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
     registration.setName("fluxnova-auth");
-    registration.setFilter(new ProcessEngineAuthenticationFilter());
     registration.setOrder(AUTH_FILTER_PRECEDENCE);
 
     String restApiPathPattern = applicationPath.getUrlMapping();
     registration.addUrlPatterns(restApiPathPattern);
 
-    // if nothing is set, use Http Basic authentication
     FluxnovaBpmRunAuthenticationProperties properties = fluxnovaBpmRunProperties.getAuth();
-    if (properties.getAuthentication() == null || FluxnovaBpmRunAuthenticationProperties.DEFAULT_AUTH.equals(properties.getAuthentication())) {
-      registration.addInitParameter("authentication-provider", "org.finos.fluxnova.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider");
+
+    if (FluxnovaBpmRunAuthenticationProperties.JWT_AUTH.equals(properties.getAuthentication())) {
+      JwtAuthenticationPlugin plugin = new JwtAuthenticationPlugin();
+      plugin.setJwksUrl(jwtAuthenticationProperties.getJwksUrl());
+      plugin.setIssuer(jwtAuthenticationProperties.getIssuer());
+      plugin.setAudience(jwtAuthenticationProperties.getAudience());
+      plugin.setHeaderName(jwtAuthenticationProperties.getHeaderName());
+      plugin.setHeaderPrefix(jwtAuthenticationProperties.getHeaderPrefix());
+      plugin.setUserClaimName(jwtAuthenticationProperties.getUserClaimName());
+      if (jwtAuthenticationProperties.getGroupsClaimName() != null
+          && !jwtAuthenticationProperties.getGroupsClaimName().isEmpty()) {
+        plugin.setGroupsClaimName(jwtAuthenticationProperties.getGroupsClaimName());
+      }
+      plugin.initializeProvider();
+
+      ProcessEngineAuthenticationFilter jwtFilter = new ProcessEngineAuthenticationFilter();
+      jwtFilter.setAuthenticationProvider(plugin.getAuthenticationProvider());
+      registration.setFilter(jwtFilter);
+    } else {
+      // Default: HTTP Basic authentication
+      ProcessEngineAuthenticationFilter basicFilter = new ProcessEngineAuthenticationFilter();
+      registration.setFilter(basicFilter);
+      registration.addInitParameter("authentication-provider",
+          "org.finos.fluxnova.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider");
     }
+
     return registration;
   }
 
