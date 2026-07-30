@@ -40,7 +40,7 @@ fluxnova.bpm:
 #     audience: api://your-client-id
 #     user-claim-name: preferred_username   # default: sub
 #     groups-claim-name: groups             # optional
-#     header-prefix: "Bearer "             # must include trailing space; default: "Bearer "
+#     header-prefix: "Bearer"              # trailing space added automatically; default: "Bearer"
 
 # datasource configuration is required
 spring.datasource:

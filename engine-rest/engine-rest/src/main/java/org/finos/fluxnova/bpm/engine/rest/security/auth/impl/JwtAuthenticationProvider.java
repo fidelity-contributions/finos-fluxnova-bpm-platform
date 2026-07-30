@@ -212,13 +212,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     if (prefix == null || prefix.isEmpty()) {
       return "";
     }
-    if (!prefix.endsWith(" ")) {
-      throw new IllegalArgumentException(
-        "Invalid token prefix configuration: '" + prefix + "'. " +
-        "Prefix must end with a space (e.g., 'Bearer ', not 'Bearer'). " +
-        "Use empty string for no prefix."
-      );
-    }
-    return prefix;
+    return prefix.endsWith(" ") ? prefix : prefix + " ";
   }
 }
