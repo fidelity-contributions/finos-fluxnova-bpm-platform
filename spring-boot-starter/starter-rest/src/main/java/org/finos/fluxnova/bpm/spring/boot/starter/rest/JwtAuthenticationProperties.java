@@ -25,7 +25,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * they can be supplied as environment variables using Spring Boot's relaxed binding:
  *
  * <pre>
- * FLUXNOVA_BPM_JWT_ENABLED=true
+ * FLUXNOVA_BPM_AUTH_ENABLED=true
+ * FLUXNOVA_BPM_AUTH_TYPE=jwt
  * FLUXNOVA_BPM_JWT_JWKS_URL=https://login.microsoftonline.com/{tenant}/discovery/v2.0/keys
  * FLUXNOVA_BPM_JWT_ISSUER=https://login.microsoftonline.com/{tenant}/v2.0
  * FLUXNOVA_BPM_JWT_AUDIENCE=api://your-client-id
@@ -38,8 +39,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * <pre>
  * fluxnova:
  *   bpm:
- *     jwt:
+ *     auth:
  *       enabled: true
+ *       type: jwt
+ *     jwt:
  *       jwks-url: https://login.microsoftonline.com/{tenant}/discovery/v2.0/keys
  *       issuer: https://login.microsoftonline.com/{tenant}/v2.0
  *       audience: api://your-client-id
@@ -51,9 +54,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class JwtAuthenticationProperties {
 
   public static final String PREFIX = "fluxnova.bpm.jwt";
-
-  /** Whether JWT authentication is enabled. Defaults to {@code false}. */
-  private boolean enabled = false;
 
   /** JWKS endpoint URL used to fetch public keys for signature verification. Required when enabled. */
   private String jwksUrl;
@@ -75,14 +75,6 @@ public class JwtAuthenticationProperties {
 
   /** JWT claim whose value is used to extract group memberships. Optional — leave blank to disable. */
   private String groupsClaimName;
-
-  public boolean isEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
 
   public String getJwksUrl() {
     return jwksUrl;

@@ -17,6 +17,7 @@
 package org.finos.fluxnova.bpm.spring.boot.starter.rest;
 
 import org.finos.fluxnova.bpm.engine.rest.security.auth.ProcessEngineAuthenticationFilter;
+import org.finos.fluxnova.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider;
 import org.finos.fluxnova.bpm.engine.rest.security.auth.impl.JwtAuthenticationPlugin;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -26,11 +27,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 /**
  * Tests for {@link JwtAuthenticationAutoConfiguration} using {@link ApplicationContextRunner}
- * so the full Spring Boot context is never started — only the JWT beans are tested in isolation.
+ * so the full Spring Boot context is never started — only the authentication beans are tested
+ * in isolation.
  */
 class JwtAuthenticationAutoConfigurationTest {
 
@@ -49,6 +49,7 @@ class JwtAuthenticationAutoConfigurationTest {
   void noBeansCreatedWhenNotEnabled() {
     contextRunner.run(ctx -> {
       assertThat(ctx).doesNotHaveBean(JwtAuthenticationPlugin.class);
+      assertThat(ctx).doesNotHaveBean("basicAuthenticationFilter");
       assertThat(ctx).doesNotHaveBean("jwtAuthenticationFilter");
     });
   }
@@ -56,22 +57,43 @@ class JwtAuthenticationAutoConfigurationTest {
   @Test
   void noBeansCreatedWhenExplicitlyDisabled() {
     contextRunner
-        .withPropertyValues("fluxnova.bpm.jwt.enabled=false")
+        .withPropertyValues("fluxnova.bpm.auth.enabled=false")
         .run(ctx -> {
           assertThat(ctx).doesNotHaveBean(JwtAuthenticationPlugin.class);
+          assertThat(ctx).doesNotHaveBean("basicAuthenticationFilter");
           assertThat(ctx).doesNotHaveBean("jwtAuthenticationFilter");
         });
   }
 
-  // -------------------------------------------------------------------------
-  // Happy path — all required properties supplied
-  // -------------------------------------------------------------------------
+  @Test
+  void basicAuthenticationFilterCreatedWhenEnabledWithDefaultType() {
+    contextRunner
+        .withPropertyValues("fluxnova.bpm.auth.enabled=true")
+        .run(ctx -> {
+          assertThat(ctx).doesNotHaveBean(JwtAuthenticationPlugin.class);
+          assertThat(ctx).hasBean("basicAuthenticationFilter");
+          FilterRegistrationBean<?> registration = ctx.getBean("basicAuthenticationFilter", FilterRegistrationBean.class);
+          assertThat(registration.getInitParameters()).containsEntry(
+              ProcessEngineAuthenticationFilter.AUTHENTICATION_PROVIDER_PARAM,
+              HttpBasicAuthenticationProvider.class.getName());
+        });
+  }
 
   @Test
-  void pluginBeanCreatedWhenEnabled() {
+  void basicAuthenticationFilterCreatedWhenExplicitlySelected() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=basic")
+        .run(ctx -> assertThat(ctx).hasBean("basicAuthenticationFilter"));
+  }
+
+  @Test
+  void pluginBeanCreatedWhenJwtModeSelected() {
+    contextRunner
+        .withPropertyValues(
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
             "fluxnova.bpm.jwt.issuer=" + ISSUER,
             "fluxnova.bpm.jwt.audience=" + AUDIENCE)
@@ -79,10 +101,11 @@ class JwtAuthenticationAutoConfigurationTest {
   }
 
   @Test
-  void filterBeanCreatedWhenEnabled() {
+  void filterBeanCreatedWhenJwtModeSelected() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
             "fluxnova.bpm.jwt.issuer=" + ISSUER,
             "fluxnova.bpm.jwt.audience=" + AUDIENCE)
@@ -93,7 +116,8 @@ class JwtAuthenticationAutoConfigurationTest {
   void pluginPicksUpCustomUserClaim() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
             "fluxnova.bpm.jwt.issuer=" + ISSUER,
             "fluxnova.bpm.jwt.audience=" + AUDIENCE,
@@ -108,7 +132,8 @@ class JwtAuthenticationAutoConfigurationTest {
   void pluginPicksUpGroupsClaim() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
             "fluxnova.bpm.jwt.issuer=" + ISSUER,
             "fluxnova.bpm.jwt.audience=" + AUDIENCE,
@@ -119,62 +144,70 @@ class JwtAuthenticationAutoConfigurationTest {
         });
   }
 
-  // -------------------------------------------------------------------------
-  // Missing required properties
-  // -------------------------------------------------------------------------
-
   @Test
-  void failsWhenJwksUrlMissing() {
+  void failsWhenJwksUrlMissingInJwtMode() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.issuer=" + ISSUER,
             "fluxnova.bpm.jwt.audience=" + AUDIENCE)
-        .run(ctx -> assertThat(ctx).hasFailed()
-            .getFailure().hasMessageContaining("jwksUrl"));
+        .run(ctx -> assertThat(ctx).hasFailed().getFailure().hasMessageContaining("jwksUrl"));
   }
 
   @Test
-  void failsWhenIssuerMissing() {
+  void failsWhenIssuerMissingInJwtMode() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
             "fluxnova.bpm.jwt.audience=" + AUDIENCE)
-        .run(ctx -> assertThat(ctx).hasFailed()
-            .getFailure().hasMessageContaining("issuer"));
+        .run(ctx -> assertThat(ctx).hasFailed().getFailure().hasMessageContaining("issuer"));
   }
 
   @Test
-  void failsWhenAudienceMissing() {
+  void failsWhenAudienceMissingInJwtMode() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
             "fluxnova.bpm.jwt.issuer=" + ISSUER)
-        .run(ctx -> assertThat(ctx).hasFailed()
-            .getFailure().hasMessageContaining("audience"));
+        .run(ctx -> assertThat(ctx).hasFailed().getFailure().hasMessageContaining("audience"));
   }
 
-  // -------------------------------------------------------------------------
-  // @ConditionalOnMissingBean guard — distro/run owns the filter
-  // -------------------------------------------------------------------------
+  @Test
+  void failsWhenAuthenticationTypeIsInvalid() {
+    contextRunner
+        .withPropertyValues(
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=saml")
+        .run(ctx -> assertThat(ctx).hasFailed().getFailure().hasMessageContaining("Could not bind properties"));
+  }
 
   @Test
   void jwtFilterSuppressedWhenProcessEngineAuthFilterAlreadyPresent() {
     contextRunner
         .withPropertyValues(
-            "fluxnova.bpm.jwt.enabled=true",
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
             "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
             "fluxnova.bpm.jwt.issuer=" + ISSUER,
             "fluxnova.bpm.jwt.audience=" + AUDIENCE)
         .withUserConfiguration(ExistingAuthFilterConfig.class)
         .run(ctx -> {
-          // Plugin still created (shared between run and standalone usage)
           assertThat(ctx).hasSingleBean(JwtAuthenticationPlugin.class);
-          // But our filter registration is suppressed
           assertThat(ctx).doesNotHaveBean("jwtAuthenticationFilter");
         });
+  }
+
+  @Test
+  void basicFilterSuppressedWhenProcessEngineAuthFilterAlreadyPresent() {
+    contextRunner
+        .withPropertyValues("fluxnova.bpm.auth.enabled=true")
+        .withUserConfiguration(ExistingAuthFilterConfig.class)
+        .run(ctx -> assertThat(ctx).doesNotHaveBean("basicAuthenticationFilter"));
   }
 
   /** Simulates the bean that distro/run registers when auth is enabled. */

@@ -18,25 +18,34 @@ package org.finos.fluxnova.bpm.spring.boot.starter.rest;
 
 import org.finos.fluxnova.bpm.engine.rest.security.auth.ProcessEngineAuthenticationFilter;
 import org.finos.fluxnova.bpm.engine.rest.security.auth.impl.JwtAuthenticationPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * Spring Boot auto-configuration for JWT-based REST API authentication.
+ * Spring Boot auto-configuration for REST API authentication.
  *
- * <p>This configuration is activated automatically when {@code fluxnova.bpm.jwt.enabled=true}
- * is set — no application code changes are required. All settings are read from
- * {@link JwtAuthenticationProperties} which can be supplied as environment variables,
- * application.properties, or application.yml.
+ * <p>Basic authentication can be enabled with:
  *
- * <p><b>Minimal environment-variable example (Microsoft Entra ID):</b>
  * <pre>
- * FLUXNOVA_BPM_JWT_ENABLED=true
+ * FLUXNOVA_BPM_AUTH_ENABLED=true
+ * FLUXNOVA_BPM_AUTH_TYPE=basic
+ * </pre>
+ *
+ * <p>JWT authentication can be enabled with:
+ *
+ * <pre>
+ * FLUXNOVA_BPM_AUTH_ENABLED=true
+ * FLUXNOVA_BPM_AUTH_TYPE=jwt
  * FLUXNOVA_BPM_JWT_JWKS_URL=https://login.microsoftonline.com/{tenant}/discovery/v2.0/keys
  * FLUXNOVA_BPM_JWT_ISSUER=https://login.microsoftonline.com/{tenant}/v2.0
  * FLUXNOVA_BPM_JWT_AUDIENCE=api://your-client-id
@@ -44,14 +53,13 @@ import org.springframework.context.annotation.Configuration;
  * FLUXNOVA_BPM_JWT_GROUPS_CLAIM_NAME=groups
  * </pre>
  *
- * <p>When disabled (the default), no beans are created and the existing authentication
- * mechanism is unaffected.
  */
 @Configuration
-@ConditionalOnProperty(prefix = JwtAuthenticationProperties.PREFIX, name = "enabled", havingValue = "true")
-@EnableConfigurationProperties(JwtAuthenticationProperties.class)
+@EnableConfigurationProperties({ RestAuthenticationProperties.class, JwtAuthenticationProperties.class })
 @AutoConfigureAfter(FluxnovaBpmRestJerseyAutoConfiguration.class)
 public class JwtAuthenticationAutoConfiguration {
+
+  private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationAutoConfiguration.class);
 
   /**
    * Creates and initialises the {@link JwtAuthenticationPlugin} from the bound properties.
@@ -59,19 +67,10 @@ public class JwtAuthenticationAutoConfiguration {
    * {@link org.finos.fluxnova.bpm.engine.rest.security.auth.impl.JwtAuthenticationProvider}.
    */
   @Bean
+  @Conditional(JwtAuthenticationEnabledCondition.class)
   public JwtAuthenticationPlugin jwtAuthenticationPlugin(JwtAuthenticationProperties props) {
-    JwtAuthenticationPlugin plugin = new JwtAuthenticationPlugin();
-    plugin.setJwksUrl(props.getJwksUrl());
-    plugin.setIssuer(props.getIssuer());
-    plugin.setAudience(props.getAudience());
-    plugin.setHeaderName(props.getHeaderName());
-    plugin.setHeaderPrefix(props.getHeaderPrefix());
-    plugin.setUserClaimName(props.getUserClaimName());
-    if (props.getGroupsClaimName() != null && !props.getGroupsClaimName().isEmpty()) {
-      plugin.setGroupsClaimName(props.getGroupsClaimName());
-    }
-    plugin.initializeProvider();
-    return plugin;
+    LOG.info("REST API authentication enabled with type 'jwt'.");
+    return RestAuthenticationConfigurationSupport.createJwtAuthenticationPlugin(props);
   }
 
   /**
@@ -89,15 +88,66 @@ public class JwtAuthenticationAutoConfiguration {
    */
   @Bean
   @ConditionalOnMissingBean(name = "processEngineAuthenticationFilter")
+  @Conditional(JwtAuthenticationEnabledCondition.class)
   public FilterRegistrationBean<ProcessEngineAuthenticationFilter> jwtAuthenticationFilter(
       JwtAuthenticationPlugin jwtAuthenticationPlugin) {
-    ProcessEngineAuthenticationFilter filter = new ProcessEngineAuthenticationFilter();
-    filter.setAuthenticationProvider(jwtAuthenticationPlugin.getAuthenticationProvider());
+    ProcessEngineAuthenticationFilter filter =
+        RestAuthenticationConfigurationSupport.createJwtAuthenticationFilter(jwtAuthenticationPlugin);
 
     FilterRegistrationBean<ProcessEngineAuthenticationFilter> registration =
         new FilterRegistrationBean<>(filter);
     registration.addUrlPatterns("/engine-rest/*");
     registration.setOrder(1);
     return registration;
+  }
+
+  @Bean
+  @ConditionalOnMissingBean(name = "processEngineAuthenticationFilter")
+  @Conditional(BasicAuthenticationEnabledCondition.class)
+  public FilterRegistrationBean<ProcessEngineAuthenticationFilter> basicAuthenticationFilter() {
+    LOG.info("REST API authentication enabled with type 'basic'.");
+    ProcessEngineAuthenticationFilter filter =
+        RestAuthenticationConfigurationSupport.createBasicAuthenticationFilter();
+
+    FilterRegistrationBean<ProcessEngineAuthenticationFilter> registration =
+        new FilterRegistrationBean<>(filter);
+    registration.addUrlPatterns("/engine-rest/*");
+    registration.setOrder(1);
+    RestAuthenticationConfigurationSupport.applyBasicAuthenticationProvider(registration);
+    return registration;
+  }
+}
+
+class JwtAuthenticationEnabledCondition implements Condition {
+
+  @Override
+  public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+    return RestAuthenticationConditionSupport.isStarterAuthEnabled(context)
+        && RestAuthenticationProperties.JWT_AUTH.equals(RestAuthenticationConditionSupport.getStarterAuthType(context));
+  }
+}
+
+class BasicAuthenticationEnabledCondition implements Condition {
+
+  @Override
+  public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+    return RestAuthenticationConditionSupport.isStarterAuthEnabled(context)
+        && RestAuthenticationProperties.BASIC_AUTH.equals(RestAuthenticationConditionSupport.getStarterAuthType(context));
+  }
+}
+
+final class RestAuthenticationConditionSupport {
+
+  private RestAuthenticationConditionSupport() {
+  }
+
+  static boolean isStarterAuthEnabled(ConditionContext context) {
+    return context.getEnvironment().getProperty(RestAuthenticationProperties.PREFIX + ".enabled", Boolean.class, false);
+  }
+
+  static String getStarterAuthType(ConditionContext context) {
+    return context.getEnvironment().getProperty(
+        RestAuthenticationProperties.PREFIX + ".type",
+        RestAuthenticationProperties.BASIC_AUTH);
   }
 }
