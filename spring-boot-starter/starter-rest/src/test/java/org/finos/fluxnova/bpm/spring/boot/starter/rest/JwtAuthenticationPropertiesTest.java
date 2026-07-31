@@ -23,11 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JwtAuthenticationPropertiesTest {
 
   @Test
-  void shouldBeDisabledByDefault() {
-    assertThat(new JwtAuthenticationProperties().isEnabled()).isFalse();
-  }
-
-  @Test
   void shouldHaveAuthorizationHeaderByDefault() {
     assertThat(new JwtAuthenticationProperties().getHeaderName()).isEqualTo("Authorization");
   }

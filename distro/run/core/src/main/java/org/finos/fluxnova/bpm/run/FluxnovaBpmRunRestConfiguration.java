@@ -27,6 +27,8 @@ import org.finos.fluxnova.bpm.spring.boot.starter.FluxnovaBpmAutoConfiguration;
 import org.finos.fluxnova.bpm.spring.boot.starter.rest.FluxnovaBpmRestInitializer;
 import org.finos.fluxnova.bpm.spring.boot.starter.rest.FluxnovaJerseyResourceConfig;
 import org.finos.fluxnova.bpm.spring.boot.starter.rest.JwtAuthenticationProperties;
+import org.finos.fluxnova.bpm.spring.boot.starter.rest.RestAuthenticationConfigurationSupport;
+import org.finos.fluxnova.bpm.run.utils.FluxnovaBpmRunLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -67,6 +69,8 @@ public class FluxnovaBpmRunRestConfiguration {
   private static int CORS_FILTER_PRECEDENCE = 0;
   private static int AUTH_FILTER_PRECEDENCE = 1;
 
+  private static final FluxnovaBpmRunLogger LOG = FluxnovaBpmRunLogger.LOG;
+
   @Bean
   @ConditionalOnProperty(name = "enabled", havingValue = "true", prefix = FluxnovaBpmRunAuthenticationProperties.PREFIX)
   public FilterRegistrationBean<Filter> processEngineAuthenticationFilter(JerseyApplicationPath applicationPath) {
@@ -80,28 +84,15 @@ public class FluxnovaBpmRunRestConfiguration {
     FluxnovaBpmRunAuthenticationProperties properties = fluxnovaBpmRunProperties.getAuth();
 
     if (FluxnovaBpmRunAuthenticationProperties.JWT_AUTH.equals(properties.getAuthentication())) {
-      JwtAuthenticationPlugin plugin = new JwtAuthenticationPlugin();
-      plugin.setJwksUrl(jwtAuthenticationProperties.getJwksUrl());
-      plugin.setIssuer(jwtAuthenticationProperties.getIssuer());
-      plugin.setAudience(jwtAuthenticationProperties.getAudience());
-      plugin.setHeaderName(jwtAuthenticationProperties.getHeaderName());
-      plugin.setHeaderPrefix(jwtAuthenticationProperties.getHeaderPrefix());
-      plugin.setUserClaimName(jwtAuthenticationProperties.getUserClaimName());
-      if (jwtAuthenticationProperties.getGroupsClaimName() != null
-          && !jwtAuthenticationProperties.getGroupsClaimName().isEmpty()) {
-        plugin.setGroupsClaimName(jwtAuthenticationProperties.getGroupsClaimName());
-      }
-      plugin.initializeProvider();
+      LOG.authenticationEnabled(FluxnovaBpmRunAuthenticationProperties.JWT_AUTH);
+      JwtAuthenticationPlugin plugin =
+          RestAuthenticationConfigurationSupport.createJwtAuthenticationPlugin(jwtAuthenticationProperties);
 
-      ProcessEngineAuthenticationFilter jwtFilter = new ProcessEngineAuthenticationFilter();
-      jwtFilter.setAuthenticationProvider(plugin.getAuthenticationProvider());
-      registration.setFilter(jwtFilter);
+      registration.setFilter(RestAuthenticationConfigurationSupport.createJwtAuthenticationFilter(plugin));
     } else {
-      // Default: HTTP Basic authentication
-      ProcessEngineAuthenticationFilter basicFilter = new ProcessEngineAuthenticationFilter();
-      registration.setFilter(basicFilter);
-      registration.addInitParameter("authentication-provider",
-          "org.finos.fluxnova.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider");
+      LOG.authenticationEnabled(FluxnovaBpmRunAuthenticationProperties.DEFAULT_AUTH);
+      registration.setFilter(RestAuthenticationConfigurationSupport.createBasicAuthenticationFilter());
+      RestAuthenticationConfigurationSupport.applyBasicAuthenticationProvider(registration);
     }
 
     return registration;
