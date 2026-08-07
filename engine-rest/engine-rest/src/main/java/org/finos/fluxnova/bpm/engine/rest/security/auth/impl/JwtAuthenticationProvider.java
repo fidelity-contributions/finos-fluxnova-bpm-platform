@@ -149,8 +149,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         return AuthenticationResult.unsuccessful();
       }
 
-      LOG.log(Level.INFO, "JWT authentication successful for user: {0}", userId);
-      
       List<String> groups = extractGroups(claims);
 
       AuthenticationResult result = new AuthenticationResult(userId, true);
