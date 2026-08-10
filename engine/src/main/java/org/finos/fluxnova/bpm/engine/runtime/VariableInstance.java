@@ -62,7 +62,7 @@ public interface VariableInstance {
   /**
    * Returns the business key of the owning process instance.
    */
-  String getProcessInstanceBusinessKey();
+  String getBusinessKey();
 
   /**
    * Returns the corresponding execution id.

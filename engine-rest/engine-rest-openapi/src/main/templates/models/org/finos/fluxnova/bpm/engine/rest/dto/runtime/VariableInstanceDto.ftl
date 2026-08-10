@@ -75,7 +75,7 @@
     />
 
     <@lib.property
-        name = "processInstanceBusinessKey"
+        name = "businessKey"
         type = "string"
         desc = "The business key of the process instance that this variable instance belongs to."
         last = true

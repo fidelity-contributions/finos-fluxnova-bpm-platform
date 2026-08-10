@@ -54,6 +54,7 @@ public class HistoricVariableInstanceEntity implements ValueFields, HistoricVari
   protected String processDefinitionId;
   protected String rootProcessInstanceId;
   protected String processInstanceId;
+  protected String businessKey;
 
   protected String taskId;
   protected String executionId;
@@ -319,12 +320,16 @@ public class HistoricVariableInstanceEntity implements ValueFields, HistoricVari
     return processInstanceId;
   }
 
-  public String getProcessInstanceBusinessKey() {
-    return null;
+  public String getBusinessKey() {
+    return businessKey;
   }
 
   public void setProcessInstanceId(String processInstanceId) {
     this.processInstanceId = processInstanceId;
+  }
+
+  public void setBusinessKey(String businessKey) {
+    this.businessKey = businessKey;
   }
 
   public String getTaskId() {

@@ -126,7 +126,7 @@
       <result property="isConcurrentLocal" column="IS_CONCURRENT_LOCAL_" jdbcType="BOOLEAN"/>
       <result property="tenantId" column="TENANT_ID_" jdbcType="VARCHAR"/>
       <result property="restricted" column="RESTRICTED_" jdbcType="BOOLEAN"/>
-      <result property="processInstanceBusinessKey" column="PROC_INST_BUSINESS_KEY_" jdbcType="VARCHAR"/>
+      <result property="businessKey" column="PROC_INST_BUSINESS_KEY_" jdbcType="VARCHAR"/>
 	</resultMap>
 
   <!-- VARIABLE INSTANCE SELECT -->
@@ -401,23 +401,23 @@
               </foreach>
             </if>
 
-            <!-- processInstanceBusinessKey -->
-            <if test="processInstanceBusinessKey != null">
+            <!-- businessKey -->
+            <if test="businessKey != null">
               and exists (
                 select 1
                 from ${prefix}ACT_RU_EXECUTION PROC_INST
                 where PROC_INST.ID_ = RES.PROC_INST_ID_
-                  and PROC_INST.BUSINESS_KEY_ = #{processInstanceBusinessKey}
+                  and PROC_INST.BUSINESS_KEY_ = #{businessKey}
               )
             </if>
 
-            <!-- processInstanceBusinessKeyLike -->
-            <if test="processInstanceBusinessKeyLike != null">
+            <!-- businessKeyLike -->
+            <if test="businessKeyLike != null">
               and exists (
                 select 1
                 from ${prefix}ACT_RU_EXECUTION PROC_INST
                 where PROC_INST.ID_ = RES.PROC_INST_ID_
-                  and PROC_INST.BUSINESS_KEY_ like #{processInstanceBusinessKeyLike} ESCAPE ${escapeChar}
+                  and PROC_INST.BUSINESS_KEY_ like #{businessKeyLike} ESCAPE ${escapeChar}
               )
             </if>
 

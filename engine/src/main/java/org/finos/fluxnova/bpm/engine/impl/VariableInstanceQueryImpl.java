@@ -45,8 +45,8 @@ public class VariableInstanceQueryImpl extends AbstractVariableQueryImpl<Variabl
   protected String variableNameLike;
   protected String[] executionIds;
   protected String[] processInstanceIds;
-  protected String processInstanceBusinessKey;
-  protected String processInstanceBusinessKeyLike;
+  protected String businessKey;
+  protected String businessKeyLike;
   protected String[] caseExecutionIds;
   protected String[] caseInstanceIds;
   protected String[] taskIds;
@@ -96,15 +96,15 @@ public class VariableInstanceQueryImpl extends AbstractVariableQueryImpl<Variabl
   }
 
   @Override
-  public VariableInstanceQuery processInstanceBusinessKey(String processInstanceBusinessKey) {
-    ensureNotNull("Business key", processInstanceBusinessKey);
-    this.processInstanceBusinessKey = processInstanceBusinessKey;
+  public VariableInstanceQuery businessKey(String businessKey) {
+    ensureNotNull("Business key", businessKey);
+    this.businessKey = businessKey;
     return this;
   }
 
   @Override
-  public VariableInstanceQuery processInstanceBusinessKeyLike(String processInstanceBusinessKeyLike) {
-    this.processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
+  public VariableInstanceQuery businessKeyLike(String businessKeyLike) {
+    this.businessKeyLike = businessKeyLike;
     return this;
   }
 
@@ -256,12 +256,12 @@ public class VariableInstanceQueryImpl extends AbstractVariableQueryImpl<Variabl
     return processInstanceIds;
   }
 
-  public String getProcessInstanceBusinessKey() {
-    return processInstanceBusinessKey;
+  public String getBusinessKey() {
+    return businessKey;
   }
 
-  public String getProcessInstanceBusinessKeyLike() {
-    return processInstanceBusinessKeyLike;
+  public String getBusinessKeyLike() {
+    return businessKeyLike;
   }
 
   public String[] getCaseExecutionIds() {

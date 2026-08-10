@@ -89,7 +89,7 @@ public class DelegateCaseVariableInstanceImpl implements DelegateCaseVariableIns
   }
 
   @Override
-  public String getProcessInstanceBusinessKey() {
+  public String getBusinessKey() {
     return null;
   }
 

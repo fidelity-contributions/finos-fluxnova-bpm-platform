@@ -1540,7 +1540,7 @@ public class VariableInstanceQueryTest extends PluggableProcessEngineTest {
     runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "businessKey-2", variables2);
 
     // when
-    VariableInstanceQuery query = runtimeService.createVariableInstanceQuery().processInstanceBusinessKey("businessKey-1");
+    VariableInstanceQuery query = runtimeService.createVariableInstanceQuery().businessKey("businessKey-1");
 
     // then
     List<VariableInstance> result = query.list();
@@ -1562,10 +1562,10 @@ public class VariableInstanceQueryTest extends PluggableProcessEngineTest {
     runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "businessKey-1", variables);
 
     // then
-    assertEquals(0, runtimeService.createVariableInstanceQuery().processInstanceBusinessKey("invalid").count());
+    assertEquals(0, runtimeService.createVariableInstanceQuery().businessKey("invalid").count());
 
     try {
-      runtimeService.createVariableInstanceQuery().processInstanceBusinessKey(null).count();
+      runtimeService.createVariableInstanceQuery().businessKey(null).count();
       fail();
     } catch (ProcessEngineException ignored) {
       // expected
@@ -1585,9 +1585,9 @@ public class VariableInstanceQueryTest extends PluggableProcessEngineTest {
     runtimeService.startProcessInstanceByKey(PROC_DEF_KEY, "otherKey-1", variables2);
 
     // then
-    assertEquals(1, runtimeService.createVariableInstanceQuery().processInstanceBusinessKeyLike("business%").count());
-    assertEquals(1, runtimeService.createVariableInstanceQuery().processInstanceBusinessKeyLike("%businessKey-1").count());
-    assertEquals(1, runtimeService.createVariableInstanceQuery().processInstanceBusinessKeyLike("%nessKey%").count());
+    assertEquals(1, runtimeService.createVariableInstanceQuery().businessKeyLike("business%").count());
+    assertEquals(1, runtimeService.createVariableInstanceQuery().businessKeyLike("%businessKey-1").count());
+    assertEquals(1, runtimeService.createVariableInstanceQuery().businessKeyLike("%nessKey%").count());
   }
 
   @Test

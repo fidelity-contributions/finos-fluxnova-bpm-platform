@@ -412,8 +412,8 @@ public class VariableInstanceRestServiceQueryTest extends AbstractRestServiceTes
     verify(mockedQuery).variableName(queryParameters.get("variableName"));
     verify(mockedQuery).variableNameLike(queryParameters.get("variableNameLike"));
     verify(mockedQuery).processInstanceIdIn(queryParameters.get("processInstanceIdIn"));
-    verify(mockedQuery).processInstanceBusinessKey(queryParameters.get("businessKey"));
-    verify(mockedQuery).processInstanceBusinessKeyLike(queryParameters.get("businessKeyLike"));
+    verify(mockedQuery).businessKey(queryParameters.get("businessKey"));
+    verify(mockedQuery).businessKeyLike(queryParameters.get("businessKeyLike"));
     verify(mockedQuery).executionIdIn(queryParameters.get("executionIdIn"));
     verify(mockedQuery).caseInstanceIdIn(queryParameters.get("caseInstanceIdIn"));
     verify(mockedQuery).caseExecutionIdIn(queryParameters.get("caseExecutionIdIn"));
@@ -497,8 +497,8 @@ public class VariableInstanceRestServiceQueryTest extends AbstractRestServiceTes
     verify(mockedQuery).variableName(aVariableName);
     verify(mockedQuery).variableNameLike(aVariableNameLike);
     verify(mockedQuery).processInstanceIdIn(aProcessInstanceId);
-    verify(mockedQuery).processInstanceBusinessKey(aBusinessKey);
-    verify(mockedQuery).processInstanceBusinessKeyLike(aBusinessKeyLike);
+    verify(mockedQuery).businessKey(aBusinessKey);
+    verify(mockedQuery).businessKeyLike(aBusinessKeyLike);
     verify(mockedQuery).executionIdIn(anExecutionId);
     verify(mockedQuery).taskIdIn(aTaskId);
     verify(mockedQuery).batchIdIn(aBatchId);

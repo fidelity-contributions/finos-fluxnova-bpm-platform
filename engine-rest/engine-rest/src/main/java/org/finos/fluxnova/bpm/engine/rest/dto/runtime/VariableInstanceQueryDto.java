@@ -221,11 +221,11 @@ public class VariableInstanceQueryDto extends AbstractQueryDto<VariableInstanceQ
     }
 
     if (businessKey != null) {
-      query.processInstanceBusinessKey(businessKey);
+      query.businessKey(businessKey);
     }
 
     if (businessKeyLike != null) {
-      query.processInstanceBusinessKeyLike(businessKeyLike);
+      query.businessKeyLike(businessKeyLike);
     }
 
     if (caseExecutionIdIn != null && caseExecutionIdIn.length > 0) {
