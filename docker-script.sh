@@ -47,4 +47,4 @@ if [ -d "${CERT_DIR}" ] && ls "${CERT_DIR}"/*.crt 1>/dev/null 2>&1; then
   export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Djavax.net.ssl.trustStore=${TRUSTSTORE} -Djavax.net.ssl.trustStorePassword=${TRUSTSTORE_PASSWORD:-changeit}"
 fi
 
-exec sh $CMD
+exec "${CMD}"
