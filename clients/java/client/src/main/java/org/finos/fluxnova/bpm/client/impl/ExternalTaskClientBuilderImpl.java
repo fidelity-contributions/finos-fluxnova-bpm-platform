@@ -270,6 +270,7 @@ public class ExternalTaskClientBuilderImpl implements ExternalTaskClientBuilder 
 
     jsonMapper = JsonMapper.builder()
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
         .disable(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS)
         .disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
         .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)

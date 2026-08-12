@@ -16,6 +16,7 @@
  */
 package org.finos.fluxnova.bpm.engine.rest.impl;
 
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +43,15 @@ import org.finos.fluxnova.bpm.engine.rest.exception.RestException;
 import org.finos.fluxnova.bpm.engine.rest.sub.repository.ProcessDefinitionResource;
 import org.finos.fluxnova.bpm.engine.rest.sub.repository.impl.ProcessDefinitionResourceImpl;
 import org.finos.fluxnova.bpm.engine.rest.util.QueryUtil;
+import tools.jackson.databind.json.JsonMapper;
 
 public class ProcessDefinitionRestServiceImpl extends AbstractRestProcessEngineAware implements ProcessDefinitionRestService {
 
   public ProcessDefinitionRestServiceImpl(String engineName, ObjectMapper objectMapper) {
     super(engineName, objectMapper);
+    ObjectMapper mapper = JsonMapper.builder()
+            .enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+            .build();
   }
 
   @Override

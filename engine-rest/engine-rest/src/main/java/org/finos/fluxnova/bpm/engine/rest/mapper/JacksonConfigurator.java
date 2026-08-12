@@ -41,6 +41,7 @@ public class JacksonConfigurator implements ContextResolver<ObjectMapper> {
     SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatString);
     return JsonMapper.builder()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
             .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
             .defaultDateFormat(dateFormat)
             .build();

@@ -77,6 +77,7 @@ public class JacksonJsonDataFormat implements DataFormat<SpinJsonNode> {
   public JacksonJsonDataFormat(String name) {
     this(name, JsonMapper.builder()
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
             .build());
   }
 
