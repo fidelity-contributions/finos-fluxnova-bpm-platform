@@ -27,6 +27,8 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.finos.fluxnova.bpm.spring.boot.starter.property.WebappProperty;
 
 import org.finos.fluxnova.bpm.webapp.impl.engine.ProcessEnginesFilter;
@@ -139,6 +141,8 @@ public class ResourceLoadingProcessEnginesFilter extends ProcessEnginesFilter im
     return input;
   }
 
+  private static final Path RESOURCE_ROOT = Paths.get("/webjar-resource-root").normalize().toAbsolutePath();
+
   private static String validateResourceName(String name) {
     if (name == null) {
       throw new IllegalArgumentException("Resource name must not be null");
@@ -153,14 +157,20 @@ public class ResourceLoadingProcessEnginesFilter extends ProcessEnginesFilter im
           "Resource name contains malformed encoding: " + name);
     }
 
-    String normalized = decoded.replace('\\', '/');
-    for (String segment : normalized.split("/", -1)) {
-      if ("..".equals(segment)) {
-        throw new IllegalArgumentException(
-            "Resource name contains illegal path traversal sequence: " + name);
-      }
+    if (decoded.indexOf('\0') >= 0) {
+      throw new IllegalArgumentException(
+          "Resource name contains illegal null byte: " + name);
     }
 
-    return normalized;
+    String normalized = decoded.replace('\\', '/');
+
+    Path resolved = RESOURCE_ROOT.resolve(normalized).normalize().toAbsolutePath();
+    if (!resolved.startsWith(RESOURCE_ROOT)) {
+      throw new IllegalArgumentException(
+          "Resource name contains illegal path traversal sequence: " + name);
+    }
+
+    String safeRelative = RESOURCE_ROOT.relativize(resolved).toString().replace('\\', '/');
+    return safeRelative;
   }
 }
