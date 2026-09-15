@@ -59,10 +59,7 @@ public class SpringExpressionResolvingTest extends AbstractFoxPlatformIntegratio
 
       // spring application context & libs
       .addAsWebInfResource("org/finos/fluxnova/bpm/integrationtest/functional/spring/SpringExpressionResolvingTest-context.xml", "applicationContext.xml")
-      .addAsLibraries(DeploymentHelper.getEngineSpring())
-
-      // adding module dependency on process engine module (jboss only)
-      .addAsManifestResource("org/finos/fluxnova/bpm/integrationtest/functional/spring/jboss-deployment-structure.xml", "jboss-deployment-structure.xml");
+      .addAsLibraries(DeploymentHelper.getEngineSpring());
   }
 
 

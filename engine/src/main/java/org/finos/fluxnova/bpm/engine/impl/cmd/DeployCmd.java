@@ -96,7 +96,7 @@ public class DeployCmd implements Command<DeploymentWithDefinitions>, Serializab
     if (commandContext.getProcessEngineConfiguration().isDeploymentSynchronized()) {
       // ensure serial processing of multiple deployments on the same node.
       // We experienced deadlock situations with highly concurrent deployment of multiple
-      // applications on Jboss & Wildfly
+      // applications
       synchronized (ProcessEngine.class) {
         return doExecute(commandContext);
       }

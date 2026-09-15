@@ -45,7 +45,7 @@ public class TestFoxPlatformClientAsEjbModule_pasAsEjbModule extends AbstractFox
 
 
   /**
-   * This only works if EAR classloader isolation is turned OFF (which is the default in WildFly)
+   * This only works if EAR classloader isolation is turned OFF
    *
    * test-application.ear
    *    |-- pa.jar
@@ -65,7 +65,7 @@ public class TestFoxPlatformClientAsEjbModule_pasAsEjbModule extends AbstractFox
   public static EnterpriseArchive paAsEjbModule() throws Exception {
 
     JavaArchive processArchive1Jar = ShrinkWrap.create(JavaArchive.class, "pa.jar")
-      .addClass(EeComponent.class) // need to add at least one EE component, otherwise the jar is not detected as an EJB module by Jboss AS
+      .addClass(EeComponent.class) // need to add at least one EE component, otherwise the jar is not detected as an EJB module
       .addAsResource("org/finos/fluxnova/bpm/integrationtest/deployment/ear/paAsEjbModule-process.bpmn20.xml")
       .addAsResource("org/finos/fluxnova/bpm/integrationtest/deployment/ear/paAsEjbModule-pa.xml", "META-INF/processes.xml");
 

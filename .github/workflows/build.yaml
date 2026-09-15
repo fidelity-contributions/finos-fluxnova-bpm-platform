@@ -140,7 +140,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mvn -B -e verify "-Pcoverage-aggregate,distro,distro-ce,distro-tomcat,distro-wildfly,distro-webjar,distro-run" -DskipTests -DskipITs
+          mvn -B -e verify "-Pcoverage-aggregate,distro,distro-ce,distro-tomcat,distro-webjar,distro-run" -DskipTests -DskipITs
 
       - name: Upload aggregate coverage
         uses: actions/upload-artifact@v4

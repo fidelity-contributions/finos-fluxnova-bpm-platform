@@ -60,7 +60,7 @@ mvn -B \
   -DreleaseVersion=${RELEASE_VERSION} \
   -DdevelopmentVersion=${DEVELOPMENT_VERSION} \
   -Dtag=v${RELEASE_VERSION} \
-  -Psonatype-oss-release,distro,distro-ce,distro-wildfly \
+  -Psonatype-oss-release,distro,distro-ce \
   -DignoreSnapshots=true \
   -DinteractiveMode=false
 ```
@@ -102,7 +102,7 @@ mvn -B -DskipTests -pl distro/run/distro -am package
   - Cause: giant bundle (zip) created by central-publishing-maven-plugin exceeds limits.
   - Fixes:
     - Prefer deploying artifact-by-artifact (use `deploy` + `nexus-staging:close` + `nexus-staging:release` goals in `release:perform`).
-    - Exclude non-essential distributions/profiles during perform (e.g., avoid `distro-webjar`, `distro-wildfly` if not required).
+    - Exclude non-essential distributions/profiles during perform (e.g., avoid `distro-webjar` if not required).
     - Ensure only one `sources.jar` and one `javadoc.jar` are attached per module; avoid shaded sources duplication.
     - Avoid attaching `classifier=classes` unless strictly necessary.
 

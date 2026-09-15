@@ -42,10 +42,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * This test verifies that if a delegate bean invoked from the Job Executor
  * calls a LOCAL SLSB from a different deployment, the RequestContest is active there as well.
  *
- * NOTE:
- * - does not work on Jboss (Bug in Jboss AS?) SEE HEMERA-2453
- * - not implemented on Glassfish
- *
  * @author Daniel Meyer
  *
  */

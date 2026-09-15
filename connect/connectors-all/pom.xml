@@ -104,7 +104,7 @@
           </instructions>
         </configuration>
         <executions>
-          <execution>
+         <execution>
             <id>bundle-manifest</id>
             <phase>process-classes</phase>
             <goals>
