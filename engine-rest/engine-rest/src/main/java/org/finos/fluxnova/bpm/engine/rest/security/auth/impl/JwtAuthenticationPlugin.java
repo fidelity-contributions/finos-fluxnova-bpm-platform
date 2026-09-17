@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * The plugin can be configured via:
  * <ul>
  *   <li>Spring Boot application.properties/yaml</li>
- *   <li>bpm-platform.xml (Tomcat/Wildfly)</li>
+ *   <li>bpm-platform.xml (Tomcat)</li>
  *   <li>processes.xml (embedded engine)</li>
  *   <li>Programmatic configuration via setters</li>
  * </ul>

@@ -483,30 +483,6 @@ recipeList:
       newArtifactId: fluxnova-webapp-webjar-ee
       newVersion: {{TARGET_VERSION}}
   - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm.wildfly
-      oldArtifactId: camunda-wildfly-modules
-      newGroupId: org.finos.fluxnova.bpm.wildfly
-      newArtifactId: fluxnova-wildfly-modules
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm.wildfly
-      oldArtifactId: camunda-wildfly-subsystem
-      newGroupId: org.finos.fluxnova.bpm.wildfly
-      newArtifactId: fluxnova-wildfly-subsystem
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm.wildfly
-      oldArtifactId: camunda-wildfly26-modules
-      newGroupId: org.finos.fluxnova.bpm.wildfly
-      newArtifactId: fluxnova-wildfly26-modules
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
-      oldGroupId: org.camunda.bpm.wildfly
-      oldArtifactId: camunda-wildfly26-subsystem
-      newGroupId: org.finos.fluxnova.bpm.wildfly
-      newArtifactId: fluxnova-wildfly26-subsystem
-      newVersion: {{TARGET_VERSION}}
-  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
       oldGroupId: org.camunda.commons
       oldArtifactId: camunda-commons-logging
       newGroupId: org.finos.fluxnova.commons

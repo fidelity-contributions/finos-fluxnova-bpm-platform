@@ -33,10 +33,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * This test verifies that if the same @RequestScoped SFSB Bean is invoked multiple times
  * in the context of the same job, we get the same instance.
  *
- * NOTE:
- * - works on Jboss AS
- * - broken on Glassfish, see HEMERA-2454
- *
  * @author Daniel Meyer
  *
  */
