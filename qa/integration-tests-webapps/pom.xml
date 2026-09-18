@@ -17,11 +17,6 @@
     <cargo.timeout>120000</cargo.timeout>
     <cargo.deploy.timeout>60000</cargo.deploy.timeout>
 
-    <!-- Fixed for WildFly 26 -->
-    <cargo.wildfly26.container.id>wildfly26x</cargo.wildfly26.container.id>
-    <!-- Needs to be adjusted with every WildFly update -->
-    <cargo.wildfly.container.id>wildfly35x</cargo.wildfly.container.id>
-
     <redirect.test.output>true</redirect.test.output>
 
     <http.ctx-path.webapp>fluxnova/</http.ctx-path.webapp>
@@ -103,24 +98,6 @@
       <artifactId>arquillian-protocol-servlet</artifactId>
       <scope>test</scope>
     </dependency>
-
-<!--    <dependency>-->
-<!--      <groupId>org.jboss.spec</groupId>-->
-<!--      <artifactId>jboss-javaee-6.0</artifactId>-->
-<!--      <type>pom</type>-->
-<!--      <scope>provided</scope>-->
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <artifactId>xalan</artifactId>-->
-<!--          <groupId>org.apache.xalan</groupId>-->
-<!--        </exclusion>-->
-<!--        &lt;!&ndash; exclude old javax.activation to use Jakarta activation instead &ndash;&gt;-->
-<!--        <exclusion>-->
-<!--          <groupId>javax.activation</groupId>-->
-<!--          <artifactId>activation</artifactId>-->
-<!--        </exclusion>-->
-<!--      </exclusions>-->
-<!--    </dependency>-->
     
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -281,7 +258,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
+       </plugin>
     </plugins>
   </build>
 

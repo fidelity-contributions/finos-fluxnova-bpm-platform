@@ -37,10 +37,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * This test verifies that a CDI Java Bean Delegate is able to inject and invoke the
  * local business interface of a SingletonBean from a different application
  *
- * Note:
- * - works on Jboss
- * - not implemented on Glassfish
- *
  * @author Daniel Meyer
  *
  */
