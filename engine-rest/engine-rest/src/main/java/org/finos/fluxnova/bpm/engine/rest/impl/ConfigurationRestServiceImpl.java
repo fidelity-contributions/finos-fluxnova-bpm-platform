@@ -92,6 +92,24 @@ public class ConfigurationRestServiceImpl extends AbstractRestProcessEngineAware
     return configurations;
   }
 
+  @Override
+  public ConfigurationDto getConfiguration(String configurationId) {
+    String normalizedConfigurationId = trimToNull(configurationId);
+    if (normalizedConfigurationId == null) {
+      throw new InvalidRequestException(Status.BAD_REQUEST, "Configuration id must not be blank");
+    }
+
+    Configuration configuration = getProcessEngine().getConfigurationService()
+        .getConfiguration(normalizedConfigurationId);
+    if (configuration == null) {
+      throw new InvalidRequestException(
+          Status.NOT_FOUND,
+          "Configuration with id '" + normalizedConfigurationId + "' does not exist");
+    }
+
+    return ConfigurationDto.fromConfiguration(configuration);
+  }
+
   protected static String trimToNull(String value) {
     if (value == null) {
       return null;

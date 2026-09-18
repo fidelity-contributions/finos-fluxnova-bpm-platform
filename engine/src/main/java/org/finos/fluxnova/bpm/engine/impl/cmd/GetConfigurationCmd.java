@@ -21,6 +21,7 @@ import static org.finos.fluxnova.bpm.engine.impl.util.EnsureUtil.ensureNotNull;
 import java.io.Serializable;
 
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
+import org.finos.fluxnova.bpm.engine.impl.identity.Authentication;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.Command;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.CommandContext;
 
@@ -37,9 +38,17 @@ public class GetConfigurationCmd implements Command<Configuration>, Serializable
   public Configuration execute(CommandContext commandContext) {
     ensureNotNull("configurationId", configurationId);
 
-    return commandContext
+    Authentication authentication = ConfigurationAuthorizationUtil.ensureAuthenticated(commandContext);
+    Configuration configuration = commandContext
         .getConfigurationManager()
         .findConfigurationById(configurationId);
+    if (configuration != null) {
+      ConfigurationAuthorizationUtil.ensureAuthorized(
+          commandContext,
+          authentication,
+          configuration.getTenantId());
+    }
+    return configuration;
   }
 
 }

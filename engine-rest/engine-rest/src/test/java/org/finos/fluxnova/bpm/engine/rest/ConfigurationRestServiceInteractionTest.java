@@ -111,6 +111,40 @@ public class ConfigurationRestServiceInteractionTest extends AbstractRestService
     verify(configurationService).getConfigurations(null, true);
   }
 
+  @Test
+  public void shouldRetrieveConfigurationById() {
+    when(configurationService.getConfiguration("configuration-id"))
+        .thenReturn(configuration("tenant-key", "tenant-value", "tenant-a", Configuration.STATUS_DELETED));
+
+    given()
+    .then()
+      .expect()
+        .statusCode(Status.OK.getStatusCode())
+        .contentType(ContentType.JSON)
+        .body("id", equalTo("configuration-id"))
+        .body("configKey", equalTo("tenant-key"))
+        .body("tenantId", equalTo("tenant-a"))
+        .body("status", equalTo(Configuration.STATUS_DELETED))
+    .when()
+      .get(CONFIGURATIONS_URL + "/configuration-id");
+
+    verify(configurationService).getConfiguration("configuration-id");
+  }
+
+  @Test
+  public void shouldReturnNotFoundForMissingConfiguration() {
+    when(configurationService.getConfiguration("missing-id")).thenReturn(null);
+
+    given()
+    .then()
+      .expect()
+        .statusCode(Status.NOT_FOUND.getStatusCode())
+        .contentType(ContentType.JSON)
+        .body("message", equalTo("Configuration with id 'missing-id' does not exist"))
+    .when()
+      .get(CONFIGURATIONS_URL + "/missing-id");
+  }
+
   private ConfigurationEntity configuration(String key, String value, String tenantId, String status) {
     ConfigurationEntity configuration = new ConfigurationEntity();
     configuration.setId("configuration-id");

@@ -193,6 +193,39 @@ class ConfigurationRestServiceImplTest {
   }
 
   @Test
+  void shouldGetConfigurationById() {
+    ConfigurationEntity configuration = newConfiguration("my.key", "my-value", "tenant-1");
+    when(configurationService.getConfiguration("test-id")).thenReturn(configuration);
+
+    ConfigurationDto result = service.getConfiguration(" test-id ");
+
+    assertEquals("test-id", result.getId());
+    assertEquals("my.key", result.getConfigKey());
+    assertEquals("tenant-1", result.getTenantId());
+    verify(configurationService).getConfiguration("test-id");
+  }
+
+  @Test
+  void shouldReturnNotFoundWhenConfigurationDoesNotExist() {
+    when(configurationService.getConfiguration("missing-id")).thenReturn(null);
+
+    InvalidRequestException exception = assertThrows(
+        InvalidRequestException.class,
+        () -> service.getConfiguration("missing-id"));
+
+    assertEquals(Status.NOT_FOUND, exception.getStatus());
+  }
+
+  @Test
+  void shouldRejectBlankConfigurationId() {
+    InvalidRequestException exception = assertThrows(
+        InvalidRequestException.class,
+        () -> service.getConfiguration(" "));
+
+    assertEquals(Status.BAD_REQUEST, exception.getStatus());
+  }
+
+  @Test
   void shouldThrowBadRequestForNullRequestBody() {
     InvalidRequestException exception =
         assertThrows(InvalidRequestException.class, () -> service.createConfiguration(null, uriInfo));

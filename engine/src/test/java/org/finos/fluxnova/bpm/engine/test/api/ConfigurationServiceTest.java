@@ -147,6 +147,59 @@ public class ConfigurationServiceTest extends PluggableProcessEngineTest {
         .hasMessageContaining("Authentication is required");
   }
 
+  @Test
+  public void shouldRetrieveGlobalConfigurationByIdAsAdmin() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), null, Configuration.STATUS_DELETED);
+    authenticateAsAdmin();
+
+    assertThat(configurationService.getConfiguration(configuration.getId()).getId())
+        .isEqualTo(configuration.getId());
+  }
+
+  @Test
+  public void shouldRetrieveOwnTenantConfigurationById() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "tenant-a", Configuration.STATUS_ACTIVE);
+    identityService.setAuthentication("tenant-user", null, Collections.singletonList("tenant-a"));
+
+    assertThat(configurationService.getConfiguration(configuration.getId()).getId())
+        .isEqualTo(configuration.getId());
+  }
+
+  @Test
+  public void shouldRejectRetrievingAnotherTenantConfigurationById() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "tenant-b", Configuration.STATUS_ACTIVE);
+    identityService.setAuthentication("tenant-user", null, Collections.singletonList("tenant-a"));
+
+    assertThatThrownBy(() -> configurationService.getConfiguration(configuration.getId()))
+        .isInstanceOf(AuthorizationException.class)
+        .hasMessageContaining("not authorized for tenant 'tenant-b'");
+  }
+
+  @Test
+  public void shouldRejectTenantMemberRetrievingGlobalConfigurationById() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), null, Configuration.STATUS_ACTIVE);
+    identityService.setAuthentication("tenant-user", null, Collections.singletonList("tenant-a"));
+
+    assertThatThrownBy(() -> configurationService.getConfiguration(configuration.getId()))
+        .isInstanceOf(AuthorizationException.class)
+        .hasMessageContaining("Only platform administrators");
+  }
+
+  @Test
+  public void shouldRejectUnauthenticatedConfigurationRetrievalById() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "tenant-a", Configuration.STATUS_ACTIVE);
+    identityService.clearAuthentication();
+
+    assertThatThrownBy(() -> configurationService.getConfiguration(configuration.getId()))
+        .isInstanceOf(AuthorizationException.class)
+        .hasMessageContaining("Authentication is required");
+  }
+
   protected void authenticateAsAdmin() {
     identityService.setAuthentication(
         "admin",

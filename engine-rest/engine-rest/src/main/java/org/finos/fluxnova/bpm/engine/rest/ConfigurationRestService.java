@@ -63,4 +63,14 @@ public interface ConfigurationRestService {
   List<ConfigurationDto> getConfigurations(@QueryParam("tenantId") String tenantId,
                                            @QueryParam("includeInactive") Boolean includeInactive);
 
+  /**
+   * Returns a configuration by id.
+   *
+   * @param configurationId the configuration id
+   * @return the configuration
+   */
+  @GET
+  @Path("/{configurationId}")
+  ConfigurationDto getConfiguration(@PathParam("configurationId") String configurationId);
+
 }

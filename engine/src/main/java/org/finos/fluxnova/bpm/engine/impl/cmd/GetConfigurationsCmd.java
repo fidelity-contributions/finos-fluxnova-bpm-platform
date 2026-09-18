@@ -19,9 +19,7 @@ package org.finos.fluxnova.bpm.engine.impl.cmd;
 import java.io.Serializable;
 import java.util.List;
 
-import org.finos.fluxnova.bpm.engine.AuthorizationException;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
-import org.finos.fluxnova.bpm.engine.impl.identity.Authentication;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.Command;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.CommandContext;
 
@@ -38,24 +36,7 @@ public class GetConfigurationsCmd implements Command<List<Configuration>>, Seria
   }
 
   public List<Configuration> execute(CommandContext commandContext) {
-    Authentication authentication = commandContext.getAuthentication();
-    if (authentication == null) {
-      throw new AuthorizationException("Authentication is required to retrieve configurations");
-    }
-
-    boolean isFluxnovaAdmin = commandContext.getAuthorizationManager().isFluxnovaAdmin(authentication);
-    if (tenantId == null && !isFluxnovaAdmin) {
-      throw new AuthorizationException("Only platform administrators may retrieve global configurations");
-    }
-
-    if (tenantId != null
-        && !isFluxnovaAdmin
-        && (authentication.getTenantIds() == null
-            || !authentication.getTenantIds().contains(tenantId))) {
-      throw new AuthorizationException(
-          "The authenticated user is not authorized for tenant '" + tenantId + "'");
-    }
-
+    ConfigurationAuthorizationUtil.ensureAuthorized(commandContext, tenantId);
     return commandContext.getConfigurationManager().findConfigurations(tenantId, includeInactive);
   }
 }
