@@ -47,6 +47,18 @@ public class ResourceLoadingProcessEnginesFilterPathTest {
   }
 
   @Test
+  public void shouldAddSeparatorAfterClasspathWithoutTrailingSlash() throws Exception {
+    when(webappProperty.getWebjarClasspath()).thenReturn("webapp");
+    Resource resource = mock(Resource.class);
+    when(resourceLoader.getResource("classpath:webapp/app/admin/index.html")).thenReturn(resource);
+    when(resource.getInputStream()).thenReturn(
+        new ByteArrayInputStream("content".getBytes(StandardCharsets.UTF_8)));
+
+    assertThat(filter.read("/app/admin/index.html")).isEqualTo("content\n");
+    verify(resourceLoader).getResource("classpath:webapp/app/admin/index.html");
+  }
+
+  @Test
   public void shouldRejectEncodedTraversalBeforeLookup() {
     assertThatThrownBy(() -> filter.read("app/%2e%2e/config.js"))
         .isInstanceOf(IOException.class)

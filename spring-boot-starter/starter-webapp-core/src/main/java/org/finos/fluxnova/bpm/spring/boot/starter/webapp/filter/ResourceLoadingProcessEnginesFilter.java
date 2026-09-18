@@ -75,7 +75,7 @@ public class ResourceLoadingProcessEnginesFilter extends ProcessEnginesFilter im
     InputStream is = null;
     try {
       Resource resource = resourceLoader.getResource(
-          "classpath:" + webappProperty.getWebjarClasspath() + safeName);
+          "classpath:" + joinClasspathResource(webappProperty.getWebjarClasspath(), safeName));
       is = resource.getInputStream();
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -143,6 +143,14 @@ public class ResourceLoadingProcessEnginesFilter extends ProcessEnginesFilter im
 
   private static final Path RESOURCE_ROOT = Paths.get("/webjar-resource-root").normalize().toAbsolutePath();
 
+  private static String joinClasspathResource(String classpathRoot, String relativeResourceName) {
+    if (classpathRoot.endsWith("/")) {
+      return classpathRoot + relativeResourceName;
+    }
+
+    return classpathRoot + "/" + relativeResourceName;
+  }
+
   private static String validateResourceName(String name) {
     if (name == null) {
       throw new IllegalArgumentException("Resource name must not be null");
@@ -163,8 +171,16 @@ public class ResourceLoadingProcessEnginesFilter extends ProcessEnginesFilter im
     }
 
     String normalized = decoded.replace('\\', '/');
+    String relative = normalized.startsWith("/") ? normalized.substring(1) : normalized;
 
-    Path resolved = RESOURCE_ROOT.resolve(normalized).normalize().toAbsolutePath();
+    for (String segment : relative.split("/")) {
+      if ("..".equals(segment)) {
+        throw new IllegalArgumentException(
+            "Resource name contains illegal path traversal sequence: " + name);
+      }
+    }
+
+    Path resolved = RESOURCE_ROOT.resolve(relative).normalize().toAbsolutePath();
     if (!resolved.startsWith(RESOURCE_ROOT)) {
       throw new IllegalArgumentException(
           "Resource name contains illegal path traversal sequence: " + name);
