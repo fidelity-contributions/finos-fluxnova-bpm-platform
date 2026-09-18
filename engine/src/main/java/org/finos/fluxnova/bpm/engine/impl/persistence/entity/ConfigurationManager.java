@@ -17,6 +17,7 @@
 package org.finos.fluxnova.bpm.engine.impl.persistence.entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
@@ -30,6 +31,13 @@ public class ConfigurationManager extends AbstractManager {
 
   public ConfigurationEntity findConfigurationById(String configurationId) {
     return getDbEntityManager().selectById(ConfigurationEntity.class, configurationId);
+  }
+
+  public List<Configuration> findConfigurations(String tenantId, boolean includeInactive) {
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("tenantId", tenantId);
+    parameters.put("includeInactive", includeInactive);
+    return getDbEntityManager().selectList("selectConfigurations", parameters);
   }
 
   /**

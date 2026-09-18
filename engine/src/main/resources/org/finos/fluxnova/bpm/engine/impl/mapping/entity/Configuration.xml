@@ -94,4 +94,22 @@
     </choose>
   </select>
 
+  <select id="selectConfigurations" parameterType="java.util.Map" resultMap="configurationResultMap">
+    select *
+    from ${prefix}ACT_GE_CONFIGURATION
+    where 1 = 1
+    <if test="!parameter.includeInactive">
+      and STATUS_ = 'ACTIVE'
+    </if>
+    <choose>
+      <when test="parameter.tenantId != null">
+        and TENANT_ID_ = #{parameter.tenantId, jdbcType=VARCHAR}
+      </when>
+      <otherwise>
+        and TENANT_ID_ is null
+      </otherwise>
+    </choose>
+    order by CONFIG_KEY_
+  </select>
+
 </mapper>

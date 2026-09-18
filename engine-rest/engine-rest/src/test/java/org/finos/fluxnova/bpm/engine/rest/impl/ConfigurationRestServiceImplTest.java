@@ -18,6 +18,7 @@ package org.finos.fluxnova.bpm.engine.rest.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -28,7 +29,9 @@ import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import jakarta.ws.rs.core.Response;
@@ -147,6 +150,46 @@ class ConfigurationRestServiceImplTest {
     service.createConfiguration(dto, uriInfo);
 
     verify(configurationService).createConfiguration("my.key", "my-value", null);
+  }
+
+  @Test
+  void shouldGetGlobalActiveConfigurationsWhenTenantIdIsMissing() {
+    ConfigurationEntity configuration = newConfiguration("my.key", "my-value", null);
+    when(configurationService.getConfigurations(isNull(), eq(false))).thenReturn(Arrays.asList(configuration));
+
+    List<ConfigurationDto> result = service.getConfigurations(null, null);
+
+    assertEquals(1, result.size());
+    assertEquals("my.key", result.get(0).getConfigKey());
+    assertEquals("my-value", result.get(0).getConfigValue());
+    assertNull(result.get(0).getTenantId());
+    verify(configurationService).getConfigurations(null, false);
+  }
+
+  @Test
+  void shouldGetTenantConfigurations() {
+    ConfigurationEntity configuration = newConfiguration("my.key", "my-value", "tenant-1");
+    when(configurationService.getConfigurations(eq("tenant-1"), eq(false))).thenReturn(Arrays.asList(configuration));
+
+    List<ConfigurationDto> result = service.getConfigurations(" tenant-1 ", false);
+
+    assertEquals(1, result.size());
+    assertEquals("tenant-1", result.get(0).getTenantId());
+    verify(configurationService).getConfigurations("tenant-1", false);
+  }
+
+  @Test
+  void shouldIncludeInactiveConfigurationsWhenRequested() {
+    ConfigurationEntity inactiveConfiguration = newConfiguration("my.key", "my-value", null);
+    inactiveConfiguration.setStatus(Configuration.STATUS_DELETED);
+    when(configurationService.getConfigurations(isNull(), eq(true)))
+        .thenReturn(Arrays.asList(inactiveConfiguration));
+
+    List<ConfigurationDto> result = service.getConfigurations(null, true);
+
+    assertEquals(1, result.size());
+    assertEquals(Configuration.STATUS_DELETED, result.get(0).getStatus());
+    verify(configurationService).getConfigurations(null, true);
   }
 
   @Test

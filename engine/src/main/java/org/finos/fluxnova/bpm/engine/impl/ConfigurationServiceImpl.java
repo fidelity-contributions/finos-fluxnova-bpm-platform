@@ -16,10 +16,13 @@
  */
 package org.finos.fluxnova.bpm.engine.impl;
 
+import java.util.List;
+
 import org.finos.fluxnova.bpm.engine.ConfigurationService;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
 import org.finos.fluxnova.bpm.engine.impl.cmd.CreateConfigurationCmd;
 import org.finos.fluxnova.bpm.engine.impl.cmd.GetConfigurationCmd;
+import org.finos.fluxnova.bpm.engine.impl.cmd.GetConfigurationsCmd;
 
 public class ConfigurationServiceImpl extends ServiceImpl implements ConfigurationService {
 
@@ -29,6 +32,10 @@ public class ConfigurationServiceImpl extends ServiceImpl implements Configurati
 
   public Configuration getConfiguration(String configurationId) {
     return commandExecutor.execute(new GetConfigurationCmd(configurationId));
+  }
+
+  public List<Configuration> getConfigurations(String tenantId, boolean includeInactive) {
+    return commandExecutor.execute(new GetConfigurationsCmd(tenantId, includeInactive));
   }
 
 }

@@ -16,6 +16,8 @@
  */
 package org.finos.fluxnova.bpm.engine;
 
+import java.util.List;
+
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
 
 /**
@@ -49,5 +51,18 @@ public interface ConfigurationService {
    * @return the configuration, or {@code null} if no configuration exists for that id
    */
   Configuration getConfiguration(String configurationId);
+
+  /**
+   * Returns configurations for the requested scope.
+   *
+   * <p>If {@code tenantId} is {@code null}, the global default configurations
+   * are returned. Inactive configurations are excluded unless
+   * {@code includeInactive} is {@code true}.</p>
+   *
+   * @param tenantId the tenant scope, or {@code null} for global defaults
+   * @param includeInactive whether to include inactive configurations
+   * @return configurations in the requested scope
+   */
+  List<Configuration> getConfigurations(String tenantId, boolean includeInactive);
 
 }

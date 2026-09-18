@@ -16,6 +16,9 @@
  */
 package org.finos.fluxnova.bpm.engine.rest;
 
+import java.util.List;
+
+import org.finos.fluxnova.bpm.engine.rest.dto.configuration.ConfigurationDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.configuration.CreateConfigurationDto;
 
 import jakarta.ws.rs.*;
@@ -46,5 +49,18 @@ public interface ConfigurationRestService {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   Response createConfiguration(CreateConfigurationDto configurationDto, @Context UriInfo uriInfo);
+
+  /**
+   * Returns configurations for a tenant. If {@code tenantId} is omitted or
+   * blank, the global default configurations are returned. Inactive
+   * configurations are excluded unless {@code includeInactive} is {@code true}.
+   *
+   * @param tenantId optional tenant scope
+   * @param includeInactive whether to include inactive configurations
+   * @return configurations in the requested scope
+   */
+  @GET
+  List<ConfigurationDto> getConfigurations(@QueryParam("tenantId") String tenantId,
+                                           @QueryParam("includeInactive") Boolean includeInactive);
 
 }

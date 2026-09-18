@@ -18,6 +18,8 @@ package org.finos.fluxnova.bpm.engine.rest.impl;
 
 import tools.jackson.databind.ObjectMapper;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriInfo;
@@ -78,6 +80,16 @@ public class ConfigurationRestServiceImpl extends AbstractRestProcessEngineAware
         .build();
 
     return Response.created(location).entity(ConfigurationDto.fromConfiguration(newConfiguration)).build();
+  }
+
+  @Override
+  public List<ConfigurationDto> getConfigurations(String tenantId, Boolean includeInactive) {
+    List<ConfigurationDto> configurations = new ArrayList<ConfigurationDto>();
+    for (Configuration configuration : getProcessEngine().getConfigurationService()
+        .getConfigurations(trimToNull(tenantId), Boolean.TRUE.equals(includeInactive))) {
+      configurations.add(ConfigurationDto.fromConfiguration(configuration));
+    }
+    return configurations;
   }
 
   protected static String trimToNull(String value) {
