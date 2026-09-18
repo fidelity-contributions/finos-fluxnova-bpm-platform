@@ -9,8 +9,8 @@
   <inceptionYear>2013</inceptionYear>
 
   <description>
-    This pom defines the modules that make up the build.
-    The parent pom for all Fluxnova Platform projects can be found in the parent directory relative to this file.
+    The Fluxnova BPM Platform is a flexible, extensible framework for workflow and business process automation.
+    This is the root pom that aggregates all modules and defines the shared dependency, plugin, and profile configuration for the build.
   </description>
 
   <url>https://github.com/finos/fluxnova-bpm-platform</url>
@@ -56,12 +56,12 @@
     <plugin.version.rar>2.4</plugin.version.rar>
     <plugin.version.gpg>3.2.7</plugin.version.gpg>
     <plugin.version.release>3.3.1</plugin.version.release>
-    <plugin.version.publish>0.7.0</plugin.version.publish>
+    <plugin.version.publish>0.11.0</plugin.version.publish>
 
     <!-- properties required for publishing to maven central (formerly in fluxnova-release-parent) -->
     <gpg.executable>gpg</gpg.executable>
     <publish.server.id>ossrh</publish.server.id>
-    <release.goals>install org.sonatype.central:central-publishing-maven-plugin:0.7.0:publish</release.goals>
+    <release.goals>install org.sonatype.central:central-publishing-maven-plugin:0.11.0:publish</release.goals>
     <skip.source.attach>false</skip.source.attach>
 
     <!-- plugin versions previously defined in fluxnova-bpm-release-parent -->
