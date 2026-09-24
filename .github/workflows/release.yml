@@ -1,6 +1,7 @@
 # Workflow: Release and publish artifacts to Maven Central
 # Purpose: Builds, signs, and publishes Maven artifacts to Sonatype OSSRH, then tags the released version.
 # Prerequisites: pom.xml must be on a *-SNAPSHOT version.
+# Trigger: manual only. Jobs run only when the selected branch starts with release/.
 # Notes:
 #   - release/major or release/major/*: next major version (e.g., 1.2.3-SNAPSHOT to 2.0.0-SNAPSHOT)
 #   - release/minor or release/minor/*: next minor version (e.g., 1.2.3-SNAPSHOT to 1.3.0-SNAPSHOT)
@@ -18,9 +19,6 @@ env:
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'release/**'
 
 permissions:
   contents: write
@@ -28,6 +26,7 @@ permissions:
 jobs:
   publish-central:
     name: Publish to Maven Central
+    if: startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
     outputs:
       release_version: ${{ steps.set-vars.outputs.release_version }}
@@ -70,10 +69,10 @@ jobs:
 
           # Set as environment variable
           echo "RELEASE_VERSION=${releaseVersion}" >> $GITHUB_ENV
-          
+
           # Expose as job output
           echo "release_version=${releaseVersion}" >> $GITHUB_OUTPUT
-          
+
           # Set tag name
           TAG="v${releaseVersion}"
           echo "TAG=$TAG" >> $GITHUB_ENV
@@ -85,31 +84,31 @@ jobs:
           # Extract numeric components for computing next development version
           n=${releaseVersion//[!0-9]/ }
           a=(${n//\./ })
-          
+
           # Determine version increment based on branch name
           if [[ "$BRANCH_NAME" == "release/major" || "$BRANCH_NAME" == release/major/* ]]; then
             # Major version increment
             nextMajor=$((${a[0]} + 1))
             developmentVersion="${nextMajor}.0.0-SNAPSHOT"
             echo "Branch type: Major Release - ${releaseVersion} → ${developmentVersion}"
-            
-            elif [[ "$BRANCH_NAME" == "release/minor" || "$BRANCH_NAME" == release/minor/* ]]; then
+
+          elif [[ "$BRANCH_NAME" == "release/minor" || "$BRANCH_NAME" == release/minor/* ]]; then
             # Minor version increment
             nextMinor=$((${a[1]} + 1))
             developmentVersion="${a[0]}.${nextMinor}.0-SNAPSHOT"
             echo "Branch type: Minor Release - ${releaseVersion} → ${developmentVersion}"
-            
-            elif [[ "$BRANCH_NAME" == "release/patch" || "$BRANCH_NAME" == release/patch/* ]]; then
+
+          elif [[ "$BRANCH_NAME" == "release/patch" || "$BRANCH_NAME" == release/patch/* ]]; then
             # Patch version increment
             nextPatch=$((${a[2]} + 1))
             developmentVersion="${a[0]}.${a[1]}.${nextPatch}-SNAPSHOT"
-          echo "Branch type: Patch Release - ${releaseVersion} → ${developmentVersion}"
-            
-            else
-          echo "Unsupported branch name: ${BRANCH_NAME}"
+            echo "Branch type: Patch Release - ${releaseVersion} → ${developmentVersion}"
+
+          else
+            echo "Unsupported branch name: ${BRANCH_NAME}"
             exit 1
-            fi
-  
+          fi
+
           echo "DEVELOPMENT_VERSION=${developmentVersion}" >> $GITHUB_ENV
 
           minorVersion="${a[0]}.${a[1]}"
@@ -188,7 +187,7 @@ jobs:
             -pl '!engine-rest/engine-rest-openapi' \
             -DskipTests=true -DskipITs=true -Dskip.frontend.build=true \
             -s ./settings.xml -Dmaven.resolver.transport=wagon -Dmaven.wagon.http.pool=false
-          
+
       - name: Publish Javadoc to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -222,7 +221,7 @@ jobs:
         run: |
           cd engine-rest && \
           mvn -B -e package  -pl '!engine-rest,!assembly' \
-           -s ../settings.xml -Dmaven.test.skip -Dmaven.resolver.transport=wagon -Dmaven.wagon.http.pool=false 
+           -s ../settings.xml -Dmaven.test.skip -Dmaven.resolver.transport=wagon -Dmaven.wagon.http.pool=false
 
       - name: Publish OpenAPI Spec to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

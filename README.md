@@ -61,9 +61,9 @@ Most of the components that make up the platform can even be completely embedded
 
 ## Release
 
-Releases are handled through GitHub Actions using the workflow in `.github/workflows/release.yml`.
+Releases are manually triggered from `release/*` branches through GitHub Actions using the workflow in `.github/workflows/release.yml`.
 
-For release instructions, including how to create major, minor, and patch release branches, see [RELEASE.md](RELEASE.md).
+For release instructions, including how to create major, minor, and patch release branches and run the workflow manually, see [RELEASE.md](RELEASE.md).
 
 ## Contributing
 

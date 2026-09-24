@@ -1,7 +1,8 @@
 # Release Instructions
 
 This project releases through the GitHub Actions workflow in `.github/workflows/release.yml`.
-You do not need to run the Maven release commands manually. Create the correct release branch and push it; the workflow handles the rest.
+You do not need to run the Maven release commands manually. Create the correct release branch, push it, and then manually run the release workflow from that branch.
+The workflow jobs run only when the selected branch starts with `release/`; other branches are ignored.
 
 ## Before You Start
 
@@ -93,10 +94,17 @@ git checkout -b release/patch
 git push origin release/patch
 ```
 
+After pushing the release branch:
+
+1. Go to **GitHub Actions**.
+2. Select **Release and publish artifacts to Maven Central and creates docker image in Docker Hub**.
+3. Click **Run workflow**.
+4. In the branch dropdown, select the release branch you pushed, for example `release/major`, `release/minor`, or `release/patch`. If you select a branch that does not start with `release/`, the release jobs will be skipped.
+5. Click **Run workflow** to start the release.
 
 ## What the Workflow Publishes
 
-After the branch is pushed, `.github/workflows/release.yml` will:
+After the workflow is manually run, `.github/workflows/release.yml` will:
 
 - Build and publish Maven artifacts to Maven Central.
 - Create the Git tag, for example `v1.15.0`.
@@ -123,5 +131,5 @@ Verify:
 ## Notes
 
 - Use `release/major`, `release/minor`, or `release/patch` exactly as shown above.
-- Releases up to `3.0.0` supported `hotfix/*` branches, but the current `.github/workflows/release.yml` version calculation only supports the `release/*` branch names listed above.
+- The current `.github/workflows/release.yml` workflow only supports release branches that start with `release/`.
 - For exact workflow steps, see `.github/workflows/release.yml`.
