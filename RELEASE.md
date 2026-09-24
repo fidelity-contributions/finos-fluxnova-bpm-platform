@@ -1,130 +1,127 @@
-# RELEASE.md
+# Release Instructions
 
-## Release Instructions
+This project releases through the GitHub Actions workflow in `.github/workflows/release.yml`.
+You do not need to run the Maven release commands manually. Create the correct release branch and push it; the workflow handles the rest.
 
-This document describes how to prepare, perform, and publish a new release of Fluxnova BPM Platform to Maven Central and build/push a Docker image tagged with the release version.
+## Before You Start
 
----
+Make sure:
 
-### Prerequisites
-- Repository permissions: ability to push branches and tags.
-- Branch state: code is green (build/tests pass) and on a `*-SNAPSHOT` version in `pom.xml`.
-- Secrets in GitHub repository settings:
-  - `CI_DEPLOY_USERNAME`, `CI_DEPLOY_PASSWORD` (Sonatype OSSRH)
-  - `CI_GPG_PRIVATE_KEY`, `CI_GPG_PASSPHRASE` (GPG signing)
-  - `GH_TOKEN` (for git and GHCR authentication)
-- GitHub Actions runners must have Java 21 (handled by workflow).
+- You have permission to push branches and tags.
+- The build is green before releasing.
+- The root `pom.xml` version ends with `-SNAPSHOT`.
+  - Example: `1.15.0-SNAPSHOT`
+- The required GitHub secrets are configured:
+  - `CI_DEPLOY_USERNAME`, `CI_DEPLOY_PASSWORD`
+  - `CI_GPG_PRIVATE_KEY`, `CI_GPG_PASSPHRASE`
+  - `GH_TOKEN`
+  - `DOCKER_PASSWORD`
 
----
+Check the current project version:
 
-### Release Branching
-1. Choose the release version (e.g., `1.15.0`). It will be derived from the current `*-SNAPSHOT` in `pom.xml` by removing `-SNAPSHOT`.
-2. Create and push a branch named `release/<version>`:
-   - Example: `release/1.15.0`.
-3. Pushing to `release/*` or manually dispatching the workflow will trigger the release pipeline.
-
----
-
-### Triggering the Workflow
-- Go to GitHub → Actions → "Release and publish artifacts to Maven Central".
-- Either:
-  - Click "Run workflow" (manual), or
-  - Push to `release/*` (automatic).
-
----
-
-### What the Workflow Does (high level)
-- Computes `RELEASE_VERSION` from the current `project.version` (strips `-SNAPSHOT`).
-- Computes `DEVELOPMENT_VERSION` for the next cycle (bumps minor, appends `-SNAPSHOT`).
-- Runs `mvn release:prepare` with computed versions and tags.
-- Runs `mvn release:perform` to build and deploy artifacts to Sonatype (Maven Central).
-- Exposes `release_version` as an output so downstream jobs (Docker) receive the tag.
-- Builds the distro ZIP (at `distro/run/distro/target/fluxnova-bpm-run-*.zip`).
-- Builds and pushes a Docker image tagged with `RELEASE_VERSION` to GHCR.
-
----
-
-### Commands (reference)
-These are representative of what the workflow runs:
-
-- Extract version and set env/outputs:
-  - `mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
-  - `RELEASE_VERSION=${currentVersion%-SNAPSHOT}`
-  - `DEVELOPMENT_VERSION=<computed next>-SNAPSHOT`
-
-- Prepare release:
 ```bash
-mvn -B \
-  -DpreparationGoals=clean \
-  release:prepare \
-  -DreleaseVersion=${RELEASE_VERSION} \
-  -DdevelopmentVersion=${DEVELOPMENT_VERSION} \
-  -Dtag=v${RELEASE_VERSION} \
-  -Psonatype-oss-release,distro,distro-ce \
-  -DignoreSnapshots=true \
-  -DinteractiveMode=false
+./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout
 ```
 
-- Perform release (deploy in steps, avoid bundling too-large archives):
-```bash
-mvn -B \
-  -DinteractiveMode=false \
-  -DreleaseProfiles=sonatype-oss-release \
-  -Dgoals='deploy org.sonatype.plugins:nexus-staging-maven-plugin:1.6.13:close org.sonatype.plugins:nexus-staging-maven-plugin:1.6.13:release' \
-  -Darguments='-Psonatype-oss-release,distro,distro-ce -DreleasePerform=true -DskipTests -DskipITs' \
-  release:perform
+The release version is the current Maven version without `-SNAPSHOT`.
+The release branch type controls the next development version only.
+
+Example:
+
+```text
+Current version: 1.15.0-SNAPSHOT
+Release version: 1.15.0
+Release tag:     v1.15.0
 ```
 
-- Build distro ZIP for Docker:
+## How to Release
+
+Start from the latest release-ready branch, usually `main`:
+
 ```bash
-mvn -B -DskipTests -pl distro/run/distro -am package
+git checkout main
+git pull origin main
 ```
 
-- Build/push Docker image (via composite action):
-  - Images: `ghcr.io/<org>/<repo>`
-  - Tag: `${{ inputs.version }}` (e.g., `1.15.0`)
+Then create one of the supported release branches below and push it.
 
----
+## Major Release Example
 
-### Docker Image Tagging
-- The Docker job consumes `needs.publish-central.outputs.release_version` and passes it to the composite action `build-publish-image`.
-- docker/metadata-action composes tags and labels; we explicitly include the literal tag equal to the release version.
-- Result: image pushed to `ghcr.io/<org>/<repo>:<RELEASE_VERSION>`.
+Use this when releasing breaking changes or a new major version line.
 
----
+If the current version is `1.15.0-SNAPSHOT`:
 
-### Troubleshooting
-- Missing distro ZIP during Docker build
-  - Error: `lstat .../distro/run/distro/target: no such file or directory`.
-  - Fix: ensure the step `mvn -B -DskipTests -pl distro/run/distro -am package` runs before `docker build`, and the Docker build context includes the repository.
+- The workflow releases `1.15.0`.
+- The workflow prepares the next development version as `2.0.0-SNAPSHOT`.
 
-- 413 Payload Too Large (Sonatype central-publishing bundle)
-  - Cause: giant bundle (zip) created by central-publishing-maven-plugin exceeds limits.
-  - Fixes:
-    - Prefer deploying artifact-by-artifact (use `deploy` + `nexus-staging:close` + `nexus-staging:release` goals in `release:perform`).
-    - Exclude non-essential distributions/profiles during perform (e.g., avoid `distro-webjar` if not required).
-    - Ensure only one `sources.jar` and one `javadoc.jar` are attached per module; avoid shaded sources duplication.
-    - Avoid attaching `classifier=classes` unless strictly necessary.
+Create and push the branch:
 
-- Tag push errors (detached HEAD or ref mismatch)
-  - Ensure checkout uses the branch ref: `ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}` and `fetch-depth: 0`.
+```bash
+git checkout -b release/major
+git push origin release/major
+```
 
-- Docker push error "tag is needed when pushing to registry"
-  - Ensure the version input is set and non-empty; add a guard step:
-    ```bash
-    if [ -z "${{ needs.publish-central.outputs.release_version }}" ]; then echo "empty version"; exit 1; fi
-    ```
+## Minor Release Example
 
----
+Use this when releasing normal new features.
 
-### Post-Release
-- Verify artifacts on Maven Central.
-- Confirm Git tag (e.g., `v1.15.0`) exists.
-- Check GHCR image at `Packages` tab.
-- The workflow computes and sets `DEVELOPMENT_VERSION` automatically; if not, bump `pom.xml` manually.
+If the current version is `1.15.0-SNAPSHOT`:
 
----
+- The workflow releases `1.15.0`.
+- The workflow prepares the next development version as `1.16.0-SNAPSHOT`.
 
-### Notes
-- See the workflow file: `.github/workflows/release.yml` for exact steps.
-- Dockerfile expects `distro/run/distro/target/fluxnova-bpm-run-*.zip`; keep this path or update both Dockerfile and workflow accordingly.
+Create and push the branch:
+
+```bash
+git checkout -b release/minor
+git push origin release/minor
+```
+
+## Patch Release Example
+
+Use this when releasing a bug fix for the current minor version.
+
+If the current version is `1.15.0-SNAPSHOT`:
+
+- The workflow releases `1.15.0`.
+- The workflow prepares the next development version as `1.15.1-SNAPSHOT`.
+
+Create and push the branch:
+
+```bash
+git checkout -b release/patch
+git push origin release/patch
+```
+
+
+## What the Workflow Publishes
+
+After the branch is pushed, `.github/workflows/release.yml` will:
+
+- Build and publish Maven artifacts to Maven Central.
+- Create the Git tag, for example `v1.15.0`.
+- Build the distro ZIP needed for Docker.
+- Build and publish the Docker Hub image:
+  - `finos/fluxnova-bpm-platform:<release-version>`
+  - `finos/fluxnova-bpm-platform:latest`
+- Publish Javadocs to GitHub Pages under `javadocs/<major>.<minor>`.
+- Publish OpenAPI docs to GitHub Pages under `openapi/<major>.<minor>`.
+- Notify `finos/fluxnova-examples` about the new release version.
+
+## After the Release
+
+Verify:
+
+- The GitHub Actions workflow completed successfully.
+- Log in to Sonatype to verify artifacts and click the publish button to publish to Maven Central. Note: Ask FINOS admin for Sonatype credentials.
+- The Maven artifacts are available in Maven Central.
+- The Git tag exists, for example `v1.15.0`.
+- The Docker Hub image exists with the release version and `latest` tags.
+- Javadocs and OpenAPI docs were published.
+- The root `pom.xml` was moved to the expected next `-SNAPSHOT` version.
+
+## Notes
+
+- Use `release/major`, `release/minor`, or `release/patch` exactly as shown above.
+- Releases up to `3.0.0` supported `hotfix/*` branches, but the current `.github/workflows/release.yml` version calculation only supports the `release/*` branch names listed above.
+- For exact workflow steps, see `.github/workflows/release.yml`.
