@@ -9,6 +9,7 @@
     <bpmn:extensionElements>
       <camunda:inputOutput>
         <camunda:outputParameter name="transientVar" isTransient="true">${'outValue'}</camunda:outputParameter>
+        <camunda:outputParameter name="AnotherTransientVar" camunda:isTransient="true">${'outputTestValue'}</camunda:outputParameter>
       </camunda:inputOutput>
     </bpmn:extensionElements>
   </bpmn:serviceTask>
