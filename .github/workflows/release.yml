@@ -3,9 +3,13 @@
 # Prerequisites: pom.xml must be on a *-SNAPSHOT version.
 # Trigger: manual only. Jobs run only when the selected branch starts with release/.
 # Notes:
-#   - release/major or release/major/*: next major version (e.g., 1.2.3-SNAPSHOT to 2.0.0-SNAPSHOT)
-#   - release/minor or release/minor/*: next minor version (e.g., 1.2.3-SNAPSHOT to 1.3.0-SNAPSHOT)
-#   - release/patch or release/patch/*: next patch version (e.g., 1.2.3-SNAPSHOT to 1.2.4-SNAPSHOT)
+#   - release/major or release/major/*: release current version and prepare next major version
+#     (e.g., 2.0.0-SNAPSHOT releases 2.0.0, then prepares 3.0.0-SNAPSHOT)
+#   - release/minor or release/minor/*: release current version and prepare next minor version
+#     (e.g., 2.0.0-SNAPSHOT releases 2.0.0, then prepares 2.1.0-SNAPSHOT)
+#   - release/patch or release/patch/*: release current patch line and prepare next patch version
+#     (e.g., 1.0.0-SNAPSHOT releases 1.0.0, then prepares 1.0.1-SNAPSHOT)
+#   - After a patch release, merge or cherry-pick the patch changes back into main or the current development branch.
 
 name: "Release and publish artifacts to Maven Central and creates docker image in Docker Hub"
 

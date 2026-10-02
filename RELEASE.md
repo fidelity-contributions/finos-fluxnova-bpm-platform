@@ -11,7 +11,7 @@ Make sure:
 - You have permission to push branches and tags.
 - The build is green before releasing.
 - The root `pom.xml` version ends with `-SNAPSHOT`.
-  - Example: `1.15.0-SNAPSHOT`
+  - Example: `3.1.0-SNAPSHOT`
 - The required GitHub secrets are configured:
   - `CI_DEPLOY_USERNAME`, `CI_DEPLOY_PASSWORD`
   - `CI_GPG_PRIVATE_KEY`, `CI_GPG_PASSPHRASE`
@@ -30,9 +30,9 @@ The release branch type controls the next development version only.
 Example:
 
 ```text
-Current version: 1.15.0-SNAPSHOT
-Release version: 1.15.0
-Release tag:     v1.15.0
+Current version: 3.1.0-SNAPSHOT
+Release version: 3.1.0
+Release tag:     v3.1.0
 ```
 
 ## How to Release
@@ -50,10 +50,10 @@ Then create one of the supported release branches below and push it.
 
 Use this when releasing breaking changes or a new major version line.
 
-If the current version is `1.15.0-SNAPSHOT`:
+If the current version is `2.0.0-SNAPSHOT`:
 
-- The workflow releases `1.15.0`.
-- The workflow prepares the next development version as `2.0.0-SNAPSHOT`.
+- The workflow releases `2.0.0`.
+- The workflow prepares the next development version as `3.0.0-SNAPSHOT`.
 
 Create and push the branch:
 
@@ -66,10 +66,10 @@ git push origin release/major
 
 Use this when releasing normal new features.
 
-If the current version is `1.15.0-SNAPSHOT`:
+If the current version is `2.0.0-SNAPSHOT`:
 
-- The workflow releases `1.15.0`.
-- The workflow prepares the next development version as `1.16.0-SNAPSHOT`.
+- The workflow releases `2.0.0`.
+- The workflow prepares the next development version as `2.1.0-SNAPSHOT`.
 
 Create and push the branch:
 
@@ -78,28 +78,38 @@ git checkout -b release/minor
 git push origin release/minor
 ```
 
+After a major or minor release, create a PR from the release branch back to `main` so the next development version update is preserved.
+
 ## Patch Release Example
 
 Use this when releasing a bug fix for the current minor version.
 
-If the current version is `1.15.0-SNAPSHOT`:
+If `1.0.0` is already released and you need to publish `1.0.1`:
 
-- The workflow releases `1.15.0`.
-- The workflow prepares the next development version as `1.15.1-SNAPSHOT`.
+- Check out the released tag `v1.0.0` locally.
+- Set the project version to `1.0.1-SNAPSHOT`, example below for reference.
+- Commit the patch fix and version change, then push the branch as `release/patch/1.0.1`.
+- Run the release workflow from `release/patch/1.0.1`.
+- Verify the workflow creates the release tag `v1.0.1`; the next development version on the patch branch can be ignored.
 
-Create and push the branch:
+Example:
 
 ```bash
-git checkout -b release/patch
-git push origin release/patch
+git checkout -b release/patch/1.0.1 v1.0.0
+./mvnw versions:set -DnewVersion=1.0.1-SNAPSHOT -DgenerateBackupPoms=false
+git add .
+git commit -m "Prepare patch release 1.0.1"
+git push origin release/patch/1.0.1
 ```
+
+After a patch release, merge or cherry-pick the patch changes back into `main` or the current development branch so the fix is not lost in future releases.
 
 After pushing the release branch:
 
 1. Go to **GitHub Actions**.
 2. Select **Release and publish artifacts to Maven Central and creates docker image in Docker Hub**.
 3. Click **Run workflow**.
-4. In the branch dropdown, select the release branch you pushed, for example `release/major`, `release/minor`, or `release/patch`. If you select a branch that does not start with `release/`, the release jobs will be skipped.
+4. In the branch dropdown, select the release branch you pushed, for example `release/major`, `release/minor`, or `release/patch/1.0.1`. If you select a branch that does not start with `release/`, the release jobs will be skipped.
 5. Click **Run workflow** to start the release.
 
 ## What the Workflow Publishes
@@ -107,7 +117,7 @@ After pushing the release branch:
 After the workflow is manually run, `.github/workflows/release.yml` will:
 
 - Build and publish Maven artifacts to Maven Central.
-- Create the Git tag, for example `v1.15.0`.
+- Create the Git tag, for example `v<release-version>`.
 - Build the distro ZIP needed for Docker.
 - Build and publish the Docker Hub image:
   - `finos/fluxnova-bpm-platform:<release-version>`
@@ -121,15 +131,18 @@ After the workflow is manually run, `.github/workflows/release.yml` will:
 Verify:
 
 - The GitHub Actions workflow completed successfully.
-- Log in to Sonatype to verify artifacts and click the publish button to publish to Maven Central. Note: Ask FINOS admin for Sonatype credentials.
+- Log in to [Sonatype Central](https://my.sonatype.com/) after the workflow finishes. Obtain the username and password from a FINOS admin.
+  - Verify that all published artifacts are present and appear correct.
+  - Click the **Publish** button in Sonatype to release the artifacts to Maven Central.
+  - After publishing, go to [Maven Central Search](https://central.sonatype.com/search) and verify the artifacts show up correctly. This can take anywhere from a few minutes to a couple of hours.
 - The Maven artifacts are available in Maven Central.
-- The Git tag exists, for example `v1.15.0`.
+- The Git tag exists, for example `v<release-version>`.
 - The Docker Hub image exists with the release version and `latest` tags.
 - Javadocs and OpenAPI docs were published.
-- The root `pom.xml` was moved to the expected next `-SNAPSHOT` version.
+- For major and minor releases, the root `pom.xml` was moved to the expected next `-SNAPSHOT` version and the release branch was merged back to `main`.
 
 ## Notes
 
-- Use `release/major`, `release/minor`, or `release/patch` exactly as shown above.
-- The current `.github/workflows/release.yml` workflow only supports release branches that start with `release/`.
+- Use `release/major`, `release/minor`, `release/patch`, or their `release/<type>/*` variants as shown above.
+- The workflow runs only from branches that start with `release/`, and the version bump logic supports only `major`, `minor`, or `patch` release types.
 - For exact workflow steps, see `.github/workflows/release.yml`.
