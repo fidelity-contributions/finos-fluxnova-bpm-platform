@@ -1,19 +1,3 @@
-/*
- * Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
- * under one or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information regarding copyright
- * ownership. Camunda licenses this file to you under the Apache License,
- * Version 2.0; you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.finos.fluxnova.bpm.engine.rest;
 
 import static io.restassured.RestAssured.given;
@@ -27,6 +11,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 
 import jakarta.ws.rs.core.Response.Status;
+import org.finos.fluxnova.bpm.engine.BadUserRequestException;
 import org.finos.fluxnova.bpm.engine.ConfigurationService;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
 import org.finos.fluxnova.bpm.engine.impl.persistence.entity.ConfigurationEntity;
@@ -143,6 +128,46 @@ public class ConfigurationRestServiceInteractionTest extends AbstractRestService
         .body("message", equalTo("Configuration with id 'missing-id' does not exist"))
     .when()
       .get(CONFIGURATIONS_URL + "/missing-id");
+  }
+
+  @Test
+  public void shouldUpdateConfiguration() {
+    ConfigurationEntity updated = configuration("tenant-key", "new-value", "tenant-a", Configuration.STATUS_ACTIVE);
+    updated.setId("new-configuration-id");
+    updated.setVersion(2);
+    when(configurationService.updateConfiguration("configuration-id", "new-value")).thenReturn(updated);
+
+    given()
+      .contentType(ContentType.JSON)
+      .body("{\"configValue\": \"new-value\"}")
+    .then()
+      .expect()
+        .statusCode(Status.OK.getStatusCode())
+        .contentType(ContentType.JSON)
+        .body("id", equalTo("new-configuration-id"))
+        .body("configValue", equalTo("new-value"))
+        .body("version", equalTo(2))
+        .body("status", equalTo(Configuration.STATUS_ACTIVE))
+    .when()
+      .put(CONFIGURATIONS_URL + "/configuration-id");
+
+    verify(configurationService).updateConfiguration("configuration-id", "new-value");
+  }
+
+  @Test
+  public void shouldReturnConflictWhenUpdatingInactiveConfiguration() {
+    when(configurationService.updateConfiguration("configuration-id", "new-value"))
+        .thenThrow(new BadUserRequestException("status is 'INACTIVE'"));
+
+    given()
+      .contentType(ContentType.JSON)
+      .body("{\"configValue\": \"new-value\"}")
+    .then()
+      .expect()
+        .statusCode(Status.CONFLICT.getStatusCode())
+        .contentType(ContentType.JSON)
+    .when()
+      .put(CONFIGURATIONS_URL + "/configuration-id");
   }
 
   private ConfigurationEntity configuration(String key, String value, String tenantId, String status) {

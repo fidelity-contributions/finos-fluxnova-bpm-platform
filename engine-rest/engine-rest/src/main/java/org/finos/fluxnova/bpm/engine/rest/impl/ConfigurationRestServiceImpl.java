@@ -1,19 +1,3 @@
-/*
- * Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
- * under one or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information regarding copyright
- * ownership. Camunda licenses this file to you under the Apache License,
- * Version 2.0; you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.finos.fluxnova.bpm.engine.rest.impl;
 
 import tools.jackson.databind.ObjectMapper;
@@ -28,11 +12,13 @@ import org.finos.fluxnova.bpm.engine.ConfigurationService;
 import org.finos.fluxnova.bpm.engine.ProcessEngine;
 import org.finos.fluxnova.bpm.engine.ProcessEngineException;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
+import org.finos.fluxnova.bpm.engine.exception.NotFoundException;
 import org.finos.fluxnova.bpm.engine.exception.NotValidException;
 import org.finos.fluxnova.bpm.engine.impl.util.ExceptionUtil;
 import org.finos.fluxnova.bpm.engine.rest.ConfigurationRestService;
 import org.finos.fluxnova.bpm.engine.rest.dto.configuration.ConfigurationDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.configuration.CreateConfigurationDto;
+import org.finos.fluxnova.bpm.engine.rest.dto.configuration.UpdateConfigurationDto;
 import org.finos.fluxnova.bpm.engine.rest.exception.InvalidRequestException;
 
 public class ConfigurationRestServiceImpl extends AbstractRestProcessEngineAware implements ConfigurationRestService {
@@ -108,6 +94,42 @@ public class ConfigurationRestServiceImpl extends AbstractRestProcessEngineAware
     }
 
     return ConfigurationDto.fromConfiguration(configuration);
+  }
+
+  @Override
+  public ConfigurationDto updateConfiguration(String configurationId, UpdateConfigurationDto configurationDto) {
+    if (configurationDto == null) {
+      throw new InvalidRequestException(Status.BAD_REQUEST, "Request body must not be null");
+    }
+
+    String normalizedConfigurationId = trimToNull(configurationId);
+    if (normalizedConfigurationId == null) {
+      throw new InvalidRequestException(Status.BAD_REQUEST, "Configuration id must not be blank");
+    }
+
+    Configuration updatedConfiguration;
+    try {
+      updatedConfiguration = getProcessEngine().getConfigurationService()
+          .updateConfiguration(normalizedConfigurationId, trimToNull(configurationDto.getConfigValue()));
+
+    } catch (NotValidException e) {
+      throw new InvalidRequestException(Status.BAD_REQUEST, e, "Could not update configuration: " + e.getMessage());
+
+    } catch (NotFoundException e) {
+      throw new InvalidRequestException(Status.NOT_FOUND, e, "Could not update configuration: " + e.getMessage());
+
+    } catch (BadUserRequestException e) {
+      throw new InvalidRequestException(Status.CONFLICT, e, "Could not update configuration: " + e.getMessage());
+
+    } catch (ProcessEngineException e) {
+      if (isConfigurationUniqueConstraintViolation(e)) {
+        throw new InvalidRequestException(Status.CONFLICT, e,
+            "Could not update configuration: the configuration was modified concurrently");
+      }
+      throw e;
+    }
+
+    return ConfigurationDto.fromConfiguration(updatedConfiguration);
   }
 
   protected static String trimToNull(String value) {

@@ -40,12 +40,6 @@
     />
 
     <@lib.response
-        code = "403"
-        dto = "ExceptionDto"
-        desc = "Returned if the request is unauthenticated or the configuration is outside the user's authorized scope."
-    />
-
-    <@lib.response
         code = "404"
         dto = "ExceptionDto"
         last = true

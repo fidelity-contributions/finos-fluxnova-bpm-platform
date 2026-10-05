@@ -1,19 +1,3 @@
-/*
- * Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
- * under one or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information regarding copyright
- * ownership. Camunda licenses this file to you under the Apache License,
- * Version 2.0; you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.finos.fluxnova.bpm.engine;
 
 import java.util.List;
@@ -64,5 +48,26 @@ public interface ConfigurationService {
    * @return configurations in the requested scope
    */
   List<Configuration> getConfigurations(String tenantId, boolean includeInactive);
+
+  /**
+   * <p>Updates the value of an active configuration by creating a new version.</p>
+   *
+   * <p>The existing entry is marked {@link Configuration#STATUS_INACTIVE} and a new
+   * {@link Configuration#STATUS_ACTIVE} entry with the same key and tenant scope is
+   * created. Its version is one greater than the highest existing version for that
+   * key and scope.</p>
+   *
+   * @param configurationId the id of the active configuration to update
+   * @param configValue the new configuration value, must not be blank
+   * @return the newly created active configuration version
+   *
+   * @throws org.finos.fluxnova.bpm.engine.exception.NotValidException
+   *          if {@code configurationId} or {@code configValue} is missing or blank
+   * @throws org.finos.fluxnova.bpm.engine.exception.NotFoundException
+   *          if no configuration exists for {@code configurationId}
+   * @throws BadUserRequestException
+   *          if the configuration is not active
+   */
+  Configuration updateConfiguration(String configurationId, String configValue);
 
 }

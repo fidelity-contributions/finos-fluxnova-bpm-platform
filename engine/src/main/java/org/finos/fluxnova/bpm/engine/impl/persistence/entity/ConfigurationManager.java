@@ -1,19 +1,3 @@
-/*
- * Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
- * under one or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information regarding copyright
- * ownership. Camunda licenses this file to you under the Apache License,
- * Version 2.0; you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.finos.fluxnova.bpm.engine.impl.persistence.entity;
 
 import java.util.HashMap;
@@ -38,6 +22,28 @@ public class ConfigurationManager extends AbstractManager {
     parameters.put("tenantId", tenantId);
     parameters.put("includeInactive", includeInactive);
     return getDbEntityManager().selectList("selectConfigurations", parameters);
+  }
+
+  /**
+   * Immediately writes pending changes of the given configuration to the database.
+   * Required when an entry must be deactivated before a new active entry is inserted,
+   * because the engine otherwise flushes inserts before updates.
+   */
+  public void flushConfiguration(ConfigurationEntity configuration) {
+    getDbEntityManager().flushEntity(configuration);
+  }
+
+  /**
+   * Returns the highest version stored for the given key and scope, or {@code 0}
+   * if none exists. A {@code null} tenant id addresses the global scope.
+   */
+  public int findMaxConfigurationVersion(String configKey, String tenantId) {
+    Map<String, Object> parameters = new HashMap<String, Object>();
+    parameters.put("configKey", configKey);
+    parameters.put("tenantId", tenantId);
+
+    Number maxVersion = (Number) getDbEntityManager().selectOne("selectMaxConfigurationVersion", parameters);
+    return maxVersion == null ? 0 : maxVersion.intValue();
   }
 
   /**

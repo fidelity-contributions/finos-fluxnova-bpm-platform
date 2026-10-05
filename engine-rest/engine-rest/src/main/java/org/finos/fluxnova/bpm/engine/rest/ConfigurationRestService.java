@@ -1,25 +1,10 @@
-/*
- * Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
- * under one or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information regarding copyright
- * ownership. Camunda licenses this file to you under the Apache License,
- * Version 2.0; you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.finos.fluxnova.bpm.engine.rest;
 
 import java.util.List;
 
 import org.finos.fluxnova.bpm.engine.rest.dto.configuration.ConfigurationDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.configuration.CreateConfigurationDto;
+import org.finos.fluxnova.bpm.engine.rest.dto.configuration.UpdateConfigurationDto;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -72,5 +57,21 @@ public interface ConfigurationRestService {
   @GET
   @Path("/{configurationId}")
   ConfigurationDto getConfiguration(@PathParam("configurationId") String configurationId);
+
+  /**
+   * Updates an active configuration by creating a new version.
+   *
+   * <p>The existing entry is marked {@code INACTIVE} and a new {@code ACTIVE} entry
+   * with the same key and tenant scope and an incremented version is created.</p>
+   *
+   * @param configurationId the id of the active configuration to update
+   * @param configurationDto the update request containing the new {@code configValue}
+   * @return the newly created active configuration version
+   */
+  @PUT
+  @Path("/{configurationId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ConfigurationDto updateConfiguration(@PathParam("configurationId") String configurationId,
+                                       UpdateConfigurationDto configurationDto);
 
 }

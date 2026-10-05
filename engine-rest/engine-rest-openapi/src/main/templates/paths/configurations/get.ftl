@@ -34,6 +34,7 @@
         code = "200"
         dto = "ConfigurationDto"
         array = true
+        last = true
         desc = "Request successful."
         examples = ['"global-configurations": {
                        "summary": "GET `/configurations`",
@@ -82,13 +83,6 @@
                      }']
     />
 
-    <@lib.response
-        code = "403"
-        dto = "ExceptionDto"
-        desc = "Returned if the request is unauthenticated, a tenant user requests global configurations,
-                or the requested tenant is outside the user's authenticated tenant scope."
-        last = true
-    />
   }
 }
 </#macro>

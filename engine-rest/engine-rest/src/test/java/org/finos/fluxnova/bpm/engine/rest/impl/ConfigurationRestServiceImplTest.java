@@ -1,19 +1,3 @@
-/*
- * Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
- * under one or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information regarding copyright
- * ownership. Camunda licenses this file to you under the Apache License,
- * Version 2.0; you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.finos.fluxnova.bpm.engine.rest.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,10 +28,12 @@ import org.finos.fluxnova.bpm.engine.ConfigurationService;
 import org.finos.fluxnova.bpm.engine.ProcessEngine;
 import org.finos.fluxnova.bpm.engine.ProcessEnginePersistenceException;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
+import org.finos.fluxnova.bpm.engine.exception.NotFoundException;
 import org.finos.fluxnova.bpm.engine.exception.NotValidException;
 import org.finos.fluxnova.bpm.engine.impl.persistence.entity.ConfigurationEntity;
 import org.finos.fluxnova.bpm.engine.rest.dto.configuration.ConfigurationDto;
 import org.finos.fluxnova.bpm.engine.rest.dto.configuration.CreateConfigurationDto;
+import org.finos.fluxnova.bpm.engine.rest.dto.configuration.UpdateConfigurationDto;
 import org.finos.fluxnova.bpm.engine.rest.exception.InvalidRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -223,6 +209,81 @@ class ConfigurationRestServiceImplTest {
         () -> service.getConfiguration(" "));
 
     assertEquals(Status.BAD_REQUEST, exception.getStatus());
+  }
+
+  @Test
+  void shouldUpdateConfiguration() {
+    ConfigurationEntity updated = newConfiguration("my.key", "new-value", "tenant-1");
+    updated.setId("new-id");
+    updated.setVersion(2);
+    when(configurationService.updateConfiguration("test-id", "new-value")).thenReturn(updated);
+
+    ConfigurationDto result = service.updateConfiguration(" test-id ", updateDto("  new-value  "));
+
+    assertEquals("new-id", result.getId());
+    assertEquals("new-value", result.getConfigValue());
+    assertEquals(2, result.getVersion());
+    verify(configurationService).updateConfiguration("test-id", "new-value");
+  }
+
+  @Test
+  void shouldRejectNullUpdateRequestBody() {
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.updateConfiguration("test-id", null));
+
+    assertEquals(Status.BAD_REQUEST, exception.getStatus());
+  }
+
+  @Test
+  void shouldMapUpdateNotValidExceptionToBadRequest() {
+    when(configurationService.updateConfiguration(eq("test-id"), isNull()))
+        .thenThrow(new NotValidException("configValue is mandatory"));
+
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.updateConfiguration("test-id", updateDto(" ")));
+
+    assertEquals(Status.BAD_REQUEST, exception.getStatus());
+  }
+
+  @Test
+  void shouldMapUpdateNotFoundExceptionToNotFound() {
+    when(configurationService.updateConfiguration("missing-id", "value"))
+        .thenThrow(new NotFoundException("does not exist"));
+
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.updateConfiguration("missing-id", updateDto("value")));
+
+    assertEquals(Status.NOT_FOUND, exception.getStatus());
+  }
+
+  @Test
+  void shouldMapUpdateOfInactiveConfigurationToConflict() {
+    when(configurationService.updateConfiguration("test-id", "value"))
+        .thenThrow(new BadUserRequestException("status is 'INACTIVE'"));
+
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.updateConfiguration("test-id", updateDto("value")));
+
+    assertEquals(Status.CONFLICT, exception.getStatus());
+  }
+
+  @Test
+  void shouldMapConcurrentUpdateToConflict() {
+    ProcessEnginePersistenceException persistenceException = new ProcessEnginePersistenceException(
+        "An exception occurred in the persistence layer",
+        new PersistenceException(new SQLException("Unique index violation: ACT_UNIQ_GE_CONFIG")));
+    when(configurationService.updateConfiguration("test-id", "value")).thenThrow(persistenceException);
+
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.updateConfiguration("test-id", updateDto("value")));
+
+    assertEquals(Status.CONFLICT, exception.getStatus());
+  }
+
+  private static UpdateConfigurationDto updateDto(String configValue) {
+    UpdateConfigurationDto dto = new UpdateConfigurationDto();
+    dto.setConfigValue(configValue);
+    return dto;
   }
 
   @Test
