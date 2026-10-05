@@ -174,7 +174,6 @@
           <groupId>org.sonatype.central</groupId>
           <artifactId>central-publishing-maven-plugin</artifactId>
           <version>${plugin.version.publish}</version>
-          <extensions>true</extensions>
           <configuration>
             <publishingServerId>${publish.server.id}</publishingServerId>
             <!-- TODO: its set to false to manually validate the artifacts before publishing, set it to true once successfully tested with all dependent projects-->
