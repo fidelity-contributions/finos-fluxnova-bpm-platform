@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -284,6 +285,43 @@ class ConfigurationRestServiceImplTest {
     UpdateConfigurationDto dto = new UpdateConfigurationDto();
     dto.setConfigValue(configValue);
     return dto;
+  }
+
+  @Test
+  void shouldDeleteConfiguration() {
+    service.deleteConfiguration(" test-id ");
+
+    verify(configurationService).deleteConfiguration("test-id");
+  }
+
+  @Test
+  void shouldRejectBlankDeleteConfigurationId() {
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.deleteConfiguration(" "));
+
+    assertEquals(Status.BAD_REQUEST, exception.getStatus());
+  }
+
+  @Test
+  void shouldMapDeleteNotFoundExceptionToNotFound() {
+    doThrow(new NotFoundException("does not exist"))
+        .when(configurationService).deleteConfiguration("missing-id");
+
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.deleteConfiguration("missing-id"));
+
+    assertEquals(Status.NOT_FOUND, exception.getStatus());
+  }
+
+  @Test
+  void shouldMapDeleteOfInactiveConfigurationToConflict() {
+    doThrow(new BadUserRequestException("status is 'INACTIVE'"))
+        .when(configurationService).deleteConfiguration("test-id");
+
+    InvalidRequestException exception = assertThrows(InvalidRequestException.class,
+        () -> service.deleteConfiguration("test-id"));
+
+    assertEquals(Status.CONFLICT, exception.getStatus());
   }
 
   @Test

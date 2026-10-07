@@ -70,4 +70,20 @@ public interface ConfigurationService {
    */
   Configuration updateConfiguration(String configurationId, String configValue);
 
+  /**
+   * <p>Soft-deletes an active configuration by marking it
+   * {@link Configuration#STATUS_INACTIVE}. The entry is retained and can still be
+   * retrieved by id or with {@code includeInactive}.</p>
+   *
+   * @param configurationId the id of the active configuration to delete
+   *
+   * @throws org.finos.fluxnova.bpm.engine.exception.NotValidException
+   *          if {@code configurationId} is {@code null}
+   * @throws org.finos.fluxnova.bpm.engine.exception.NotFoundException
+   *          if no configuration exists for {@code configurationId}
+   * @throws BadUserRequestException
+   *          if the configuration is not active
+   */
+  void deleteConfiguration(String configurationId);
+
 }

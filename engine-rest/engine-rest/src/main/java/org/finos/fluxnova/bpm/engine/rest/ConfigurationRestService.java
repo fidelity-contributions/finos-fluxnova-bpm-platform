@@ -74,4 +74,13 @@ public interface ConfigurationRestService {
   ConfigurationDto updateConfiguration(@PathParam("configurationId") String configurationId,
                                        UpdateConfigurationDto configurationDto);
 
+  /**
+   * Soft-deletes an active configuration by marking it {@code INACTIVE}.
+   *
+   * @param configurationId the id of the active configuration to delete
+   */
+  @DELETE
+  @Path("/{configurationId}")
+  void deleteConfiguration(@PathParam("configurationId") String configurationId);
+
 }

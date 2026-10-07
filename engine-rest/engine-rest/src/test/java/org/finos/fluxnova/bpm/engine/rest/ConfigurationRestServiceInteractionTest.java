@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +15,7 @@ import jakarta.ws.rs.core.Response.Status;
 import org.finos.fluxnova.bpm.engine.BadUserRequestException;
 import org.finos.fluxnova.bpm.engine.ConfigurationService;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
+import org.finos.fluxnova.bpm.engine.exception.NotFoundException;
 import org.finos.fluxnova.bpm.engine.impl.persistence.entity.ConfigurationEntity;
 import org.finos.fluxnova.bpm.engine.rest.util.container.TestContainerRule;
 import org.junit.jupiter.api.BeforeEach;
@@ -168,6 +170,46 @@ public class ConfigurationRestServiceInteractionTest extends AbstractRestService
         .contentType(ContentType.JSON)
     .when()
       .put(CONFIGURATIONS_URL + "/configuration-id");
+  }
+
+  @Test
+  public void shouldDeleteConfiguration() {
+    given()
+    .then()
+      .expect()
+        .statusCode(Status.NO_CONTENT.getStatusCode())
+    .when()
+      .delete(CONFIGURATIONS_URL + "/configuration-id");
+
+    verify(configurationService).deleteConfiguration("configuration-id");
+  }
+
+  @Test
+  public void shouldReturnConflictWhenDeletingInactiveConfiguration() {
+    doThrow(new BadUserRequestException("status is 'INACTIVE'"))
+        .when(configurationService).deleteConfiguration("configuration-id");
+
+    given()
+    .then()
+      .expect()
+        .statusCode(Status.CONFLICT.getStatusCode())
+        .contentType(ContentType.JSON)
+    .when()
+      .delete(CONFIGURATIONS_URL + "/configuration-id");
+  }
+
+  @Test
+  public void shouldReturnNotFoundWhenDeletingUnknownConfiguration() {
+    doThrow(new NotFoundException("does not exist"))
+        .when(configurationService).deleteConfiguration("missing-id");
+
+    given()
+    .then()
+      .expect()
+        .statusCode(Status.NOT_FOUND.getStatusCode())
+        .contentType(ContentType.JSON)
+    .when()
+      .delete(CONFIGURATIONS_URL + "/missing-id");
   }
 
   private ConfigurationEntity configuration(String key, String value, String tenantId, String status) {

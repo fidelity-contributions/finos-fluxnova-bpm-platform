@@ -5,6 +5,7 @@ import java.util.List;
 import org.finos.fluxnova.bpm.engine.ConfigurationService;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
 import org.finos.fluxnova.bpm.engine.impl.cmd.CreateConfigurationCmd;
+import org.finos.fluxnova.bpm.engine.impl.cmd.DeleteConfigurationCmd;
 import org.finos.fluxnova.bpm.engine.impl.cmd.GetConfigurationCmd;
 import org.finos.fluxnova.bpm.engine.impl.cmd.GetConfigurationsCmd;
 import org.finos.fluxnova.bpm.engine.impl.cmd.UpdateConfigurationCmd;
@@ -25,6 +26,10 @@ public class ConfigurationServiceImpl extends ServiceImpl implements Configurati
 
   public Configuration updateConfiguration(String configurationId, String configValue) {
     return commandExecutor.execute(new UpdateConfigurationCmd(configurationId, configValue));
+  }
+
+  public void deleteConfiguration(String configurationId) {
+    commandExecutor.execute(new DeleteConfigurationCmd(configurationId));
   }
 
 }

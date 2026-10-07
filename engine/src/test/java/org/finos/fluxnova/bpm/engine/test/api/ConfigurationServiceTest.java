@@ -164,6 +164,55 @@ public class ConfigurationServiceTest extends PluggableProcessEngineTest {
         .isEqualTo(Configuration.STATUS_ACTIVE);
   }
 
+  @Test
+  public void shouldDeactivateConfigurationOnDelete() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "tenant-a", Configuration.STATUS_ACTIVE);
+
+    configurationService.deleteConfiguration(configuration.getId());
+
+    Configuration deleted = configurationService.getConfiguration(configuration.getId());
+    assertThat(deleted.getStatus()).isEqualTo(Configuration.STATUS_INACTIVE);
+    assertThat(deleted.getVersion()).isEqualTo(1);
+    assertThat(deleted.getConfigValue()).isEqualTo("config-value");
+    assertThat(configurationService.getConfigurations("tenant-a", false))
+        .extracting(Configuration::getId)
+        .doesNotContain(configuration.getId());
+    assertThat(configurationService.getConfigurations("tenant-a", true))
+        .extracting(Configuration::getId)
+        .contains(configuration.getId());
+  }
+
+  @Test
+  public void shouldAllowRecreatingConfigurationAfterDelete() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), null, Configuration.STATUS_ACTIVE);
+    configurationService.deleteConfiguration(configuration.getId());
+
+    Configuration recreated = configurationService.createConfiguration(
+        configuration.getConfigKey(), "recreated-value", null);
+    configurationIds.add(recreated.getId());
+
+    assertThat(recreated.getStatus()).isEqualTo(Configuration.STATUS_ACTIVE);
+  }
+
+  @Test
+  public void shouldRejectDeletingInactiveConfiguration() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "tenant-a", Configuration.STATUS_ACTIVE);
+    configurationService.deleteConfiguration(configuration.getId());
+
+    assertThatThrownBy(() -> configurationService.deleteConfiguration(configuration.getId()))
+        .isInstanceOf(BadUserRequestException.class)
+        .hasMessageContaining("INACTIVE");
+  }
+
+  @Test
+  public void shouldRejectDeletingUnknownConfiguration() {
+    assertThatThrownBy(() -> configurationService.deleteConfiguration("missing-id"))
+        .isInstanceOf(NotFoundException.class);
+  }
+
   protected ConfigurationEntity insertConfiguration(String configKey, String tenantId, String status) {
     ConfigurationEntity configuration = processEngineConfiguration.getCommandExecutorTxRequired()
         .execute(commandContext -> {

@@ -132,6 +132,27 @@ public class ConfigurationRestServiceImpl extends AbstractRestProcessEngineAware
     return ConfigurationDto.fromConfiguration(updatedConfiguration);
   }
 
+  @Override
+  public void deleteConfiguration(String configurationId) {
+    String normalizedConfigurationId = trimToNull(configurationId);
+    if (normalizedConfigurationId == null) {
+      throw new InvalidRequestException(Status.BAD_REQUEST, "Configuration id must not be blank");
+    }
+
+    try {
+      getProcessEngine().getConfigurationService().deleteConfiguration(normalizedConfigurationId);
+
+    } catch (NotValidException e) {
+      throw new InvalidRequestException(Status.BAD_REQUEST, e, "Could not delete configuration: " + e.getMessage());
+
+    } catch (NotFoundException e) {
+      throw new InvalidRequestException(Status.NOT_FOUND, e, "Could not delete configuration: " + e.getMessage());
+
+    } catch (BadUserRequestException e) {
+      throw new InvalidRequestException(Status.CONFLICT, e, "Could not delete configuration: " + e.getMessage());
+    }
+  }
+
   protected static String trimToNull(String value) {
     if (value == null) {
       return null;
