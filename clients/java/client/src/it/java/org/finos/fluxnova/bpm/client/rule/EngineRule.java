@@ -128,6 +128,7 @@ public class EngineRule implements BeforeEachCallback, AfterEachCallback {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
       objectMapper = JsonMapper.builder()
               .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+              .disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
               .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
               .defaultDateFormat(dateFormat)
               .build();

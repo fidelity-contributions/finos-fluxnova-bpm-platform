@@ -28,23 +28,23 @@ import org.junit.jupiter.api.Test;
 public class TelemetryStaticDataTest {
 
   @Test
-  public void shouldValidateWildFlyVendor() {
+  public void shouldValidateMultiWordApplicationServerVendor() {
     // given
-    ApplicationServerImpl server = new ApplicationServerImpl("WildFly Full 19.0.0.Final (WildFly Core 11.0.0.Final) - 2.0.30.Final");
-    assertThat(server.getVendor()).isEqualTo("WildFly");
+    ApplicationServerImpl server = new ApplicationServerImpl("Example Application Server Full 19.0.0.Final (Example Core 11.0.0.Final) - 2.0.30.Final");
+    assertThat(server.getVendor()).isEqualTo("Example Application Server Full");
   }
 
   @Test
-  public void shouldValidateJbossVendor() {
+  public void shouldValidateVendorWithAcronymSuffix() {
     // given
-    ApplicationServerImpl server = new ApplicationServerImpl("JBoss EAP 7.2.0.GA (WildFly Core 6.0.11.Final-redhat-00001) - 2.0.15.Final-redhat-00001");
-    assertThat(server.getVendor()).isEqualTo("JBoss EAP");
+    ApplicationServerImpl server = new ApplicationServerImpl("Example App Server EAP 7.2.0.GA - 2.0.15.Final");
+    assertThat(server.getVendor()).isEqualTo("Example App Server EAP");
   }
 
   @Test
   public void shouldValidateTomcatVendor() {
     // given
-    ApplicationServerImpl server = new ApplicationServerImpl("Apache Tomcat/9.0.36");
+    ApplicationServerImpl server = new ApplicationServerImpl("Apache Tomcat/11.0.22");
     assertThat(server.getVendor()).isEqualTo("Apache Tomcat");
   }
 

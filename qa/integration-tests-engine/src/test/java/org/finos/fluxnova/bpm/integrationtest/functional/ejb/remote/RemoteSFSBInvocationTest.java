@@ -37,10 +37,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * This test verifies that a CDI Java Bean Delegate is able to inject and invoke the
  * remote business interface of a SFSB from a different application
  *
- * Note:
- * - Fails on Jboss
- * - works on Glassfish
- *
  * @author Daniel Meyer
  *
  */

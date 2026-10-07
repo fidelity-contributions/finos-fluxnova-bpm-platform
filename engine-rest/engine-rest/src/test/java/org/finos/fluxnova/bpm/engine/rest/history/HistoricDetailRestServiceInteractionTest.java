@@ -319,7 +319,7 @@ public class HistoricDetailRestServiceInteractionTest extends AbstractRestServic
                 "filename=\"" + filename + "\"; " +
                 "filename*=UTF-8''" + filename)
     .when().get(VARIABLE_INSTANCE_BINARY_DATA_URL);
-    //due to some problems with wildfly we gotta check this separately
+    //due to some problems we gotta check this separately
     String contentType = response.getContentType();
     assertThat(contentType, is(either(CoreMatchers.<Object>equalTo(ContentType.TEXT.toString() + "; charset=UTF-8")).or(CoreMatchers.<Object>equalTo(ContentType.TEXT.toString() + ";charset=UTF-8"))));
 
