@@ -63,11 +63,6 @@
         <version>${project.version}</version>
       </dependency>
 
-      <dependency>
-        <groupId>org.finos.fluxnova.spin</groupId>
-        <artifactId>fluxnova-spin-dataformat-xml-dom</artifactId>
-        <version>${project.version}</version>
-      </dependency>
 
       <dependency>
         <groupId>org.finos.fluxnova.spin</groupId>
