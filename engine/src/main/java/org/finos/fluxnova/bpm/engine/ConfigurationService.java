@@ -37,15 +37,19 @@ public interface ConfigurationService {
   Configuration getConfiguration(String configurationId);
 
   /**
-   * Returns configurations for the requested scope.
+   * Returns the configurations applicable to the requested scope.
    *
    * <p>If {@code tenantId} is {@code null}, the global default configurations
-   * are returned. Inactive configurations are excluded unless
-   * {@code includeInactive} is {@code true}.</p>
+   * are returned. For a tenant, active global configurations are returned with
+   * any active tenant entry replacing the global entry of the same key.</p>
+   *
+   * <p>If {@code includeInactive} is {@code true}, all entries of every status
+   * are returned without merging: the global entries and, when {@code tenantId}
+   * is set, the tenant's entries.</p>
    *
    * @param tenantId the tenant scope, or {@code null} for global defaults
    * @param includeInactive whether to include inactive configurations
-   * @return configurations in the requested scope
+   * @return configurations ordered by key, then global before tenant, then version
    */
   List<Configuration> getConfigurations(String tenantId, boolean includeInactive);
 

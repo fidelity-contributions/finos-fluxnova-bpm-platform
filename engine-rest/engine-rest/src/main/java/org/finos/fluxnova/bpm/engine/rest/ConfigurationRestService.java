@@ -36,13 +36,16 @@ public interface ConfigurationRestService {
   Response createConfiguration(CreateConfigurationDto configurationDto, @Context UriInfo uriInfo);
 
   /**
-   * Returns configurations for a tenant. If {@code tenantId} is omitted or
-   * blank, the global default configurations are returned. Inactive
-   * configurations are excluded unless {@code includeInactive} is {@code true}.
+   * Returns the configurations applicable to a tenant. If {@code tenantId} is
+   * omitted or blank, the global default configurations are returned. For a
+   * tenant, active global configurations are returned with the tenant's active
+   * entries overriding global entries of the same key. With
+   * {@code includeInactive=true}, all global and tenant entries of every status
+   * are returned without merging.
    *
    * @param tenantId optional tenant scope
    * @param includeInactive whether to include inactive configurations
-   * @return configurations in the requested scope
+   * @return configurations applicable to the requested scope
    */
   @GET
   List<ConfigurationDto> getConfigurations(@QueryParam("tenantId") String tenantId,

@@ -68,13 +68,44 @@ public class ConfigurationServiceTest extends PluggableProcessEngineTest {
 
     assertThat(configurationService.getConfigurations("tenant-a", false))
         .extracting(Configuration::getId)
-        .contains(tenantActive.getId())
-        .doesNotContain(globalActive.getId(), globalDeleted.getId(), tenantDeleted.getId());
+        .contains(tenantActive.getId(), globalActive.getId())
+        .doesNotContain(globalDeleted.getId(), tenantDeleted.getId());
 
     assertThat(configurationService.getConfigurations("tenant-a", true))
         .extracting(Configuration::getId)
-        .contains(tenantActive.getId(), tenantDeleted.getId())
-        .doesNotContain(globalActive.getId(), globalDeleted.getId());
+        .contains(tenantActive.getId(), tenantDeleted.getId(), globalActive.getId(), globalDeleted.getId());
+  }
+
+  @Test
+  public void shouldOverrideGlobalConfigurationWithTenantConfiguration() {
+    String key = "configuration-test-" + UUID.randomUUID();
+    ConfigurationEntity global = insertConfiguration(key, null, Configuration.STATUS_ACTIVE);
+    Configuration tenant = configurationService.createConfiguration(key, "tenant-value", "tenant-a");
+    configurationIds.add(tenant.getId());
+
+    List<String> tenantView = new ArrayList<String>();
+    for (Configuration configuration : configurationService.getConfigurations("tenant-a", false)) {
+      if (key.equals(configuration.getConfigKey())) {
+        tenantView.add(configuration.getId());
+      }
+    }
+    assertThat(tenantView).containsExactly(tenant.getId());
+
+    List<String> otherTenantView = new ArrayList<String>();
+    for (Configuration configuration : configurationService.getConfigurations("tenant-b", false)) {
+      if (key.equals(configuration.getConfigKey())) {
+        otherTenantView.add(configuration.getId());
+      }
+    }
+    assertThat(otherTenantView).containsExactly(global.getId());
+
+    List<String> history = new ArrayList<String>();
+    for (Configuration configuration : configurationService.getConfigurations("tenant-a", true)) {
+      if (key.equals(configuration.getConfigKey())) {
+        history.add(configuration.getId());
+      }
+    }
+    assertThat(history).containsExactly(global.getId(), tenant.getId());
   }
 
   @Test
