@@ -66,7 +66,7 @@ public class FluxnovaNamespaceServiceTaskTest extends PluggableProcessEngineTest
     assertThat(activity.getActivityBehavior()).isInstanceOf(ServiceTaskDelegateExpressionActivityBehavior.class);
 
     ServiceTaskDelegateExpressionActivityBehavior behavior =
-            (ServiceTaskDelegateExpressionActivityBehavior) activity.getActivityBehavior();
+        (ServiceTaskDelegateExpressionActivityBehavior) activity.getActivityBehavior();
     assertThat(behavior.getExpressionText()).isEqualTo("${toUppercaseBean}");
   }
 
@@ -89,7 +89,7 @@ public class FluxnovaNamespaceServiceTaskTest extends PluggableProcessEngineTest
     assertThat(activity.getActivityBehavior()).isInstanceOf(ServiceTaskExpressionActivityBehavior.class);
 
     ServiceTaskExpressionActivityBehavior behavior =
-            (ServiceTaskExpressionActivityBehavior) activity.getActivityBehavior();
+        (ServiceTaskExpressionActivityBehavior) activity.getActivityBehavior();
     assertThat(behavior.getExpressionText()).isEqualTo("${execution.setVariable('myVar', 'test')}");
   }
 
@@ -126,9 +126,12 @@ public class FluxnovaNamespaceServiceTaskTest extends PluggableProcessEngineTest
 
     assertThat(processDefinitionEntity).isNotNull();
 
+    assertThat(processDefinitionEntity.getHistoryTimeToLive()).isEqualTo(180);
+
     ActivityImpl classActivity = processDefinitionEntity.findActivity("javaServiceClass");
     assertThat(classActivity).isNotNull();
     assertThat(classActivity.getActivityBehavior()).isInstanceOf(ClassDelegateActivityBehavior.class);
+    assertThat(classActivity.isAsyncBefore()).isTrue();
     ClassDelegateActivityBehavior classBehavior = (ClassDelegateActivityBehavior) classActivity.getActivityBehavior();
     assertThat(classBehavior.getClassName()).isEqualTo("org.finos.fluxnova.bpm.engine.test.bpmn.servicetask.util.ToUppercase");
 

@@ -2480,7 +2480,7 @@ public class BpmnParse extends Parse {
     String topicAttributeValue = getAttributeWithNamespace(element, topicAttribute);
 
     if (topicAttributeValue == null) {
-      addError("External tasks must specify a 'topic' attribute in the camunda namespace", element);
+      addError("External tasks must specify a 'topic' attribute in the camunda or fluxnova namespace", element);
       return null;
 
     } else {
@@ -3933,10 +3933,7 @@ public class BpmnParse extends Parse {
     adHocSubProcessActivity.setProperty(PROPERTYNAME_AD_HOC_CANCEL_REMAINING, cancelRemainingInstances);
     adHocSubProcessActivity.setProperty(PROPERTYNAME_AD_HOC_AUTO_COMPLETE, true);
 
-    String autoCompleteAttributeText = adHocSubProcessElement.attributeNS(FLUXNOVA_BPMN_EXTENSIONS_NS, "autoComplete");
-    if (autoCompleteAttributeText == null) {
-      autoCompleteAttributeText = adHocSubProcessElement.attributeNS(CAMUNDA_BPMN_EXTENSIONS_NS, "autoComplete");
-    }
+    String autoCompleteAttributeText = getAttributeWithNamespace(adHocSubProcessElement, "autoComplete");
     if (autoCompleteAttributeText != null) {
       String trimmedAutoCompleteAttributeText = autoCompleteAttributeText.trim();
       Boolean autoCompleteAttribute = parseBooleanAttribute(trimmedAutoCompleteAttributeText);
@@ -4837,11 +4834,7 @@ public class BpmnParse extends Parse {
   }
 
   protected boolean isExclusive(Element element) {
-    String exclusive = getAttributeWithNamespace(element, "exclusive");
-    if (exclusive == null) {
-      exclusive = String.valueOf(JobEntity.DEFAULT_EXCLUSIVE);
-    }
-    return TRUE.equals(exclusive);
+    return TRUE.equals(getAttributeWithNamespace(element, "exclusive", String.valueOf(JobEntity.DEFAULT_EXCLUSIVE)));
   }
 
   protected boolean isAsyncBefore(Element element) {

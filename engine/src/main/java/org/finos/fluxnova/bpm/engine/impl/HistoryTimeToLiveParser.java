@@ -74,11 +74,11 @@ public class HistoryTimeToLiveParser {
   }
 
   public Integer parse(Element processElement, String definitionKey, boolean skipEnforceTtl) {
-    // Check camunda namespace first for backward compatibility
-    String historyTimeToLiveString = processElement.attributeNS(CAMUNDA_BPMN_EXTENSIONS_NS, "historyTimeToLive");
+    // Fluxnova first as primary namespace
+    String historyTimeToLiveString = processElement.attributeNS(FLUXNOVA_BPMN_EXTENSIONS_NS, "historyTimeToLive");
     if (historyTimeToLiveString == null) {
-      // Fallback to fluxnova namespace
-      historyTimeToLiveString = processElement.attributeNS(FLUXNOVA_BPMN_EXTENSIONS_NS, "historyTimeToLive");
+      // Camunda fallback for backward compatibility
+      historyTimeToLiveString = processElement.attributeNS(CAMUNDA_BPMN_EXTENSIONS_NS, "historyTimeToLive");
     }
 
     return parseAndValidate(historyTimeToLiveString, definitionKey, skipEnforceTtl);
