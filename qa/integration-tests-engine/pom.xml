@@ -252,18 +252,6 @@
       <artifactId>groovy-jsr223</artifactId>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>jakarta.enterprise.concurrent</groupId>
-          <artifactId>jakarta.enterprise.concurrent-api</artifactId>
-          <version>3.2.0-M2</version>
-          <scope>test</scope>
-      </dependency>
-      <dependency>
-          <groupId>tools.jackson.datatype</groupId>
-          <artifactId>jackson-datatype-joda</artifactId>
-          <version>${version.jackson}</version>
-          <scope>test</scope>
-      </dependency>
 
   </dependencies>
 

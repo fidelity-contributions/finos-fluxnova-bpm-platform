@@ -98,12 +98,6 @@
       <version>2.2</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-junit</artifactId>
-      <version>${version.hamcrest}</version>
-      <scope>test</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.finos.fluxnova.commons</groupId>
