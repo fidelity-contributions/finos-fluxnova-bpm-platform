@@ -119,19 +119,6 @@
         <groupId>org.finos.fluxnova.bpm.webapp</groupId>
         <artifactId>fluxnova-webapp</artifactId>
         <version>${project.version}</version>
-        <type>war</type>
-      </dependency>
-      <dependency>
-        <groupId>org.finos.fluxnova.bpm.webapp</groupId>
-        <artifactId>fluxnova-webapp</artifactId>
-        <version>${project.version}</version>
-        <type>jar</type>
-        <classifier>classes</classifier>
-      </dependency>
-      <dependency>
-        <groupId>org.finos.fluxnova.bpm.webapp</groupId>
-        <artifactId>fluxnova-webapp</artifactId>
-        <version>${project.version}</version>
         <type>jar</type>
         <classifier>classes</classifier>
       </dependency>
