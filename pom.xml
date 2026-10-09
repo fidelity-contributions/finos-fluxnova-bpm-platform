@@ -57,6 +57,7 @@
     <plugin.version.gpg>3.2.7</plugin.version.gpg>
     <plugin.version.release>3.3.1</plugin.version.release>
     <plugin.version.publish>0.11.0</plugin.version.publish>
+    <plugin.version.cyclonedx-maven>2.9.1</plugin.version.cyclonedx-maven>
 
     <!-- properties required for publishing to maven central (formerly in fluxnova-release-parent) -->
     <gpg.executable>gpg</gpg.executable>
@@ -429,6 +430,28 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.cyclonedx</groupId>
+        <artifactId>cyclonedx-maven-plugin</artifactId>
+        <version>${plugin.version.cyclonedx-maven}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>makeAggregateBom</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <projectType>library</projectType>
+          <schemaVersion>1.6</schemaVersion>
+          <outputFormat>all</outputFormat>
+          <outputName>fluxnova-sbom</outputName>
+          <outputReactorProjects>true</outputReactorProjects>
+          <skipAttach>false</skipAttach>
+          <skipNotDeployed>false</skipNotDeployed>
+        </configuration>
       </plugin>
 
   </plugins>

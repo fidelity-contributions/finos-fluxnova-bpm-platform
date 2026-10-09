@@ -26,6 +26,8 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 jobs:
   publish-central:
@@ -142,6 +144,42 @@ jobs:
             -Dgoals='deploy org.sonatype.plugins:nexus-staging-maven-plugin:1.6.13:close org.sonatype.plugins:nexus-staging-maven-plugin:1.6.13:release' \
             -Darguments='-Psonatype-oss-release,distro,distro-ce,!distro-tomcat,!distro-webjar,distro-run -DreleasePerform=true -DskipTests -DskipITs' \
             release:perform
+
+      - name: Verify generated SBOM
+        run: |
+          test -f target/checkout/target/fluxnova-sbom.json
+          test -f target/checkout/target/fluxnova-sbom.xml
+
+      - name: Generate Maven artifact checksums
+        run: |
+          cd target/checkout
+
+          # Create the subject checksum list for SBOM and provenance attestations.
+          find . -type f \( -name '*.jar' -o -name '*.war' -o -name '*.zip' \) \
+            -exec sha256sum {} \; \
+            | sort -k 2 > artifact-checksums.txt
+
+          test -s artifact-checksums.txt
+
+      - name: Attest SBOM
+        uses: actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e # v4.1.0
+        with:
+          subject-checksums: target/checkout/artifact-checksums.txt
+          sbom-path: target/checkout/target/fluxnova-sbom.json
+
+      - name: Attest Maven artifact build provenance
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-checksums: target/checkout/artifact-checksums.txt
+
+      - name: Upload SBOM to GitHub Release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        with:
+          tag_name: ${{ env.TAG }}
+          files: |
+            target/checkout/target/fluxnova-sbom.json
+            target/checkout/target/fluxnova-sbom.xml
+          fail_on_unmatched_files: true
 
       - name: Print Release Version
         run: echo "RELEASE_VERSION=${{ env.RELEASE_VERSION }}"
