@@ -42,7 +42,6 @@ public class SpringLookupManagedProcessEngineTest extends AbstractFoxPlatformInt
       .addClass(AbstractFoxPlatformIntegrationTest.class)
       .addAsWebInfResource("org/finos/fluxnova/bpm/integrationtest/deployment/spring/SpringLookupManagedProcessEngineTest-context.xml", "applicationContext.xml")
       .addAsLibraries(DeploymentHelper.getEngineSpring())
-      .addAsManifestResource("org/finos/fluxnova/bpm/integrationtest/deployment/spring/jboss-deployment-structure.xml", "jboss-deployment-structure.xml")
       .addAsWebInfResource("org/finos/fluxnova/bpm/integrationtest/deployment/spring/web.xml", "web.xml");
   }
   

@@ -84,7 +84,7 @@ public abstract class AbstractWebIT {
   }
 
   public void preventRaceConditions() throws InterruptedException {
-    // just wait some seconds before starting because of Wildfly / Cargo race conditions
+    // just wait some seconds before starting because of Cargo race conditions
     Thread.sleep(6 * 1000);
   }
 

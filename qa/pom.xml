@@ -21,22 +21,6 @@
     <!-- override mail port so subethawiser does not try to bind itself on port 25 -->
     <mail.server.port>5025</mail.server.port>
 
-    <!-- wildfly -->
-    <wildfly.runtime.location>../wildfly-runtime/target/server/wildfly-${version.wildfly}</wildfly.runtime.location>
-    <wildfly26.runtime.location>../wildfly26-runtime/target/wildfly-${version.wildfly26}</wildfly26.runtime.location>
-
-    <jboss.http.port>38080</jboss.http.port>
-    <jboss.ajp.port>38009</jboss.ajp.port>
-    <jboss.https.port>38443</jboss.https.port>
-    <jboss.management-native.port>39999</jboss.management-native.port>
-    <jboss.management-http.port>39990</jboss.management-http.port>
-    <jboss.management-https.port>39443</jboss.management-https.port>
-    <jboss.osgi-http.port>38090</jboss.osgi-http.port>
-    <jboss.remoting.port>34447</jboss.remoting.port>
-    <jboss.txn-recovery-environment.port>34712</jboss.txn-recovery-environment.port>
-    <jboss.txn-status-manager.port>34713</jboss.txn-status-manager.port>
-    <jboss.mail-smtp.port>25</jboss.mail-smtp.port>
-
     <!-- tomcat -->
     <tomcat.connector.http.port>48080</tomcat.connector.http.port>
     <tomcat.connector.http.redirectPort>48443</tomcat.connector.http.redirectPort>
@@ -70,8 +54,6 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>wildfly-runtime</module>
-        <module>wildfly26-runtime</module>
         <module>tomcat-runtime</module>
         <module>integration-tests-webapps</module>
         <module>integration-tests-engine</module>
@@ -83,34 +65,6 @@
         <module>performance-tests-engine</module>
         <module>large-data-tests</module>
         <module>integration-tests-engine-jakarta</module>
-      </modules>
-    </profile>
-
-    <!-- Server profiles -->
-
-    <profile>
-      <id>wildfly</id>
-      <modules>
-        <module>wildfly-runtime</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>wildfly-domain</id>
-      <modules>
-        <module>wildfly-runtime</module>
-      </modules>
-    </profile>
-
-    <profile>
-      <id>wildfly26</id>
-      <modules>
-        <module>wildfly26-runtime</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>wildfly26-domain</id>
-      <modules>
-        <module>wildfly26-runtime</module>
       </modules>
     </profile>
 
