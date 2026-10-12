@@ -2236,6 +2236,9 @@ public class BpmnParse extends Parse {
       // for backwards compatible reasons
       resultVariableName = getAttributeWithNamespace(element, "resultVariableName");
     }
+    if (resultVariableName != null && resultVariableName.trim().isEmpty()) {
+      resultVariableName = null;
+    }
     return resultVariableName;
   }
 
