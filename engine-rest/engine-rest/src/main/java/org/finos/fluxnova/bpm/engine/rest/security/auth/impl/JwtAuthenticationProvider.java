@@ -112,7 +112,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
       if (token == null) {
         String headerValue = request.getHeader(headerName);
         if (headerValue == null) {
-          LOG.log(Level.WARNING, "JWT auth failed: header ''{0}'' not present in request.",
+          LOG.log(Level.FINE, "JWT auth failed: header ''{0}'' not present in request.",
               new Object[]{headerName});
         } else {
           LOG.log(Level.WARNING, "JWT auth failed: header ''{0}'' present but does not start with expected prefix ''{1}''",
