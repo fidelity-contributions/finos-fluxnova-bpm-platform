@@ -23,8 +23,6 @@ FROM ${DOCKER_REGISTRY}/amazoncorretto:21 AS corretto21
 ENV JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto \
     PATH=$PATH:$JAVA_HOME/bin
 
-WORKDIR /fluxnova
-
 RUN --mount=type=secret,id=dnf_repo,required=false \
     --mount=type=secret,id=trust_cert,required=false \
     if [ -f /run/secrets/trust_cert ]; then \
@@ -42,10 +40,11 @@ RUN --mount=type=secret,id=dnf_repo,required=false \
     && rm -rf /var/cache/dnf \
     && rm -f /etc/yum.repos.d/custom.repo
 
-COPY --from=app-packager /fluxnova /fluxnova
+RUN groupadd -g 4001 fluxnova_group && useradd -M -d /fluxnova -g fluxnova_group -u 4001 fluxnova_user
 
-RUN groupadd -g 4001 fluxnova_group && useradd -M -d /fluxnova -g fluxnova_group -u 4001 fluxnova_user && \
-    chown -R fluxnova_user:fluxnova_group /fluxnova
+COPY --chown=4001:4001 --from=app-packager /fluxnova /fluxnova
+
+WORKDIR /fluxnova
 
 EXPOSE 8080
 
@@ -61,18 +60,17 @@ ARG ALPINE_REGISTRY=https://dl-cdn.alpinelinux.org/alpine
 ENV JAVA_HOME=/usr/lib/jvm/java-21-amazon-corretto \
     PATH=$PATH:$JAVA_HOME/bin
 
-WORKDIR /fluxnova
-
 RUN ALPINE_VERSION=$(cat /etc/alpine-release | cut -d'.' -f1,2) && \
     echo "${ALPINE_REGISTRY}/v${ALPINE_VERSION}/main/" > /etc/apk/repositories && \
     echo "${ALPINE_REGISTRY}/v${ALPINE_VERSION}/community/" >> /etc/apk/repositories && \
     apk add --no-cache bash jq curl shadow unzip ca-certificates && \
     rm -fr /var/cache/apk/*
 
-COPY --from=app-packager /fluxnova /fluxnova
+RUN groupadd -g 4001 fluxnova_group && useradd -M -d /fluxnova -g fluxnova_group -u 4001 fluxnova_user
 
-RUN groupadd -g 4001 fluxnova_group && useradd -M -d /fluxnova -g fluxnova_group -u 4001 fluxnova_user && \
-    chown -R fluxnova_user:fluxnova_group /fluxnova
+COPY --chown=4001:4001 --from=app-packager /fluxnova /fluxnova
+
+WORKDIR /fluxnova
 
 EXPOSE 8080
 
