@@ -21,10 +21,12 @@ import org.finos.fluxnova.bpm.engine.rest.security.auth.impl.HttpBasicAuthentica
 import org.finos.fluxnova.bpm.engine.rest.security.auth.impl.JwtAuthenticationPlugin;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.jersey.autoconfigure.JerseyApplicationPath;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import static org.assertj.core.api.Assertions.assertThat;
 /**
@@ -39,7 +41,8 @@ class JwtAuthenticationAutoConfigurationTest {
   private static final String AUDIENCE  = "test-api";
 
   private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-      .withConfiguration(AutoConfigurations.of(JwtAuthenticationAutoConfiguration.class));
+      .withConfiguration(AutoConfigurations.of(JwtAuthenticationAutoConfiguration.class))
+      .withUserConfiguration(DefaultJerseyApplicationPathConfig.class);
 
   // -------------------------------------------------------------------------
   // Disabled by default
@@ -76,6 +79,35 @@ class JwtAuthenticationAutoConfigurationTest {
           assertThat(registration.getInitParameters()).containsEntry(
               ProcessEngineAuthenticationFilter.AUTHENTICATION_PROVIDER_PARAM,
               HttpBasicAuthenticationProvider.class.getName());
+        });
+  }
+
+  @Test
+  void basicAuthenticationFilterUsesConfiguredJerseyApplicationPath() {
+    contextRunner
+        .withPropertyValues("fluxnova.bpm.auth.enabled=true")
+        .withUserConfiguration(CustomJerseyApplicationPathConfig.class)
+        .run(ctx -> {
+          FilterRegistrationBean<?> registration =
+              ctx.getBean("basicAuthenticationFilter", FilterRegistrationBean.class);
+          assertThat(registration.getUrlPatterns()).containsExactly("/custom-rest/*");
+        });
+  }
+
+  @Test
+  void jwtAuthenticationFilterUsesConfiguredJerseyApplicationPath() {
+    contextRunner
+        .withPropertyValues(
+            "fluxnova.bpm.auth.enabled=true",
+            "fluxnova.bpm.auth.type=jwt",
+            "fluxnova.bpm.jwt.jwks-url=" + JWKS_URL,
+            "fluxnova.bpm.jwt.issuer=" + ISSUER,
+            "fluxnova.bpm.jwt.audience=" + AUDIENCE)
+        .withUserConfiguration(CustomJerseyApplicationPathConfig.class)
+        .run(ctx -> {
+          FilterRegistrationBean<?> registration =
+              ctx.getBean("jwtAuthenticationFilter", FilterRegistrationBean.class);
+          assertThat(registration.getUrlPatterns()).containsExactly("/custom-rest/*");
         });
   }
 
@@ -216,6 +248,23 @@ class JwtAuthenticationAutoConfigurationTest {
     @Bean
     FilterRegistrationBean<ProcessEngineAuthenticationFilter> processEngineAuthenticationFilter() {
       return new FilterRegistrationBean<>(new ProcessEngineAuthenticationFilter());
+    }
+  }
+
+  @Configuration
+  static class DefaultJerseyApplicationPathConfig {
+    @Bean
+    JerseyApplicationPath defaultJerseyApplicationPath() {
+      return () -> "/engine-rest";
+    }
+  }
+
+  @Configuration
+  static class CustomJerseyApplicationPathConfig {
+    @Bean
+    @Primary
+    JerseyApplicationPath customJerseyApplicationPath() {
+      return () -> "/custom-rest";
     }
   }
 }

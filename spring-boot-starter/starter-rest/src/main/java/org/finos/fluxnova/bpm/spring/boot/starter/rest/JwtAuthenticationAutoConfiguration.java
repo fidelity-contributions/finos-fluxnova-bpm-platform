@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jersey.autoconfigure.JerseyApplicationPath;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -75,7 +76,7 @@ public class JwtAuthenticationAutoConfiguration {
 
   /**
    * Registers the {@link ProcessEngineAuthenticationFilter} with the JWT provider
-   * on the {@code /engine-rest/*} URL pattern.
+   * on the configured Jersey application path.
    *
    * <p>The filter is ordered at {@code 1} so it runs before any other application filters.
    * If you need to change the order or URL pattern, define your own
@@ -90,13 +91,13 @@ public class JwtAuthenticationAutoConfiguration {
   @ConditionalOnMissingBean(name = "processEngineAuthenticationFilter")
   @Conditional(JwtAuthenticationEnabledCondition.class)
   public FilterRegistrationBean<ProcessEngineAuthenticationFilter> jwtAuthenticationFilter(
-      JwtAuthenticationPlugin jwtAuthenticationPlugin) {
+      JwtAuthenticationPlugin jwtAuthenticationPlugin, JerseyApplicationPath applicationPath) {
     ProcessEngineAuthenticationFilter filter =
         RestAuthenticationConfigurationSupport.createJwtAuthenticationFilter(jwtAuthenticationPlugin);
 
     FilterRegistrationBean<ProcessEngineAuthenticationFilter> registration =
         new FilterRegistrationBean<>(filter);
-    registration.addUrlPatterns("/engine-rest/*");
+    registration.addUrlPatterns(applicationPath.getUrlMapping());
     registration.setOrder(1);
     return registration;
   }
@@ -104,14 +105,15 @@ public class JwtAuthenticationAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean(name = "processEngineAuthenticationFilter")
   @Conditional(BasicAuthenticationEnabledCondition.class)
-  public FilterRegistrationBean<ProcessEngineAuthenticationFilter> basicAuthenticationFilter() {
+  public FilterRegistrationBean<ProcessEngineAuthenticationFilter> basicAuthenticationFilter(
+      JerseyApplicationPath applicationPath) {
     LOG.info("REST API authentication enabled with type 'basic'.");
     ProcessEngineAuthenticationFilter filter =
         RestAuthenticationConfigurationSupport.createBasicAuthenticationFilter();
 
     FilterRegistrationBean<ProcessEngineAuthenticationFilter> registration =
         new FilterRegistrationBean<>(filter);
-    registration.addUrlPatterns("/engine-rest/*");
+    registration.addUrlPatterns(applicationPath.getUrlMapping());
     registration.setOrder(1);
     RestAuthenticationConfigurationSupport.applyBasicAuthenticationProvider(registration);
     return registration;
