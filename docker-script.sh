@@ -34,17 +34,26 @@ if [ -d "${CERT_DIR}" ] && ls "${CERT_DIR}"/*.crt 1>/dev/null 2>&1; then
   DEFAULT_CACERTS="${JAVA_HOME}/lib/security/cacerts"
   cp "${DEFAULT_CACERTS}" "${TRUSTSTORE}"
   chmod 600 "${TRUSTSTORE}"
+  TRUSTSTORE_PASSWORD="${TRUSTSTORE_PASSWORD:-changeit}"
+
+  if [[ "${TRUSTSTORE_PASSWORD}" != "changeit" ]]; then
+    keytool -storepasswd \
+      -keystore "${TRUSTSTORE}" \
+      -storepass changeit \
+      -new "${TRUSTSTORE_PASSWORD}"
+  fi
 
   for cert in "${CERT_DIR}"/*.crt; do
     alias=$(basename "${cert}" .crt)
     keytool -importcert -noprompt -trustcacerts \
       -keystore "${TRUSTSTORE}" \
-      -storepass "${TRUSTSTORE_PASSWORD:-changeit}" \
+      -storepass "${TRUSTSTORE_PASSWORD}" \
       -alias "${alias}" \
       -file "${cert}"
     echo "Imported certificate: ${alias}"
   done
-  export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Djavax.net.ssl.trustStore=${TRUSTSTORE} -Djavax.net.ssl.trustStorePassword=${TRUSTSTORE_PASSWORD:-changeit}"
+
+  export JAVA_TOOL_OPTIONS="${JAVA_TOOL_OPTIONS:-} -Djavax.net.ssl.trustStore=${TRUSTSTORE} -Djavax.net.ssl.trustStorePassword=${TRUSTSTORE_PASSWORD}"
 fi
 
 exec sh $CMD
