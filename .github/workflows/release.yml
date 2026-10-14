@@ -58,6 +58,16 @@ jobs:
           gpg-private-key: ${{ secrets.CI_GPG_PRIVATE_KEY }}
           gpg-passphrase: CI_GPG_PASSPHRASE
 
+      # Pin Maven to 3.9.x: Maven 3.10.0 (now default on ubuntu-latest) writes
+      # maven-metadata-local.xml into the staging repo, which central-publishing-maven-plugin
+      # 0.11.0 fails to clean up, causing spurious "Bundle has content that does NOT have
+      # a .pom file" deployment failures. See:
+      # https://github.com/mavenplugins/central-publishing-maven-plugin/issues/79
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@d6af6abeda15e98926a57b5aa970a96bb37f97d1 # v5
+        with:
+          maven-version: 3.9.12
+
       - name: Configure git
         uses: ./.github/actions/configure-git
 
