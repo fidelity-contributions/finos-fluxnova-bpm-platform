@@ -26,14 +26,16 @@ on:
 
 permissions:
   contents: write
-  id-token: write
-  attestations: write
 
 jobs:
   publish-central:
     name: Publish to Maven Central
     if: startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
     outputs:
       release_version: ${{ steps.set-vars.outputs.release_version }}
       tag: ${{ steps.set-vars.outputs.tag }}
@@ -57,16 +59,6 @@ jobs:
           server-password: CI_DEPLOY_PASSWORD
           gpg-private-key: ${{ secrets.CI_GPG_PRIVATE_KEY }}
           gpg-passphrase: CI_GPG_PASSPHRASE
-
-      # Pin Maven to 3.9.x: Maven 3.10.0 (now default on ubuntu-latest) writes
-      # maven-metadata-local.xml into the staging repo, which central-publishing-maven-plugin
-      # 0.11.0 fails to clean up, causing spurious "Bundle has content that does NOT have
-      # a .pom file" deployment failures. See:
-      # https://github.com/mavenplugins/central-publishing-maven-plugin/issues/79
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@d6af6abeda15e98926a57b5aa970a96bb37f97d1 # v5
-        with:
-          maven-version: 3.9.12
 
       - name: Configure git
         uses: ./.github/actions/configure-git
@@ -164,9 +156,21 @@ jobs:
         run: |
           cd target/checkout
 
-          # Create the subject checksum list for SBOM and provenance attestations.
-          find . -type f \( -name '*.jar' -o -name '*.war' -o -name '*.zip' \) \
+          # Create the subject checksum list from the Central publishing bundle so
+          # attestations cover only artifacts that were deployed to Maven Central.
+          mapfile -t bundles < <(find . -path '*/target/central-publishing/*.zip' -type f | sort)
+          if [[ ${#bundles[@]} -ne 1 ]]; then
+            printf 'Expected exactly one Central publishing bundle, found %s:\n' "${#bundles[@]}" >&2
+            printf '%s\n' "${bundles[@]}" >&2
+            exit 1
+          fi
+
+          bundle_dir="$(mktemp -d)"
+          unzip -q "${bundles[0]}" -d "$bundle_dir"
+
+          find "$bundle_dir" -type f \( -name '*.jar' -o -name '*.war' -o -name '*.zip' \) \
             -exec sha256sum {} \; \
+            | sed "s#  $bundle_dir/#  #" \
             | sort -k 2 > artifact-checksums.txt
 
           test -s artifact-checksums.txt
