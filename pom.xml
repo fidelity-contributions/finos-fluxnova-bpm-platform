@@ -167,7 +167,7 @@
           <version>${plugin.version.release}</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <releaseProfiles>release</releaseProfiles>
+            <releaseProfiles>release,sonatype-oss-release</releaseProfiles>
             <goals>${release.goals}</goals>
           </configuration>
         </plugin>

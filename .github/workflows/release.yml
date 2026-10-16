@@ -142,8 +142,8 @@ jobs:
         run: |
           mvn -B \
             -DinteractiveMode=false \
-            -DreleaseProfiles=sonatype-oss-release \
-            -Darguments='-Psonatype-oss-release,distro,distro-ce,!distro-tomcat,!distro-webjar,distro-run -DreleasePerform=true -DskipTests -DskipITs' \
+            -DreleaseProfiles=release,sonatype-oss-release \
+            -Darguments='-Prelease,sonatype-oss-release,distro,distro-ce,!distro-tomcat,!distro-webjar,distro-run -DreleasePerform=true -DskipTests -DskipITs' \
             release:perform
 
       - name: Verify generated SBOM
