@@ -143,7 +143,6 @@ jobs:
           mvn -B \
             -DinteractiveMode=false \
             -DreleaseProfiles=sonatype-oss-release \
-            -Dgoals='deploy org.sonatype.plugins:nexus-staging-maven-plugin:1.6.13:close org.sonatype.plugins:nexus-staging-maven-plugin:1.6.13:release' \
             -Darguments='-Psonatype-oss-release,distro,distro-ce,!distro-tomcat,!distro-webjar,distro-run -DreleasePerform=true -DskipTests -DskipITs' \
             release:perform
 
