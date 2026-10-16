@@ -147,6 +147,11 @@ jobs:
             -Darguments='-Psonatype-oss-release,distro,distro-ce,!distro-tomcat,!distro-webjar,distro-run -DreleasePerform=true -DskipTests -DskipITs' \
             release:perform
 
+      - name: Locate SBOM
+        run: |
+          echo "Searching for SBOM files..."
+          find target/checkout -name "fluxnova-sbom*"
+
       - name: Verify generated SBOM
         run: |
           test -f target/checkout/target/fluxnova-sbom.json
