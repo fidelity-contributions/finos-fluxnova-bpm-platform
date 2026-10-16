@@ -40,7 +40,7 @@ public class ConfigurationRestServiceImpl extends AbstractRestProcessEngineAware
     try {
       newConfiguration = configurationService.createConfiguration(
           trimToNull(configurationDto.getConfigKey()),
-          trimToNull(configurationDto.getConfigValue()),
+          configurationDto.getConfigValue(),
           trimToNull(configurationDto.getTenantId()));
 
     } catch (NotValidException e) {
@@ -110,7 +110,7 @@ public class ConfigurationRestServiceImpl extends AbstractRestProcessEngineAware
     Configuration updatedConfiguration;
     try {
       updatedConfiguration = getProcessEngine().getConfigurationService()
-          .updateConfiguration(normalizedConfigurationId, trimToNull(configurationDto.getConfigValue()));
+          .updateConfiguration(normalizedConfigurationId, configurationDto.getConfigValue());
 
     } catch (NotValidException e) {
       throw new InvalidRequestException(Status.BAD_REQUEST, e, "Could not update configuration: " + e.getMessage());

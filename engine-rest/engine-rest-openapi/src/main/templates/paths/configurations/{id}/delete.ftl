@@ -4,7 +4,7 @@
       id = "deleteConfiguration"
       tag = "Configuration"
       summary = "Delete Configuration"
-      desc = "Soft-deletes an active configuration by marking it `INACTIVE`.
+      desc = "Soft-deletes an active configuration by marking it `DELETED`.
 
               The entry is retained and can still be retrieved by id or by listing
               configurations with `includeInactive=true`."

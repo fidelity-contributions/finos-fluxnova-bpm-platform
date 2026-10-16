@@ -39,25 +39,24 @@ public class GetConfigurationsCmd implements Command<List<Configuration>>, Seria
   public List<Configuration> execute(CommandContext commandContext) {
     ConfigurationManager configurationManager = commandContext.getConfigurationManager();
     List<Configuration> globalConfigurations = configurationManager.findConfigurations(null, includeInactive);
-    if (tenantId == null) {
-      return globalConfigurations;
+    List<Configuration> result = new ArrayList<Configuration>(globalConfigurations);
+
+    if (tenantId != null) {
+      List<Configuration> tenantConfigurations = configurationManager.findConfigurations(tenantId, includeInactive);
+      if (includeInactive) {
+        result.addAll(tenantConfigurations);
+      } else {
+        Map<String, Configuration> effective = new LinkedHashMap<String, Configuration>();
+        for (Configuration configuration : globalConfigurations) {
+          effective.put(configuration.getConfigKey(), configuration);
+        }
+        for (Configuration configuration : tenantConfigurations) {
+          effective.put(configuration.getConfigKey(), configuration);
+        }
+        result = new ArrayList<Configuration>(effective.values());
+      }
     }
 
-    List<Configuration> tenantConfigurations = configurationManager.findConfigurations(tenantId, includeInactive);
-    List<Configuration> result;
-    if (includeInactive) {
-      result = new ArrayList<Configuration>(globalConfigurations);
-      result.addAll(tenantConfigurations);
-    } else {
-      Map<String, Configuration> effective = new LinkedHashMap<String, Configuration>();
-      for (Configuration configuration : globalConfigurations) {
-        effective.put(configuration.getConfigKey(), configuration);
-      }
-      for (Configuration configuration : tenantConfigurations) {
-        effective.put(configuration.getConfigKey(), configuration);
-      }
-      result = new ArrayList<Configuration>(effective.values());
-    }
     result.sort(CONFIGURATION_ORDER);
     return result;
   }

@@ -15,7 +15,7 @@ import org.finos.fluxnova.bpm.engine.impl.persistence.entity.ConfigurationEntity
 import org.finos.fluxnova.bpm.engine.impl.util.ClockUtil;
 
 /**
- * Soft-deletes a configuration by marking the active entry {@link Configuration#STATUS_INACTIVE}.
+ * Soft-deletes a configuration by marking the active entry {@link Configuration#STATUS_DELETED}.
  */
 public class DeleteConfigurationCmd implements Command<Void>, Serializable {
 
@@ -41,7 +41,7 @@ public class DeleteConfigurationCmd implements Command<Void>, Serializable {
     }
 
     Authentication authentication = commandContext.getAuthentication();
-    configuration.setStatus(Configuration.STATUS_INACTIVE);
+    configuration.setStatus(Configuration.STATUS_DELETED);
     configuration.setUpdatedBy(authentication == null ? null : authentication.getUserId());
     configuration.setUpdatedAt(ClockUtil.getCurrentTime());
 

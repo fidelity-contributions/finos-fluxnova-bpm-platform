@@ -125,18 +125,18 @@ class ConfigurationRestServiceImplTest {
   }
 
   @Test
-  void shouldTrimBlankTenantIdToNull() {
-    when(configurationService.createConfiguration(eq("my.key"), eq("my-value"), isNull()))
-        .thenReturn(newConfiguration("my.key", "my-value", null));
+  void shouldTrimIdentifiersButPreserveConfigValue() {
+    when(configurationService.createConfiguration(eq("my.key"), eq(" my-value "), isNull()))
+        .thenReturn(newConfiguration("my.key", " my-value ", null));
 
     CreateConfigurationDto dto = new CreateConfigurationDto();
     dto.setConfigKey("  my.key  ");
-    dto.setConfigValue("my-value");
+    dto.setConfigValue(" my-value ");
     dto.setTenantId("   ");
 
     service.createConfiguration(dto, uriInfo);
 
-    verify(configurationService).createConfiguration("my.key", "my-value", null);
+    verify(configurationService).createConfiguration("my.key", " my-value ", null);
   }
 
   @Test
@@ -213,18 +213,18 @@ class ConfigurationRestServiceImplTest {
   }
 
   @Test
-  void shouldUpdateConfiguration() {
-    ConfigurationEntity updated = newConfiguration("my.key", "new-value", "tenant-1");
+  void shouldPreserveConfigValueWhitespaceOnUpdate() {
+    ConfigurationEntity updated = newConfiguration("my.key", "  new-value  ", "tenant-1");
     updated.setId("new-id");
     updated.setVersion(2);
-    when(configurationService.updateConfiguration("test-id", "new-value")).thenReturn(updated);
+    when(configurationService.updateConfiguration("test-id", "  new-value  ")).thenReturn(updated);
 
     ConfigurationDto result = service.updateConfiguration(" test-id ", updateDto("  new-value  "));
 
     assertEquals("new-id", result.getId());
-    assertEquals("new-value", result.getConfigValue());
+    assertEquals("  new-value  ", result.getConfigValue());
     assertEquals(2, result.getVersion());
-    verify(configurationService).updateConfiguration("test-id", "new-value");
+    verify(configurationService).updateConfiguration("test-id", "  new-value  ");
   }
 
   @Test
@@ -237,8 +237,8 @@ class ConfigurationRestServiceImplTest {
 
   @Test
   void shouldMapUpdateNotValidExceptionToBadRequest() {
-    when(configurationService.updateConfiguration(eq("test-id"), isNull()))
-        .thenThrow(new NotValidException("configValue is mandatory"));
+    when(configurationService.updateConfiguration("test-id", " "))
+        .thenThrow(new NotValidException("configValue must not be blank"));
 
     InvalidRequestException exception = assertThrows(InvalidRequestException.class,
         () -> service.updateConfiguration("test-id", updateDto(" ")));

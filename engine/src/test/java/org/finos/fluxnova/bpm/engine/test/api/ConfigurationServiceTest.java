@@ -196,14 +196,14 @@ public class ConfigurationServiceTest extends PluggableProcessEngineTest {
   }
 
   @Test
-  public void shouldDeactivateConfigurationOnDelete() {
+  public void shouldMarkConfigurationDeletedOnDelete() {
     ConfigurationEntity configuration = insertConfiguration(
         "configuration-test-" + UUID.randomUUID(), "tenant-a", Configuration.STATUS_ACTIVE);
 
     configurationService.deleteConfiguration(configuration.getId());
 
     Configuration deleted = configurationService.getConfiguration(configuration.getId());
-    assertThat(deleted.getStatus()).isEqualTo(Configuration.STATUS_INACTIVE);
+    assertThat(deleted.getStatus()).isEqualTo(Configuration.STATUS_DELETED);
     assertThat(deleted.getVersion()).isEqualTo(1);
     assertThat(deleted.getConfigValue()).isEqualTo("config-value");
     assertThat(configurationService.getConfigurations("tenant-a", false))
@@ -215,27 +215,76 @@ public class ConfigurationServiceTest extends PluggableProcessEngineTest {
   }
 
   @Test
-  public void shouldAllowRecreatingConfigurationAfterDelete() {
+  public void shouldContinueVersionSequenceWhenRecreatingAfterDelete() {
     ConfigurationEntity configuration = insertConfiguration(
         "configuration-test-" + UUID.randomUUID(), null, Configuration.STATUS_ACTIVE);
-    configurationService.deleteConfiguration(configuration.getId());
+    Configuration updated = configurationService.updateConfiguration(configuration.getId(), "value-2");
+    configurationIds.add(updated.getId());
+    configurationService.deleteConfiguration(updated.getId());
 
     Configuration recreated = configurationService.createConfiguration(
         configuration.getConfigKey(), "recreated-value", null);
     configurationIds.add(recreated.getId());
 
     assertThat(recreated.getStatus()).isEqualTo(Configuration.STATUS_ACTIVE);
+    assertThat(recreated.getVersion()).isEqualTo(3);
+  }
+
+  @Test
+  public void shouldCreateFirstVersionForNewKey() {
+    Configuration created = configurationService.createConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "value", "tenant-a");
+    configurationIds.add(created.getId());
+
+    assertThat(created.getVersion()).isEqualTo(1);
+  }
+
+  @Test
+  public void shouldRejectBlankConfigurationValueOnCreate() {
+    assertThatThrownBy(() -> configurationService.createConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "   ", null))
+        .isInstanceOf(NotValidException.class);
+  }
+
+  @Test
+  public void shouldOrderGlobalHistoryByVersion() {
+    ConfigurationEntity original = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), null, Configuration.STATUS_ACTIVE);
+    Configuration second = configurationService.updateConfiguration(original.getId(), "value-2");
+    configurationIds.add(second.getId());
+    Configuration third = configurationService.updateConfiguration(second.getId(), "value-3");
+    configurationIds.add(third.getId());
+
+    List<Integer> versions = new ArrayList<Integer>();
+    for (Configuration configuration : configurationService.getConfigurations(null, true)) {
+      if (configuration.getConfigKey().equals(original.getConfigKey())) {
+        versions.add(configuration.getVersion());
+      }
+    }
+    assertThat(versions).containsExactly(1, 2, 3);
   }
 
   @Test
   public void shouldRejectDeletingInactiveConfiguration() {
     ConfigurationEntity configuration = insertConfiguration(
         "configuration-test-" + UUID.randomUUID(), "tenant-a", Configuration.STATUS_ACTIVE);
-    configurationService.deleteConfiguration(configuration.getId());
+    Configuration updated = configurationService.updateConfiguration(configuration.getId(), "new-value");
+    configurationIds.add(updated.getId());
 
     assertThatThrownBy(() -> configurationService.deleteConfiguration(configuration.getId()))
         .isInstanceOf(BadUserRequestException.class)
         .hasMessageContaining("INACTIVE");
+  }
+
+  @Test
+  public void shouldRejectDeletingDeletedConfiguration() {
+    ConfigurationEntity configuration = insertConfiguration(
+        "configuration-test-" + UUID.randomUUID(), "tenant-a", Configuration.STATUS_ACTIVE);
+    configurationService.deleteConfiguration(configuration.getId());
+
+    assertThatThrownBy(() -> configurationService.deleteConfiguration(configuration.getId()))
+        .isInstanceOf(BadUserRequestException.class)
+        .hasMessageContaining("DELETED");
   }
 
   @Test

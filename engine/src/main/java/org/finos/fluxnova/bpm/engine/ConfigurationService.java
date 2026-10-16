@@ -16,13 +16,16 @@ public interface ConfigurationService {
    * <p>If {@code tenantId} is {@code null} the entry is created as a global
    * configuration which applies to all tenants.</p>
    *
+   * <p>The version starts at 1, or continues after the highest existing version when a
+   * previously deleted key is re-created in the same scope.</p>
+   *
    * @param configKey the configuration key, must not be {@code null}
-   * @param configValue the configuration value, must not be {@code null}
+   * @param configValue the configuration value, must not be {@code null} or blank
    * @param tenantId the tenant to scope the entry to, or {@code null} for a global entry
    * @return the newly created configuration
    *
    * @throws org.finos.fluxnova.bpm.engine.exception.NotValidException
-   *          if {@code configKey} or {@code configValue} is {@code null}
+   *          if {@code configKey} or {@code configValue} is {@code null}, or {@code configValue} is blank
    * @throws BadUserRequestException
    *          if an active configuration with the same key already exists in the same scope
    */
@@ -76,7 +79,7 @@ public interface ConfigurationService {
 
   /**
    * <p>Soft-deletes an active configuration by marking it
-   * {@link Configuration#STATUS_INACTIVE}. The entry is retained and can still be
+   * {@link Configuration#STATUS_DELETED}. The entry is retained and can still be
    * retrieved by id or with {@code includeInactive}.</p>
    *
    * @param configurationId the id of the active configuration to delete
