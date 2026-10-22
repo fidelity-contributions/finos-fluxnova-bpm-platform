@@ -700,7 +700,7 @@
               <outputName>fluxnova-sbom</outputName>
               <outputReactorProjects>true</outputReactorProjects>
               <skipAttach>false</skipAttach>
-              <skipNotDeployed>false</skipNotDeployed>
+              <skipNotDeployed>true</skipNotDeployed>
             </configuration>
           </plugin>
         </plugins>
