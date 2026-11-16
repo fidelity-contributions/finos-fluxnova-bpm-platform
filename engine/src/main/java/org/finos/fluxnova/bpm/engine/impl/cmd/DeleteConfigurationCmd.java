@@ -8,6 +8,7 @@ import org.finos.fluxnova.bpm.engine.BadUserRequestException;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
 import org.finos.fluxnova.bpm.engine.exception.NotFoundException;
 import org.finos.fluxnova.bpm.engine.exception.NotValidException;
+import org.finos.fluxnova.bpm.engine.impl.cfg.CommandChecker;
 import org.finos.fluxnova.bpm.engine.impl.identity.Authentication;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.Command;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.CommandContext;
@@ -34,6 +35,9 @@ public class DeleteConfigurationCmd implements Command<Void>, Serializable {
         .findConfigurationById(configurationId);
     if (configuration == null) {
       throw new NotFoundException("Configuration with id '" + configurationId + "' does not exist");
+    }
+    for (CommandChecker checker : commandContext.getProcessEngineConfiguration().getCommandCheckers()) {
+      checker.checkDeleteConfiguration(configuration.getTenantId());
     }
     if (!Configuration.STATUS_ACTIVE.equals(configuration.getStatus())) {
       throw new BadUserRequestException("Configuration with id '" + configurationId

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
+import org.finos.fluxnova.bpm.engine.impl.cfg.CommandChecker;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.Command;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.CommandContext;
 import org.finos.fluxnova.bpm.engine.impl.persistence.entity.ConfigurationManager;
@@ -37,6 +38,10 @@ public class GetConfigurationsCmd implements Command<List<Configuration>>, Seria
   }
 
   public List<Configuration> execute(CommandContext commandContext) {
+    for (CommandChecker checker : commandContext.getProcessEngineConfiguration().getCommandCheckers()) {
+      checker.checkReadConfigurations(tenantId);
+    }
+
     ConfigurationManager configurationManager = commandContext.getConfigurationManager();
     List<Configuration> globalConfigurations = configurationManager.findConfigurations(null, includeInactive);
     List<Configuration> result = new ArrayList<Configuration>(globalConfigurations);

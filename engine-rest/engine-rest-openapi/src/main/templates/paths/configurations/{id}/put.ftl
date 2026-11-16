@@ -71,7 +71,13 @@
         code = "409"
         dto = "ExceptionDto"
         desc = "Returned if the configuration is not active or was modified concurrently."
+    />
+
+    <@lib.response
+        code = "403"
+        dto = "AuthorizationExceptionDto"
         last = true
+        desc = "Returned if the user lacks UPDATE permission on the configuration's scope."
     />
   }
 }

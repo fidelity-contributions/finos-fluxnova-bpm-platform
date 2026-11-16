@@ -17,6 +17,7 @@
 package org.finos.fluxnova.bpm.engine.impl.util;
 
 import static org.finos.fluxnova.bpm.engine.authorization.Resources.BATCH;
+import static org.finos.fluxnova.bpm.engine.authorization.Resources.CONFIGURATION;
 import static org.finos.fluxnova.bpm.engine.authorization.Resources.HISTORIC_PROCESS_INSTANCE;
 import static org.finos.fluxnova.bpm.engine.authorization.Resources.HISTORIC_TASK;
 import static org.finos.fluxnova.bpm.engine.authorization.Resources.OPERATION_LOG_CATEGORY;
@@ -32,6 +33,7 @@ import java.util.Map;
 
 import org.finos.fluxnova.bpm.engine.BadUserRequestException;
 import org.finos.fluxnova.bpm.engine.authorization.BatchPermissions;
+import org.finos.fluxnova.bpm.engine.authorization.ConfigurationPermissions;
 import org.finos.fluxnova.bpm.engine.authorization.HistoricProcessInstancePermissions;
 import org.finos.fluxnova.bpm.engine.authorization.HistoricTaskPermissions;
 import org.finos.fluxnova.bpm.engine.authorization.OptimizePermissions;
@@ -58,6 +60,7 @@ public class ResourceTypeUtil {
   static {
     PERMISSION_ENUMS = new HashMap<Integer, Class<? extends Enum<? extends Permission>>>() {{
       put(BATCH.resourceType(), BatchPermissions.class);
+      put(CONFIGURATION.resourceType(), ConfigurationPermissions.class);
       put(PROCESS_DEFINITION.resourceType(), ProcessDefinitionPermissions.class);
       put(PROCESS_INSTANCE.resourceType(), ProcessInstancePermissions.class);
       put(TASK.resourceType(), TaskPermissions.class);

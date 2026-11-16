@@ -37,7 +37,13 @@
         code = "409"
         dto = "ExceptionDto"
         desc = "Returned if the configuration is not active."
+    />
+
+    <@lib.response
+        code = "403"
+        dto = "AuthorizationExceptionDto"
         last = true
+        desc = "Returned if the user lacks DELETE permission on the configuration's scope."
     />
   }
 }

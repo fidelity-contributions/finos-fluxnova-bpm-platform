@@ -66,6 +66,12 @@
     />
 
     <@lib.response
+        code = "403"
+        dto = "AuthorizationExceptionDto"
+        desc = "Returned if the user lacks CREATE permission on the requested configuration scope."
+    />
+
+    <@lib.response
         code = "500"
         dto = "ExceptionDto"
         desc = "The configuration could not be created due to an internal server error."

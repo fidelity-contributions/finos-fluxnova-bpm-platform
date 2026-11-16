@@ -42,8 +42,14 @@
     <@lib.response
         code = "404"
         dto = "ExceptionDto"
-        last = true
         desc = "Configuration with the given id does not exist."
+    />
+
+    <@lib.response
+        code = "403"
+        dto = "AuthorizationExceptionDto"
+        last = true
+        desc = "Returned if the user lacks READ permission on the configuration's scope."
     />
   }
 }

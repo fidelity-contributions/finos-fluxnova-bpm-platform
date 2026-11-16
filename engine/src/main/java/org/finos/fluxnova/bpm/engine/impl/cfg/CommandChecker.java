@@ -466,4 +466,29 @@ public interface CommandChecker {
    */
   void checkReadSchemaLog();
 
+  /**
+   * Checks if it is allowed to create a configuration in the given tenant scope.
+   */
+  void checkCreateConfiguration(String tenantId);
+
+  /**
+   * Checks if it is allowed to read a configuration in the given tenant scope.
+   */
+  void checkReadConfiguration(String tenantId);
+
+  /**
+   * Checks if it is allowed to read configurations in the given tenant scope.
+   */
+  void checkReadConfigurations(String tenantId);
+
+  /**
+   * Checks if it is allowed to update a configuration in the given tenant scope.
+   */
+  void checkUpdateConfiguration(String tenantId);
+
+  /**
+   * Checks if it is allowed to delete a configuration in the given tenant scope.
+   */
+  void checkDeleteConfiguration(String tenantId);
+
 }

@@ -42,6 +42,8 @@ import static org.finos.fluxnova.bpm.engine.authorization.Resources.VARIABLE;
 import static org.finos.fluxnova.bpm.engine.authorization.VariablePermissions.DELETE_HISTORY_RESTRICTED;
 
 import org.finos.fluxnova.bpm.engine.authorization.Authorization;
+import org.finos.fluxnova.bpm.engine.authorization.ConfigurationAuthorization;
+import org.finos.fluxnova.bpm.engine.authorization.ConfigurationPermissions;
 import org.finos.fluxnova.bpm.engine.authorization.Permission;
 import org.finos.fluxnova.bpm.engine.authorization.ProcessDefinitionPermissions;
 import org.finos.fluxnova.bpm.engine.authorization.ProcessInstancePermissions;
@@ -973,6 +975,39 @@ public class AuthorizationCommandChecker implements CommandChecker {
   @Override
   public void checkReadSchemaLog() {
     getAuthorizationManager().checkAuthorization(SystemPermissions.READ, Resources.SYSTEM);
+  }
+
+  @Override
+  public void checkCreateConfiguration(String tenantId) {
+    checkConfigurationPermission(ConfigurationPermissions.CREATE, tenantId);
+  }
+
+  @Override
+  public void checkReadConfiguration(String tenantId) {
+    checkConfigurationPermission(ConfigurationPermissions.READ, tenantId);
+  }
+
+  @Override
+  public void checkReadConfigurations(String tenantId) {
+    checkConfigurationPermission(ConfigurationPermissions.READ, null);
+    if (tenantId != null) {
+      checkConfigurationPermission(ConfigurationPermissions.READ, tenantId);
+    }
+  }
+
+  @Override
+  public void checkUpdateConfiguration(String tenantId) {
+    checkConfigurationPermission(ConfigurationPermissions.UPDATE, tenantId);
+  }
+
+  @Override
+  public void checkDeleteConfiguration(String tenantId) {
+    checkConfigurationPermission(ConfigurationPermissions.DELETE, tenantId);
+  }
+
+  protected void checkConfigurationPermission(ConfigurationPermissions permission, String tenantId) {
+    getAuthorizationManager().checkAuthorization(
+        permission, Resources.CONFIGURATION, ConfigurationAuthorization.resourceId(tenantId));
   }
 
   // helper ////////////////////////////////////////

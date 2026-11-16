@@ -103,6 +103,8 @@
     "AUTHORIZATION_AUTHORIZATION": "Autorisierung",
     "AUTHORIZATION_AUTHORIZATIONS": "Autorisierungen",
     "AUTHORIZATION_BATCH": "Stapel",
+    "AUTHORIZATION_CONFIGURATION": "Konfiguration",
+    "AUTHORIZATION_CONFIGURATION_SCOPE_HINT": "Verwenden Sie __global__ für globale Konfigurationen oder eine Mandanten-ID für Mandantenkonfigurationen. * gilt für alle Bereiche.",
     "AUTHORIZATION_MONITORING_OR_TASKLIST": "(monitoring oder tasklist *)",
     "AUTHORIZATION_CONFIRM_DELETE_MESSAGE": "Sind Sie sich sicher, dass Sie die folgende Autorisierung löschen möchten?",
     "AUTHORIZATION_CONFIRM_DELETE_TITLE": "Löschen bestätigen",

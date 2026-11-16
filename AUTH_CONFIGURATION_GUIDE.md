@@ -1,5 +1,49 @@
 # Fluxnova Authentication Configuration Guide
 
+## Configuration API authorization
+
+When engine authorization is enabled, configuration API operations require the
+matching permission on the relevant configuration scope:
+
+| Operation | Permission |
+| --- | --- |
+| Create | `CREATE` |
+| Get or list | `READ` |
+| Update | `UPDATE` |
+| Delete | `DELETE` |
+
+Configuration authorizations use resource type `CONFIGURATION` (resource type
+`23`). Use `__global__` as the resource ID for global configurations and the
+tenant ID for tenant-scoped configurations. The existing `*` resource ID keeps
+its authorization-framework meaning of applying to every resource ID.
+
+A request for tenant configurations requires `READ` on both the global scope and
+the requested tenant scope. When tenant checking is enabled, the authenticated
+user must also belong to the requested tenant. Reads, updates, and deletes by
+configuration ID use the tenant scope persisted on that configuration, not a
+scope supplied by the caller.
+
+The Admin application's Authorizations page supports creating grants for this
+resource. For a Spring Boot REST application, enable both engine authorization
+and REST authentication, for example:
+
+```yaml
+fluxnova:
+  bpm:
+    authorization:
+      enabled: true
+      tenant-check-enabled: true
+    auth:
+      enabled: true
+      type: basic
+```
+
+REST authentication is important because the engine's existing authorization
+framework only evaluates permissions when an authenticated identity is present
+in the command context.
+
+---
+
 ## Summary of the auth changes
 
 The recent auth work introduced runtime-selectable REST authentication for both `starter-rest` and `distro/run` so applications no longer need to be recompiled to switch between authentication modes.

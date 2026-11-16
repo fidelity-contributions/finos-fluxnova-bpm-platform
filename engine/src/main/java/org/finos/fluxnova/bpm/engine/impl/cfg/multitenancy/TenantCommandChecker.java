@@ -600,6 +600,38 @@ public class TenantCommandChecker implements CommandChecker {
   public void checkReadSchemaLog() {
   }
 
+  @Override
+  public void checkCreateConfiguration(String tenantId) {
+    checkConfigurationTenant(tenantId, "create a configuration");
+  }
+
+  @Override
+  public void checkReadConfiguration(String tenantId) {
+    checkConfigurationTenant(tenantId, "read a configuration");
+  }
+
+  @Override
+  public void checkReadConfigurations(String tenantId) {
+    checkConfigurationTenant(tenantId, "read configurations");
+  }
+
+  @Override
+  public void checkUpdateConfiguration(String tenantId) {
+    checkConfigurationTenant(tenantId, "update a configuration");
+  }
+
+  @Override
+  public void checkDeleteConfiguration(String tenantId) {
+    checkConfigurationTenant(tenantId, "delete a configuration");
+  }
+
+  protected void checkConfigurationTenant(String tenantId, String operation) {
+    if (getTenantManager().isTenantCheckEnabled()
+        && !getTenantManager().isAuthenticatedTenant(tenantId)) {
+      throw LOG.exceptionCommandWithUnauthorizedTenant(operation + " for tenant '" + tenantId + "'");
+    }
+  }
+
   // helper //////////////////////////////////////////////////
 
   protected TenantManager getTenantManager() {

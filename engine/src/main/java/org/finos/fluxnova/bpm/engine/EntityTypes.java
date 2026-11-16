@@ -57,5 +57,6 @@ public class EntityTypes {
   public static final String OPERATION_LOG = "OperationLog";
   public static final String INCIDENT = "Incident";
   public static final String SYSTEM = "System";
+  public static final String CONFIGURATION = "Configuration";
   public static final String COMMENT = "Comment";
 }

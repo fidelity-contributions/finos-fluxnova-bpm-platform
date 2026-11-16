@@ -49,7 +49,8 @@ public enum Resources implements Resource {
   HISTORIC_TASK(EntityTypes.HISTORIC_TASK, 19),
   HISTORIC_PROCESS_INSTANCE(EntityTypes.HISTORIC_PROCESS_INSTANCE, 20),
   SYSTEM(EntityTypes.SYSTEM, 21),
-  VARIABLE(EntityTypes.VARIABLE, 22);
+  VARIABLE(EntityTypes.VARIABLE, 22),
+  CONFIGURATION(EntityTypes.CONFIGURATION, 23);
 
   String name;
   int id;

@@ -103,6 +103,8 @@
     "AUTHORIZATION_AUTHORIZATION": "Authorization",
     "AUTHORIZATION_AUTHORIZATIONS": "Authorizations",
     "AUTHORIZATION_BATCH": "Batch",
+    "AUTHORIZATION_CONFIGURATION": "Configuration",
+    "AUTHORIZATION_CONFIGURATION_SCOPE_HINT": "Use __global__ for global configurations or a tenant ID for tenant configurations. * applies to all scopes.",
     "AUTHORIZATION_MONITORING_OR_TASKLIST": "(monitoring or tasklist *)",
     "AUTHORIZATION_CONFIRM_DELETE_MESSAGE": "Are you sure you want to delete the following authorization?",
     "AUTHORIZATION_CONFIRM_DELETE_TITLE": "Confirm Delete",

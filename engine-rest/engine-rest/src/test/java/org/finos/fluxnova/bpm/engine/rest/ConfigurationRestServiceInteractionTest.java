@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 
 import jakarta.ws.rs.core.Response.Status;
+import org.finos.fluxnova.bpm.engine.AuthorizationException;
 import org.finos.fluxnova.bpm.engine.BadUserRequestException;
 import org.finos.fluxnova.bpm.engine.ConfigurationService;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
@@ -57,6 +58,23 @@ public class ConfigurationRestServiceInteractionTest extends AbstractRestService
       .get(CONFIGURATIONS_URL);
 
     verify(configurationService).getConfigurations(null, false);
+  }
+
+  @Test
+  public void shouldReturnForbiddenWhenCreatingWithoutConfigurationPermission() {
+    when(configurationService.createConfiguration(eq("restricted.key"), eq("value"), isNull()))
+        .thenThrow(new AuthorizationException("test", "CREATE", "Configuration", "__global__"));
+
+    given()
+      .contentType(ContentType.JSON)
+      .body("{\"configKey\":\"restricted.key\",\"configValue\":\"value\"}")
+    .then()
+      .expect()
+        .statusCode(Status.FORBIDDEN.getStatusCode())
+        .contentType(ContentType.JSON)
+        .body("type", equalTo(AuthorizationException.class.getSimpleName()))
+    .when()
+      .post(CONFIGURATIONS_URL);
   }
 
   @Test

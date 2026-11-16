@@ -8,6 +8,7 @@ import java.util.Date;
 import org.finos.fluxnova.bpm.engine.BadUserRequestException;
 import org.finos.fluxnova.bpm.engine.configuration.Configuration;
 import org.finos.fluxnova.bpm.engine.exception.NotValidException;
+import org.finos.fluxnova.bpm.engine.impl.cfg.CommandChecker;
 import org.finos.fluxnova.bpm.engine.impl.context.Context;
 import org.finos.fluxnova.bpm.engine.impl.identity.Authentication;
 import org.finos.fluxnova.bpm.engine.impl.interceptor.Command;
@@ -35,6 +36,10 @@ public class CreateConfigurationCmd implements Command<Configuration>, Serializa
     ensureNotNull(NotValidException.class, "configValue is mandatory", "configValue", configValue);
     if (configValue.trim().isEmpty()) {
       throw new NotValidException("configValue must not be blank");
+    }
+
+    for (CommandChecker checker : commandContext.getProcessEngineConfiguration().getCommandCheckers()) {
+      checker.checkCreateConfiguration(tenantId);
     }
 
     ConfigurationManager configurationManager = commandContext.getConfigurationManager();

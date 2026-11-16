@@ -28,6 +28,9 @@ public interface ConfigurationService {
    *          if {@code configKey} or {@code configValue} is {@code null}, or {@code configValue} is blank
    * @throws BadUserRequestException
    *          if an active configuration with the same key already exists in the same scope
+   * @throws AuthorizationException
+   *          if the user lacks {@link org.finos.fluxnova.bpm.engine.authorization.ConfigurationPermissions#CREATE}
+   *          on the requested configuration scope
    */
   Configuration createConfiguration(String configKey, String configValue, String tenantId);
 
@@ -36,6 +39,9 @@ public interface ConfigurationService {
    *
    * @param configurationId the id of the configuration, must not be {@code null}
    * @return the configuration, or {@code null} if no configuration exists for that id
+   * @throws AuthorizationException
+   *          if the user lacks {@link org.finos.fluxnova.bpm.engine.authorization.ConfigurationPermissions#READ}
+   *          on the configuration scope
    */
   Configuration getConfiguration(String configurationId);
 
@@ -53,6 +59,9 @@ public interface ConfigurationService {
    * @param tenantId the tenant scope, or {@code null} for global defaults
    * @param includeInactive whether to include inactive configurations
    * @return configurations ordered by key, then global before tenant, then version
+   * @throws AuthorizationException
+   *          if the user lacks {@link org.finos.fluxnova.bpm.engine.authorization.ConfigurationPermissions#READ}
+   *          on the global scope or requested tenant scope
    */
   List<Configuration> getConfigurations(String tenantId, boolean includeInactive);
 
@@ -74,6 +83,9 @@ public interface ConfigurationService {
    *          if no configuration exists for {@code configurationId}
    * @throws BadUserRequestException
    *          if the configuration is not active
+   * @throws AuthorizationException
+   *          if the user lacks {@link org.finos.fluxnova.bpm.engine.authorization.ConfigurationPermissions#UPDATE}
+   *          on the configuration scope
    */
   Configuration updateConfiguration(String configurationId, String configValue);
 
@@ -90,6 +102,9 @@ public interface ConfigurationService {
    *          if no configuration exists for {@code configurationId}
    * @throws BadUserRequestException
    *          if the configuration is not active
+   * @throws AuthorizationException
+   *          if the user lacks {@link org.finos.fluxnova.bpm.engine.authorization.ConfigurationPermissions#DELETE}
+   *          on the configuration scope
    */
   void deleteConfiguration(String configurationId);
 

@@ -39,7 +39,6 @@
         code = "200"
         dto = "ConfigurationDto"
         array = true
-        last = true
         desc = "Request successful."
         examples = ['"global-configurations": {
                        "summary": "GET `/configurations`",
@@ -86,6 +85,12 @@
                        ]
                      }']
     />
+
+    <@lib.response
+        code = "403"
+        dto = "AuthorizationExceptionDto"
+        last = true
+        desc = "Returned if the user lacks READ permission on the global or requested tenant configuration scope, or is not a member of the requested tenant." />
 
   }
 }
